@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/example.dir/samples/SampleClient/SampleClient.cpp.o  -o example  -Wl,-rpath,/media/lin/data/Projects/CT/Human_Catch_Throw/recording/Optitrack_NatNet_client/lib ../lib/libNatNetLibShared.so 

@@ -1,2 +1,283 @@
-# H2TC_code
-Relevant codes for H2TC
+We have developed three tools to [process](#data-processing) the raw data, [record](#recorder) and [annotate](#annotator) a throw-catch activity. All source code has been published on GitHub. ***<u>TODO github link</u>***
+
+## File Structure
+
+For the detail of each file and the content of each directory, please refer to the `/doc/data_structure_full.md` file and the README.md under each directory.
+
+* ***src/***: source code
+* ***dev/***: dockerfile and PTP configuration
+* ***register/***: subjects and objects data
+* ***data/***: raw and processed data
+  * ***xxxxxx/***: take folder named by the take id e.g. 000000
+    * [***raw/***](#raw-data): raw data directly exported by each recording device
+    * [***processed/***](#processed-data): formatted data derived from raw data
+* ***annotations/***: annotation result files
+  * [**xxxxxx.json**](#annotation): annotation result for the take id e.g. 000000
+* ***statistics/***: the statistics data of all takes. This folder is generated after running the `src/tools/statistics.py`.
+* ***website***: the source code of the website
+* ***doc/***: the technical documentations.
+* **log.xlsx**: logbook with the recording parameters of all takes
+* **requirements.txt**: python dependencies
+
+## Dependencies
+
+To run our code, some dependencies have to be installed. 
+
+ ### System environment
+
+First, the default, and well-tested, system environment is
+
+* Ubuntu: 20.04
+* Python: 3.8.13
+* CUDA: 11.6
+* Nvidia driver: 510
+
+We have not tested our code on other development environments, so you are recommended to configure the same, or at least similar, environment for the best experience.
+
+### Softwares
+
+Apart from them, there are two more applications you have to check if you have in order to run the **postprocessing** script:
+
+* spd-say: text-to-voice convertor.
+* ffmpeg: video decoder
+
+They can be installed, if not have, using the package management tool APT:
+
+```bash
+sudo apt update
+// install spd-say
+sudo apt install speech-dispatcher 
+// install ffmpeg
+sudo apt install ffmpeg
+```
+
+### ZED and Metavision (Event camera) SDK
+
+Next, you need to install [ZED SDK](https://www.stereolabs.com/docs/installation/) (3.7.6) and [Metavision SDK](https://docs.prophesee.ai/2.3.0/installation/linux.html) (2.3.0) following the official guidance in the links in order to record and process the data of ZED and Prophesee Event cameras respectively. 
+
+For your convenience of installing the older version (3.7.6) of ZED SDK, we copied one from the official source in the ***/dev*** directory. All you need to do is downloading the SDK installer, running it and selecting the modules you want following the [guide](https://www.stereolabs.com/docs/installation/).
+
+Metavision SDK is not packaged in an installer way so we can't share the SDK like above. You will have to follow the [guide](https://docs.prophesee.ai/2.3.0/installation/linux.html) to install. Particularly, Metavision SDK provides several optional modules, in additional to the "essential" modules, like machine learning modules for installation. Our code only uses the functionality from the `metavision-essentails `, so you are free to install those optional modules or not.
+
+### Python Dependencies
+
+Last, the remaining Python dependencies include
+
+* addict
+* mttkinter
+* openpyxl
+* scipy
+* pandas
+* numpy
+* opencv-python
+
+and can be automatically installed via pip:
+
+```p
+pip install -r requirements.txt
+```
+
+### Docker
+
+Alternatively, we also provide a ready-to-use [Docker](https://www.docker.com/) with all dependencies installed in our git repository ***<u>TODO link</u>***. To use it, Docker should have been already successfully installed.
+
+### Test ZED and Event Cameras
+
+now you should be able to run the following command to launch the event recorder with your Prophesee event camera connected to the computer:
+
+```p
+metavision_viewer
+```
+
+<u>***TODO: picture of running successfully***</u>
+
+You should also be able to record using ZED by running the official [sample](https://github.com/stereolabs/zed-examples/tree/master/svo%20recording/recording/python). If you don't have a camera or don't intend to record, you could just check if `pyzed` and `metavision_core` modules can be successfully imported in your python program. If any failure, you should inspect your installation if done manually and, unfortunately, troubleshooting this is beyond the scope of this instruction.
+
+## Data Processing
+
+Our data processing script converts the raw data to the format as described in [Processed Data](https://lipengroboticsx.github.io/dataset/). To run the script, you have to **first** put the raw data of each recording into an individual folder named by the recording ID under the directory `/data` and organize the data from different sensors as displayed in [Raw Data](https://lipengroboticsx.github.io/dataset/). This sorting can be much effortless if the raw data is recorded using our recorder program since they will be produced in a way ready to be processed. For example, the raw data of the recording "011998" should be organized in a way as below:
+
+* ***data/***
+  * ***011998/***
+    * **{ZED-ID}.svo**: raw data of ZED camera with the ID
+    * **{ZED-ID}.csv**: timestamps of the raw data of ZED camera with the ID
+    * **event_{timestamp}.raw**: raw data of Event camera
+    * **optitrack.csv**: raw data of optitrack
+    * ***hand/***
+      * **P1L.csv / P1R.csv**: raw data of left / right hand pose for Hand Engine
+      * **P1LMeta.json / P1RMeta.json**: metadata of recording for Hand Engine
+
+This is the minimum set of raw data files required for processing. It is smaller than the real set of raw files exported from each sensor, because some are not used in processing. For a full set of raw files and the detailed explanation of each file, please refer to the post `/doc/data_structure_full.md`.
+
+**Second**, once the data organized appropriately, all you need to do is just running the following command:
+
+```python
+python src/postprocess.py --xypt --depth_accuracy float32
+```
+
+This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_structure_full.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail.
+
+Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two to produce only a minimum set of data required for annotation. By default, event streams are integrated over a fixed span of time into RGB frames, and depth maps are normalized over the pixels, for **visualization**. The command for this is
+
+```python
+python src/postprocess.py
+```
+
+After the processing finished, the raw and processed data files will be separately stored in their own directory like below. All raw data will be transferred (copied) into a new directory `raw/`. The processed data is stored in `processed/`.
+
+* ***data/***
+  * ***011998/***
+    * ***raw/***: all raw data
+    * ***processed/***: all processed data
+
+For the technical detail of how we process the data, please refer to `/doc/postprocessing.md`.
+
+### trouble shooting
+
+#### 1. reprocess the processed take
+
+If you want so, you have to manually remove the existing, processed, data. If you only want to reprocess the part of the whole take e.g. ZED, you don't need to remove the remaining data.
+
+#### 2. ZED decoding frames failed
+
+The current mechanism allows for maximally 10 failed attempts to decode (or grab in ZED term) a frame. After failed more 10 times, the decoding will abort and the processing will continue to the next part e.g. next ZED device or next stream. The frames have been decoded will be stored, while the rest frames will be ignored. This issue usually happens when decoding the last frame.
+
+To fix this bug, one can simply reprocess the problematic takes following the [instruction](#reprocess-the-processed-take).
+
+## Recorder
+
+Our recorder integrates the functionality of arranging the content to be recorded, recording with multiple devices, and annotating the result of the recording into one user-friendly interactive program. 
+
+**First**, enable all recording devices and ensure each of them function smoothly. Three ZED cameras and one Prophesee event camera should be wired to the host where the recorder program is supposed to run. StretchSense MoCap Pro gloves should be wireless connected to a Windows machine with its official client software Hand Engine running. OptiTrack server can be either operated on a separate host, recommended by us, or on the same host as any of the two aforementioned ones as long as the computational resource allows and the performance will not be thus compromised. You may need to configure the firewall on each machine to allow the UDP communication among them.
+
+**Second**, update the configuration in our OptiTrack NatNet client code and rebuild the NatNet client. You need to set the values of OptiTrack server IP address (`char* ip_address`), recorder IP address (`servaddr.sin_addr`), and recorder port (`PORT`) according to your network setting in the file `/src/natnet_client/src/example_main.cpp`. 
+
+```p
+cd natnet_client
+mkdir build
+cd build
+cmake ..
+make
+```
+
+**Third**, initialize your lists of subjects and objects in the corresponding files `/register/subjects.csv` and `/register/objects.csv` respectively. Each subject and object should lie in a new line. Please check the sample lists in our repository for detailed format.
+
+**Next**, launch the main recorder application with the IP and Port of the local machine and of the HE application:
+
+```
+python src/recorder.py --addr IP:PORT --he_addr IP:PORT
+```
+
+and the NatNet client:
+
+```
+./src/natnet_client/build/natnet_client
+```
+
+now you should be able to see the prompt indicating that these two applications have successfully communicated with each other, if everything goes well, as shown blow 
+
+<u>***TODO pictures of connection established.***</u>
+
+**Last**, operate the main recorder to record following the interactive instruction. The main recorder will automatically communicate with and command Hand Engine and NatNet client to record. Nevertheless, we do recommend you to regularly check Hand Engine and NatNet client to see if bug.
+
+<u>***TODO picture of a complete take***</u>
+
+## Annotator
+
+To annotate, you should **first** have the processed data under the directory `/data/recording_id/processed`. The processed data can be downloaded from the selected [processed sampled](https://lipengroboticsx.github.io/dataset/) or obtained by processing the raw data as suggested in [Data Processing](#data-processing).  **Next**, you run the following command to launch the annotation application. Note that our annotation application is independent of ZED SDK and Metavision SDK, so you can use the application without them installed. 
+
+```p
+python src/annotate.py
+```
+
+By default, the takes that are "failed" or have been already annotated (either "finished" or "problematic") are ignored by the program so that they will not present in the annotator.  To review the annotated takes, you should run the program with the option `--review` like:
+
+```
+python src/annotate.py --review
+```
+
+### Interface
+
+Now you should be able to see the following interface excluding the orange bars (they are figure annotation):
+
+![](https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/annotation_tool.png)
+
+On the left top of each sub-window, the information of the current frame is given as:
+
+ `{current frame number} / {total number of frames} month:day hour:minute:second:millisecond`
+
+Inside the information panel (bottom right sub-window), the annotation result is displayed in real time. This includes the manual annotation and the annotation automatically generated by the program.
+
+![](https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/info_panel_explanation.png)
+
+Each text entry represents:
+
+1. the status of the annotation: finished, unfinished or problematic
+2. which hand used to throw at moment *throw*
+3. the position of the thrower at moment *throw*
+4. the position of the catcher at moment *throw*
+5. the average flying speed of the thrown object
+6. the vertical hand position of the thrower at moment *throw*
+7. the horizontal hand position of the thrower at moment *throw*
+8. the vertical hand position of the catcher at moment *throw*
+9. the horizontal hand position of the catcher at moment *throw*
+10. the frame number and the timestamp of the moment *throw*
+11. which hand used to catch at moment *catch (stable)* 
+12. the position of the catcher at moment *catch (touch)*
+13. the vertical hand position of the catcher at moment *catch (stable)*
+14. the horizontal hand position of the catcher at moment *catch (stable)*
+15. the frame number and the timestamp of the moment *catch (touch)*
+16. the frame number and the timestamp of the moment *catch (stable)*
+
+### Operations
+
+The program is operated solely by keyboard as defined below:
+
+* **right arrow**: next frame
+* **left arrow**: last frame
+* **down arrow**: next recording
+* **up arrow**: last recording
+* **return**: take the current frame as a moment of throw, catch (touch), and catch (stable) in order
+* **del**: remove the last annotated moment
+* **Q**: switch the values of info panel 2 among left, right, and both 
+* **A**: switch the values of info panel 6 among overhead, overhand, chest, and underhand
+* **S**: switch the values of info panel 7 among left, middle, and right
+* **D**: switch the values of info panel 8 among overhead, overhand, chest, and underhand
+* **F**: switch the values of info panel 9 among left, middle, and right
+* **Z**: switch the values of info panel 11 among left, right, and both
+* **C**: switch the values of info panel 2 among overhead, overhand, chest, and underhand
+* **V**: switch the values of info panel 2 among left, middle, and right
+* **space**: switch the values of info panel 1 between "finished" and "unfinished"
+* **backspace**: switch the values of info panel 1 between "problematic" and "unfinished"
+
+All modification to the annotation result will be immediately saved in the corresponding annotation file under the directory `/annotations/recording_id.json`.
+
+### Caution
+
+#### 1. Criteria for horizontal and vertical hand positions
+
+The vertical and horizontal hand positions are determined according to the below illustration. The black label is assigned when hand(s) are clearly in the corresponding region. The blue label is assigned when hand(s) lie on the division line (blue dashed lines).
+
+![hand_coordinates](/home/lin/Documents/Human_Catch_Throw/doc/resources/annotation/hand_coordinates.png)
+
+#### 2. Hand position is referenced to the present human body
+
+The horizontal and vertical hand position is referenced to the human body at the annotated moment. For example, a catcher may stand before catching and squat to catch so that the body center (chest) lowers. In this case, when annotating the vertical hand position of catcher (13 in information panel) at the moment *catch (stable)*, one should refer the hand vertical position to the chest position (lowered) when squat instead of stand. The same situation can happen, while annotating horizontal hand position, if the subject turned sideways at the annotation moment. Note that, the body pose at the moment of catching can be significantly different from the standard standing pose regarding both position and orientation. This will also affect the position and orientation of the coordinates used to determine the horizontal and vertical hand positions. For example, in the case below, the subject squatted and leaned the chest down, so that the region that is classified as "chest" is simultaneously lowered and turned down. 
+
+![ref_catch_stand](/home/lin/Documents/Human_Catch_Throw/doc/resources/annotation/ref_catch_stand.png)
+
+![ref_catch_squat](/home/lin/Documents/Human_Catch_Throw/doc/resources/annotation/ref_catch_squat.png)
+
+#### 3. Main annotation camera
+
+One should annotate based mainly on the third-person (side) and egocentric views, while the third-person back view is used as auxiliary when significant occlusion is observed in the former two views. One should also pay attention to the viewing angle of cameras particularly the third-person (back) and egocentric. They are all higher than the normal height of human eyes resulting in a top-down viewing angle. This may lead to a biased observation of the vertical hand position. The same situation also applies to observing horizontal hand position since the cameras may not face to the object and the subject straight.
+
+#### 4. Handling missing frames or data
+
+It is possible that some data is missing at any of the three moments so that the moment can be taken but the annotation can not be switched to the status of "finished" due to the missing data. In this case, the information panel appears like below (caused by the missing OptiTrack data at the moment of *throw*). To handle, one should seek the close frames that also indicates the same event of the moment but with the intact data. If no frame qualified, the entire take should be annotated as "problematic" and skipped to the next take.
+
+![missing_data_anno](/home/lin/Documents/Human_Catch_Throw/doc/resources/annotation/missing_data_anno.png)
+
+#### 5. Wrong result of catch
+
+In some cases, the result of catch can be miss-typed during recording. For example, a take was labeled as "success" (should be "failed") but the catcher actually failed to catch the object. This should be corrected alongside annotation. One should leave the take unannotated in the annotator program and manually correct this by editing the value of "success" column in the logbook `/log.xlsx`.  Note that the annotator program will automatically filter out the takes labeled as "failed", so only the case of false "success" is possible to appear during annotation.

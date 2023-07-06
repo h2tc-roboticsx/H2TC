@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/natnet/NatNetCAPI.h
+NatNetTypes.h
+../include/natnet/NatNetTypes.h
+
+../include/natnet/NatNetClient.h
+NatNetTypes.h
+../include/natnet/NatNetTypes.h
+
+../include/natnet/NatNetTypes.h
+stdint.h
+-
+stddef.h
+-
+
+/media/lin/data/Projects/CT/Human_Catch_Throw/recording/Optitrack_NatNet_client/samples/SampleClient/SampleClient.cpp
+inttypes.h
+-
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+conio.h
+-
+termios.h
+-
+unistd.h
+-
+vector
+-
+natnet/NatNetCAPI.h
+-
+natnet/NatNetClient.h
+-
+natnet/NatNetTypes.h
+-
+
