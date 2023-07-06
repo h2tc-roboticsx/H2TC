@@ -16,7 +16,7 @@ You can follow the steps to run from scratch:
     - Download our captured data in [here](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0). 
     - Capture your own data via our [recorder](#recorder). It will help you build the capturing system. 
 3. [Process](#data-processing) the raw data. 
-4. [Annotate](#annotator) the processed data. 
+4. (Optional) [Annotate](#annotator) the processed data. You can use the annotator to label your own captured data. 
 
 
 
@@ -191,9 +191,10 @@ To fix this bug, one can simply reprocess the problematic takes following the [i
 
 ## Annotator
 
+We provide an annotation tool to visually annotate subjects&objects status based on the processed data. 
 To annotate, you should 
-- **First** have the processed data under the directory `/data/take_id/processed`. The processed data can be downloaded from the selected [processed sampled](https://lipengroboticsx.github.io/dataset/) or obtained by processing the raw data as suggested in [Data Processing](#data-processing).  
-- **Next**, you run the following command to launch the annotation application. Note that our annotation application is independent of ZED SDK and Metavision SDK, so you can use the application without them installed. 
+- **First** have the processed data under the directory `/data/take_id/processed`. The processed data can be downloaded from the selected [processed sample cases](https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0) or obtained by processing the raw data as suggested in [Data Processing](#data-processing).  
+- **Next** run the following command to launch the annotation application. Note that our annotation application is independent of ZED SDK and Metavision SDK, so you can use the application without them installed. 
 
 ```p
 python src/annotate.py
@@ -206,8 +207,7 @@ python src/annotate.py --review
 ```
 
 ### Interface
-
-Now you should be able to see the following interface excluding the orange bars (they are figure annotation):
+After runing the programs before, now you should be able to see the following interface excluding the orange bars (they are figure annotation):
 
 ![](https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/annotation_tool.png)
 
@@ -238,9 +238,9 @@ Each text entry represents:
 
 ### Operations
 
-The program is operated solely by keyboard as defined below:
+The program is operated solely by the keyboard as defined below:
 
-* **right arrow**: next frame
+<!-- * **right arrow**: next frame
 * **left arrow**: last frame
 * **down arrow**: next recording
 * **up arrow**: last recording
@@ -255,7 +255,24 @@ The program is operated solely by keyboard as defined below:
 * **C**: switch the values of info panel 2 among overhead, overhand, chest, and underhand
 * **V**: switch the values of info panel 2 among left, middle, and right
 * **space**: switch the values of info panel 1 between "finished" and "unfinished"
-* **backspace**: switch the values of info panel 1 between "problematic" and "unfinished"
+* **backspace**: switch the values of info panel 1 between "problematic" and "unfinished" -->
+
+    "right arrow": next frame
+    "left arrow": last frame
+    "down arrow": next recording
+    "up arrow": last recording
+    "return": take the current frame as a moment of throw, catch (touch), and catch (stable) in order
+    "del": remove the last annotated moment
+    "Q": switch the values of info panel 2 among left, right, and both 
+    "A": switch the values of info panel 6 among overhead, overhand, chest, and underhand
+    "S": switch the values of info panel 7 among left, middle, and right
+    "D": switch the values of info panel 8 among overhead, overhand, chest, and underhand
+    "F": switch the values of info panel 9 among left, middle, and right
+    "Z": switch the values of info panel 11 among left, right, and both
+    "C": switch the values of info panel 2 among overhead, overhand, chest, and underhand
+    "V": switch the values of info panel 2 among left, middle, and right
+    "space": switch the values of info panel 1 between "finished" and "unfinished"
+    "backspace": switch the values of info panel 1 between "problematic" and "unfinished"
 
 All modification to the annotation result will be immediately saved in the corresponding annotation file under the directory `/annotations/take_id.json`.
 
@@ -265,15 +282,15 @@ All modification to the annotation result will be immediately saved in the corre
 
 The vertical and horizontal hand positions are determined according to the below illustration. The black label is assigned when hand(s) are clearly in the corresponding region. The blue label is assigned when hand(s) lie on the division line (blue dashed lines).
 
-![hand_coordinates](/home/lin/Documents/Human_Catch_Throw/doc/resources/annotation/hand_coordinates.png)
+![hand_coordinates](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/resources/annotation/hand_coordinates.png)
 
 #### 2. Hand position is referenced to the present human body
 
 The horizontal and vertical hand position is referenced to the human body at the annotated moment. For example, a catcher may stand before catching and squat to catch so that the body center (chest) lowers. In this case, when annotating the vertical hand position of catcher (13 in information panel) at the moment *catch (stable)*, one should refer the hand vertical position to the chest position (lowered) when squat instead of stand. The same situation can happen, while annotating horizontal hand position, if the subject turned sideways at the annotation moment. Note that, the body pose at the moment of catching can be significantly different from the standard standing pose regarding both position and orientation. This will also affect the position and orientation of the coordinates used to determine the horizontal and vertical hand positions. For example, in the case below, the subject squatted and leaned the chest down, so that the region that is classified as "chest" is simultaneously lowered and turned down. 
 
-![ref_catch_stand](/home/lin/Documents/Human_Catch_Throw/doc/resources/annotation/ref_catch_stand.png)
+![ref_catch_stand](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/resources/annotation/ref_catch_stand.png)
 
-![ref_catch_squat](/home/lin/Documents/Human_Catch_Throw/doc/resources/annotation/ref_catch_squat.png)
+![ref_catch_squat](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/resources/annotation/ref_catch_squat.png)
 
 #### 3. Main annotation camera
 
@@ -283,7 +300,7 @@ One should annotate based mainly on the third-person (side) and egocentric views
 
 It is possible that some data is missing at any of the three moments so that the moment can be taken but the annotation can not be switched to the status of "finished" due to the missing data. In this case, the information panel appears like below (caused by the missing OptiTrack data at the moment of *throw*). To handle, one should seek the close frames that also indicates the same event of the moment but with the intact data. If no frame qualified, the entire take should be annotated as "problematic" and skipped to the next take.
 
-![missing_data_anno](/home/lin/Documents/Human_Catch_Throw/doc/resources/annotation/missing_data_anno.png)
+![missing_data_anno](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/resources/annotation/missing_data_anno.png)
 
 #### 5. Wrong result of catch
 
