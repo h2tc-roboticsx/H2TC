@@ -1,3 +1,0 @@
-# Annotation Progress
-
-We have collected 12906 takes in total. Among them, objects are successfully caught in 11964 takes, and failed 942 about 7.3%. Only the "success" takes will be annotated. To 8th October 2022, we have annotated 1995 takes with 44 takes (inclusive) identified as "problematic" which should be investigated further to determine whether they are usable or not. Overall, there are remaining 9969 takes (about 77.2%) to annotate. **Note that the takes have been finished to the date have not been calibrated regarding the timestamps of moments**.
