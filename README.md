@@ -193,11 +193,11 @@ To fix this bug, one can simply reprocess the problematic takes following the [i
 In case you want to annotate your custom-captured data with annotations as described in [our paper](), 
 we provide an annotation tool to label catch&throw activities with an interactive interface based on the processed data. 
 To annotate, please:  
-- **First** have the processed data under the directory `/data/take_id/processed`. The processed data can be obtained by processing the raw data as suggested in [Data Processing](#data-processing). 
+- **First** have the processed data under the directory `YOURPATH/data/take_id/processed`. The processed data can be obtained by processing the raw data as suggested in [Data Processing](#data-processing). 
 - **Next** run the following command to launch the annotation application.  
 
 ```p
-python src/annotate.py
+python src/annotate.py --datapath YOURPATH/data
 ```
 
 <!-- By default, the takes that are "failed" or have been already annotated (either "finished" or "problematic") are ignored by the program so that they will not present in the annotator.  To review the annotated takes, you should run the program with the option `--review` like:
