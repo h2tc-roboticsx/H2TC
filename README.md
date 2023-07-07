@@ -259,13 +259,17 @@ You can interact with the interface to annotate labels by the keyboard as define
 
 <b>Any modification</b> to the annotation result will be immediately saved in the corresponding annotation file under the directory `/annotations/take_id.json`.
 
-### Caution ❗
+### Note ❗
 
 #### 1. Criteria for horizontal and vertical hand positions
 The vertical and horizontal hand positions are determined according to the below illustration. 
-
-![](https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png)
-
+<center>
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png" width = "500" alt="missing_data_anno" />
+<div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">Hand Locations</div>
+</center>
 <!-- #### 2. Hand position is referenced to the present human body
 
 The horizontal and vertical hand position is referenced to the human body at the annotated moment. <br>
@@ -291,7 +295,7 @@ For example, when you label the moment of *throw* but without OptiTrack data, th
 To handle the issue, you should seek close frames that include complete data and indicate the same event of the moment. 
 If no frame is qualified, the entire take should be annotated as "problematic" and skipped to the next take.
 
-![missing_data_anno](https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/missing_data_anno.png)
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/missing_data_anno.png" width = "500" alt="missing_data_anno" />
 
 <!-- #### 4. Wrong result of catching
 
