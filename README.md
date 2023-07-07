@@ -240,22 +240,24 @@ Each text entry inside the information panel represents:
 
 You can interact with the interface to annotate labels by the keyboard as defined below:
 
-    "right arrow": next frame
-    "left arrow": last frame
-    "down arrow": next recording
-    "up arrow": last recording
-    "return": take the current frame as a moment of throw, catch (touch), and catch (stable) in order
-    "del": remove the last annotated moment
-    "Q": switch the values of info panel 2 among left, right, and both 
-    "A": switch the values of info panel 6 among overhead, overhand, chest, and underhand
-    "S": switch the values of info panel 7 among left, middle, and right
-    "D": switch the values of info panel 8 among overhead, overhand, chest, and underhand
-    "F": switch the values of info panel 9 among left, middle, and right
-    "Z": switch the values of info panel 11 among left, right, and both
-    "C": switch the values of info panel 2 among overhead, overhand, chest, and underhand
-    "V": switch the values of info panel 2 among left, middle, and right
-    "space": switch the values of info panel 1 between "finished" and "unfinished"
-    "backspace": switch the values of info panel 1 between "problematic" and "unfinished"
+| Key value  |     Operation |
+|:----------|:-------------|
+|"right arrow"| next frame|
+|"left arrow"| last frame|
+|"down arrow"| next recording|
+|"up arrow"| last recording|
+|"return"| take the current frame as a moment of throw, catch (touch), and catch (stable) in order|
+|"del"| remove the last annotated moment|
+|"Q"| switch the values of info panel 2 among left, right, and both |
+|"A"| switch the values of info panel 6 among overhead, overhand, chest, and underhand|
+|"S"| switch the values of info panel 7 among left, middle, and right|
+|"D"| switch the values of info panel 8 among overhead, overhand, chest, and underhand|
+|"F"| switch the values of info panel 9 among left, middle, and right|
+|"Z"| switch the values of info panel 11 among left, right, and both|
+|"C"| switch the values of info panel 2 among overhead, overhand, chest, and underhand|
+|"V"| switch the values of info panel 2 among left, middle, and right|
+|"space"| switch the values of info panel 1 between "finished" and "unfinished"|
+|"backspace"| switch the values of info panel 1 between "problematic" and "unfinished"|
 
 <b>Any modification</b> to the annotation result will be immediately saved in the corresponding annotation file under the directory `/annotations/take_id.json`.
 
