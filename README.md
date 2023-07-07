@@ -262,11 +262,10 @@ You can interact with the interface to annotate labels by the keyboard as define
 ### Note ❗
 
 #### 1. Criteria for horizontal and vertical hand positions
-The vertical and horizontal hand positions are determined according to the below illustration. 
-<center>
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png" width = "500" alt="missing_data_anno" />
-<div text-align:center>Hand Locations</div>
-</center>
+The vertical and horizontal hand positions are determined according to the below illustration.
+<div style="display: flex; justify-content: center;">
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png" width = "500" alt="missing_data_anno" /></div>
+<div style="display: flex; justify-content: center;">Hand Locations</div>
 <!-- #### 2. Hand position is referenced to the present human body
 
 The horizontal and vertical hand position is referenced to the human body at the annotated moment. <br>
