@@ -206,7 +206,7 @@ python src/annotate.py
 python src/annotate.py --review
 ``` -->
 
-### Interface
+### &#x2022; Interface
 After running the command, you can see the following interface excluding the orange bars (they are figure annotation). 
 The interface consists of multi-view RGB streams (left column), multi-view depth streams (middle column), an egocentric event stream (top right sub-window), two-hand motion (middle right sub-window) and an information panel (bottom right sub-window).
 
@@ -236,7 +236,7 @@ Each text entry inside the information panel represents:
     15. the frame number and the timestamp of the moment *catch (touch)*
     16. the frame number and the timestamp of the moment *catch (stable)*
 
-### Interaction Operations
+### &#x2022; Interaction Operations
 
 You can interact with the interface to annotate labels by the keyboard as defined below:
 
@@ -259,12 +259,13 @@ You can interact with the interface to annotate labels by the keyboard as define
 
 <b>Any modification</b> to the annotation result will be immediately saved in the corresponding annotation file under the directory `/annotations/take_id.json`.
 
-### Note ❗
+### &#x2022; Note ❗
 
 #### 1. Criteria for horizontal and vertical hand positions
 The vertical and horizontal hand positions are determined according to the below illustration.
-<div style="display: flex; justify-content: center;">
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png" width = "400" alt="missing_data_anno" /></div>
+<!-- <div style="display: flex; justify-content: center;"> -->
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png" width = "400" alt="missing_data_anno" />
+<!-- </div> -->
 <!-- <div style="display: flex; justify-content: center;">Hand Locations</div> -->
 
 <!-- #### 2. Hand position is referenced to the present human body
