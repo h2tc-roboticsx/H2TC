@@ -265,10 +265,7 @@ You can interact with the interface to annotate labels by the keyboard as define
 The vertical and horizontal hand positions are determined according to the below illustration. 
 <center>
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png" width = "500" alt="missing_data_anno" />
-<div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;">Hand Locations</div>
+<div>Hand Locations</div>
 </center>
 <!-- #### 2. Hand position is referenced to the present human body
 
