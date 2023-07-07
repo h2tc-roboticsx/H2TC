@@ -265,7 +265,7 @@ You can interact with the interface to annotate labels by the keyboard as define
 The vertical and horizontal hand positions are determined according to the below illustration. 
 <center>
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png" width = "500" alt="missing_data_anno" />
-<div>Hand Locations</div>
+<div text-align:center>Hand Locations</div>
 </center>
 <!-- #### 2. Hand position is referenced to the present human body
 
@@ -291,9 +291,10 @@ Then the annotation can not be switched to the status of "finished" due to the m
 For example, when you label the moment of *throw* but without OptiTrack data, the information panel appears like below. 
 To handle the issue, you should seek close frames that include complete data and indicate the same event of the moment. 
 If no frame is qualified, the entire take should be annotated as "problematic" and skipped to the next take.
-
+<center>
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/missing_data_anno.png" width = "500" alt="missing_data_anno" />
-
+<div text-align:center>Information Panel of Missing OptiTrack Data</div>
+</center>
 <!-- #### 4. Wrong result of catching
 
 In some cases, the result of catching can be miss-typed during recording. 
