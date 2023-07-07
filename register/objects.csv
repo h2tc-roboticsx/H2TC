@@ -1,0 +1,67 @@
+mouse	rigid	0
+helmet	rigid	0
+wrench	rigid	0
+basketball	rigid	0
+tennis racket	rigid	0
+table tennis racket	rigid	0
+ping pang	rigid	0
+frisbee	rigid	0
+cube	rigid	0
+beverage can (empty)	rigid	0
+marker pen	rigid	0
+brush	rigid	0
+TV remote	rigid	0
+flask	rigid	0
+ps controller	rigid	0
+headphone	rigid	0
+tape roll	rigid	0
+goggle	rigid	0
+spoon	rigid	0
+medium box	rigid	0
+sprayer	rigid	0
+bagged crisps	soft	0
+doll	soft	0
+hat	soft	0
+pillow	soft	0
+bagged sandwiches	soft	0
+bunced keys	soft	0
+badminton	soft	0
+glove	soft	0
+sponge	soft	0
+toothpaste	soft	0
+bottled water	soft	0
+half bottled water	soft	0
+magazine	soft	0
+towel	soft	0
+wallet	soft	0
+tissue	soft	0
+airplane	printed	0
+round plate	printed	0
+apple	printed	0
+banana	printed	0
+hammer	printed	0
+long-neck bottle	printed	0
+wristwatch	printed	0
+bowl	printed	0
+block	printed	0
+cylinder	printed	0
+cube	printed	0
+torus	printed	0
+wrench	printed	0
+leopard (toy)	printed	0
+toothbrush	printed	0
+airplane	printed	1
+round plate	printed	1
+apple	printed	1
+banana	printed	1
+hammer	printed	1
+long-neck bottle	printed	1
+wristwatch	printed	1
+bowl	printed	1
+block	printed	1
+cylinder	printed	1
+cube	printed	1
+torus	printed	1
+wrench	printed	1
+leopard (toy)	printed	1
+toothbrush	printed	1

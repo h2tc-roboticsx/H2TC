@@ -26,12 +26,11 @@ from openpyxl import load_workbook
 from argparse import ArgumentParser
 
 curr_path = os.path.dirname(os.path.abspath(__file__)) # the directory of the current file
-root_path = os.path.join(curr_path, "..") # code depository root directory
-
+cwp =  os.path.join(curr_path, "..")
 # add root path to the system PATH to allow import other user-defined modules
-sys.path.append(root_path)
+sys.path.append(cwp)
 
-from src.log import *
+from src.log import  *
 from src.log import save as save_log
 
 
@@ -45,13 +44,8 @@ argparser.add_argument('--takes', nargs='+', default=None,
                        help="ID of takes to be annotated. Set None to annotate all takes in the 'data' directory. This can be given with a single integer number for one take or a range linked by '-', e.g., '10-12' for takes [000010, 000011, 000012]")
 argparser.add_argument('--review', action='store_true', default=False,
                        help="true to review the takes have been already annotated before. By default (False), the annotated takes will not be displayed for annotation again.")
-
-anno_dir = os.path.join(root_path, 'annotations') # directory to save individual annotation
-# lx
-anno_dir_correct = os.path.join(root_path, 'annotations_correct') # directory to save corrected individual annotation 
-# create the annotation directory if not exists
-if not os.path.exists(anno_dir):
-    os.makedirs(anno_dir)
+argparser.add_argument('--datapath', type=str, default="Sample_Cases/data",
+                       help='data path to all takes')
 
 # display configuration of each stream
 # key: stream ID
@@ -502,8 +496,6 @@ class ImageBlock(tk.Frame):
         self.display.configure(image=photo)
         self.display.image = photo
         
-        # TODO: pre-loading N frames for smoother UI
-        
     def load_image(self, frame):
         '''
         Load the image of a frame
@@ -743,9 +735,19 @@ if __name__ == '__main__':
     # parse arguments from console
     args = argparser.parse_args()
     
+    # lx
+    # folders
+    data_path = args.datapath
+    root_path = os.path.join(data_path, "..") # code depository root directory
+    anno_dir = os.path.join(root_path, 'annotations') # directory to save individual annotation
+    # create the annotation directory if not exists
+    if not os.path.exists(anno_dir):
+        os.makedirs(anno_dir)
+    
+    
     local_takes = [] # takes available in the local machine
     # an annotatable take should have at least all these data (folders)
-    frame_dirs = ['event', 'rgbd0', 'rgbd1', 'rgbd2', 'hand_motion']
+    frame_dirs = ['event', 'rgbd0', 'rgbd1', 'rgbd2','hand_motion']
     for take in os.listdir(data_path): # iterate every take folder under data_path
         take_path = os.path.join(data_path, take)
         if all([os.path.exists(os.path.join(take_path, 'processed/'+f)) for f in frame_dirs]):
@@ -798,32 +800,32 @@ if __name__ == '__main__':
 
             # only annotate takes that is recorded and not annotated before
             # or annotated but in the review mode
-            if is_finished and (not is_annotated or args.review):
-                equipped = value(sheet, 'equipped', row) # if the subject wears the sensors
-                hand = value(sheet, 'hand', row)
-                position = value(sheet, 'position', row)
-                action = value(sheet, 'action', row)
-                # logging different information for the subject wearing sensors and not
-                if equipped:
-                    takes[take_id].take_id = take_id
-                    takes[take_id].object = value(sheet, 'object', row)
-                    takes[take_id].catch_result = value(sheet, 'success', row)
-                    takes[take_id].row1 = row # row in the sheet
-                    takes[take_id].sub1_cmd = Dict({'subject_id' : SUBJECTS.index(sub),
-                                                    'hand' : hand,
-                                                    'position' : position,
-                                                    'action' : action})
+            # if is_finished and (not is_annotated or args.review):
+            equipped = value(sheet, 'equipped', row) # if the subject wears the sensors
+            hand = value(sheet, 'hand', row)
+            position = value(sheet, 'position', row)
+            action = value(sheet, 'action', row)
+            # logging different information for the subject wearing sensors and not
+            if equipped:
+                takes[take_id].take_id = take_id
+                takes[take_id].object = value(sheet, 'object', row)
+                takes[take_id].catch_result = value(sheet, 'success', row)
+                takes[take_id].row1 = row # row in the sheet
+                takes[take_id].sub1_cmd = Dict({'subject_id' : SUBJECTS.index(sub),
+                                                'hand' : hand,
+                                                'position' : position,
+                                                'action' : action})
+            else:
+                takes[take_id].sub2_cmd = Dict({'subject_id' : SUBJECTS.index(sub),
+                                                'hand' : hand,
+                                                'position' : position,
+                                                'action' : action,
+                                                'hand_vertical' : value(sheet, 'height', row)})
+                takes[take_id].row2 = row # row in the sheet
+                if action == 'throw':
+                    takes[take_id].sub2_cmd.throwing_speed = value(sheet, 'speed', row)
                 else:
-                    takes[take_id].sub2_cmd = Dict({'subject_id' : SUBJECTS.index(sub),
-                                                    'hand' : hand,
-                                                    'position' : position,
-                                                    'action' : action,
-                                                    'hand_vertical' : value(sheet, 'height', row)})
-                    takes[take_id].row2 = row # row in the sheet
-                    if action == 'throw':
-                        takes[take_id].sub2_cmd.throwing_speed = value(sheet, 'speed', row)
-                    else:
-                        takes[take_id].sub2_cmd.hand_horizontal = value(sheet, 'horizon', row)
+                    takes[take_id].sub2_cmd.hand_horizontal = value(sheet, 'horizon', row)
 
     # random shuffle takes for annotation
     take_ids = list(takes.keys())
