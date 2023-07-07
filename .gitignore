@@ -10,3 +10,4 @@ dev/ZED_SDK_installer/ZED_SDK_Ubuntu20_cuda11.7_v3.7.7.run
 ._.DS**
 .DS**
 *.json
+*.xlsx
