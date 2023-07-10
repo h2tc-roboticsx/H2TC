@@ -214,10 +214,10 @@ Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main
 
 To run the tool, please: 
 
-#### 1. Get the raw data. 
+#### 1. Get the raw data
 Download <a href="https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0">our captured raw data</a> (dropbox). 
 
-#### 2. Organize the raw data. 
+#### 2. Organize the raw data 
 Extract the raw data and put them into an individual folder `YOURPATH/data`. 
 Each recording should be under the folder. For example, the raw data of the recording "011998" should be organized in a way as below:
 
@@ -249,7 +249,7 @@ YOURPATH
 
  For a detailed explanation of each file, please refer to the post `/doc/data_structure_full.md`.
 
-#### 3. Process the organized data. 
+#### 3. Process the organized data
 Once the data organized, simply run the following command with your data folder path:
 
 ```python
