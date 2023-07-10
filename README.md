@@ -211,33 +211,41 @@ Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main
 </table>
 
 
-To run the tool, you have to **first** put the raw data of each recording into an individual folder named by the recording ID under the directory `/data` and organize the data from different sensors as displayed in [Raw Data](https://lipengroboticsx.github.io/dataset/). This sorting can be much effortless if the raw data is recorded using our recorder program since they will be produced in a way ready to be processed. For example, the raw data of the recording "011998" should be organized in a way as below:
+To run the tool, please: 
+1) Get the raw data. Download <a href="https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0">our captured raw data</a> (dropbox). 
 
-* ***data/***
-  * ***011998/***
-    * **{ZED-ID}.svo**  (<em>raw data of ZED camera with the ID</em>)
-    * **{ZED-ID}.csv** (<em>timestamps of the raw data of ZED camera with the ID</em>)
-    * **event_{timestamp}.raw** (<em>raw data of Event camera</em>)
-    * **optitrack.csv** (<em>raw data of optitrack</em>)
-    * ***hand/***
-      * **P1L.csv / P1R.csv** (<em>raw data of left / right hand pose for Hand Engine</em>)
-      * **P1LMeta.json / P1RMeta.json** (<em>metadata of recording for Hand Engine</em>)
+2) Organize the raw data. Extract the raw data and put them into an individual folder `YOURPATH/data`. 
+Each recording should be under the folder. For example, the raw data of the recording "011998" should be organized in a way as below:
 
-This is the minimum set of raw data files required for processing. It is smaller than the real set of raw files exported from each sensor, because some are not used in processing. For a full set of raw files and the detailed explanation of each file, please refer to the post `/doc/data_structure_full.md`.
+* ***YOURPATH/***
+  * ***data/***
+    * ***011998/***
+      * **{ZED-ID}.svo**  (<em>raw data of ZED camera with the ID</em>)
+      * **{ZED-ID}.csv** (<em>timestamps of the raw data of ZED camera with the ID</em>)
+      * **event_{timestamp}.raw** (<em>raw data of Event camera</em>)
+      * **optitrack.csv** (<em>raw data of optitrack</em>)
+      * ***hand/***
+        * **P1L.csv / P1R.csv** (<em>raw data of left / right hand pose for Hand Engine</em>)
+        * **P1LMeta.json / P1RMeta.json** (<em>metadata of recording for Hand Engine</em>)
 
-**Second**, once the data organized appropriately, all you need to do is just running the following command:
+<p style="padding-left: 3em;"> For a detailed explanation of each file, please refer to the post `/doc/data_structure_full.md`.</p>
+
+3) Process the organized data. once the data organized appropriately, all you need to do is just running the following command:
 
 ```python
 python src/postprocess.py --xypt --depth_accuracy float32
 ```
 
-This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_structure_full.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail.
+This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_structure_full.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail. 
 
 Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two to produce only a minimum set of data required for annotation. By default, event streams are integrated over a fixed span of time into RGB frames, and depth maps are normalized over the pixels, for **visualization**. The command for this is
 
 ```python
 python src/postprocess.py
 ```
+
+TODO!!!: 
+add augment parameter explaination. 
 
 After the processing finished, the raw and processed data files will be separately stored in their own directory like below. All raw data will be transferred (copied) into a new directory `raw/`. The processed data is stored in `processed/`.
 
@@ -248,9 +256,9 @@ After the processing finished, the raw and processed data files will be separate
 
 For the technical detail of how we process the data, please refer to `/doc/postprocessing.md`. 
 
-### trouble shooting
+### &#x2022; Trouble Shooting ❗
 
-#### 1. reprocess the processed take
+#### 1. Reprocess the processed take
 
 If you want so, you have to manually remove the existing, processed, data. If you only want to reprocess the part of the whole take e.g. ZED, you don't need to remove the remaining data.
 
