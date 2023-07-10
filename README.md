@@ -229,19 +229,23 @@ Each recording should be under the folder. For example, the raw data of the reco
       * ***hand/***
         * **P1L.csv / P1R.csv** (<em>raw data of left / right hand pose for Hand Engine</em>)
         * **P1LMeta.json / P1RMeta.json** (<em>metadata of recording for Hand Engine</em>) -->
+```
+YOURPATH
+└──data
+    └──011998
+        ├──hand
+        │   ├──P1L.csv / P1R.csv
+        │   ├──P1LMeta.json / P1RMeta.json
+        │   ├──P1L.cal/P1R.cal
+        │   └──P1L.fbx/P1R.fbx
+        ├──{ZED-ID}.svo
+        ├──{ZED-ID}.csv 
+        ├──event_{timestamp}.raw
+        ├──event.bias
+        └──optitrack.csv
+```
 
-* ***YOURPATH/***
-  * ***data/***
-    * ***011998/***
-      * **{ZED-ID}.svo**  
-      * **{ZED-ID}.csv** 
-      * **event_{timestamp}.raw** 
-      * **optitrack.csv** 
-      * ***hand/***
-        * **P1L.csv / P1R.csv** 
-        * **P1LMeta.json / P1RMeta.json** 
-
-For a detailed explanation of each file, please refer to the post `/doc/data_structure_full.md`.
+    For a detailed explanation of each file, please refer to the post `/doc/data_structure_full.md`.
 
 3. Process the organized data. Once the data organized, simply run the following command with your data folder path:
 
