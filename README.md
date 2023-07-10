@@ -245,7 +245,7 @@ YOURPATH
         └──optitrack.csv
 ```
 
-    For a detailed explanation of each file, please refer to the post `/doc/data_structure_full.md`.
+>>For a detailed explanation of each file, please refer to the post `/doc/data_structure_full.md`.
 
 3. Process the organized data. Once the data organized, simply run the following command with your data folder path:
 
@@ -253,7 +253,7 @@ YOURPATH
 python src/postprocess.py --datapath YOURPATH/data
 ```
 
-There are several parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail. 
+>>There are several parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail. 
 <!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_structure_full.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail.  -->
 
 <!-- (<small>Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two.</small> ) -->
@@ -262,14 +262,22 @@ There are several parameters available to configure the processing. Please check
 python src/postprocess.py
 ``` -->
 
-After the processing finished, the raw and processed data files will be separately stored in their own directory like below. All raw data will be moved into a new directory `raw/`. The processed data is stored in `processed/`.
-* ***YOURPATH/***
+>>After the processing finished, the raw and processed data files will be separately stored in their own directory like below. All raw data will be moved into a new directory `raw/`. The processed data is stored in `processed/`.
+
+```
+YOURPATH
+└──data
+    └──011998
+        ├──raw              - all raw data
+        └──processed        - all processed data
+```
+<!-- * ***YOURPATH/***
   * ***data/***
     * ***011998/***
       * ***raw/***: all raw data
-      * ***processed/***: all processed data
+      * ***processed/***: all processed data -->
 
-The data hierarchy would be like Figure 7 of [our paper](). For the technical detail of how we process the data, please refer to `/doc/postprocessing.md`. 
+>>The data hierarchy would be like Figure 7 of [our paper](). For the technical detail of how we process the data, please refer to `/doc/postprocessing.md`. 
 
 ### &#x2022; Trouble Shooting ❗
 
