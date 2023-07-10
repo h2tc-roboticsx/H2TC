@@ -139,7 +139,7 @@ now you should be able to see the prompt indicating that these two applications 
 
 ## Data Processing
 
-Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data to the format as below. 
+Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data into the format as below. 
 
 <table <table border="1" cellspacing="0">
     <tr>
@@ -247,7 +247,7 @@ YOURPATH
         └──optitrack.csv
 ```
 
- For a detailed explanation of each file, please refer to the post `/doc/data_structure_full.md`.
+ For a detailed explanation of each file, please refer to the post `/doc/data_file_explanation.md`.
 
 #### 3. Process the organized data
 Once the data organized, simply run the following command with your data folder path:
@@ -257,7 +257,7 @@ python src/postprocess.py --datapath YOURPATH/data
 ```
 
 There are several parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail. 
-<!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_structure_full.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail.  -->
+<!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_file_explanation.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail.  -->
 
 <!-- (<small>Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two.</small> ) -->
  <!-- to produce only a minimum set of data required for annotation. By default, event streams are integrated over a fixed span of time into RGB frames, and depth maps are normalized over the pixels, for **visualization**. The command for this is 
