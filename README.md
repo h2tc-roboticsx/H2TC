@@ -139,76 +139,9 @@ now you should be able to see the prompt indicating that these two applications 
 
 ## Data Processing
 
-Our data processing script converts the raw data to the format as below. 
+Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data to the format as below. 
 
 <table <table border="1" cellspacing="0">
-    <tr>
-        <td rowspan="2" ><b>Device</b></td>
-        <td colspan="2" bgcolor="#eeeeee"><b>Raw</b></td>
-        <td colspan="2" bgcolor="#eeeeee"><b>Processed</b></td>
-    </tr>
-    <tr >
-        <!-- <td>\multicolumn{1}{c}{}</td> -->
-        <td style="text-align: left;"><b>Data</b></td>
-        <td style="text-align: left;"><b>File</b></td>
-        <td style="text-align: left;"><b>Data</b></td>
-        <td style="text-align: left;"><b>File</b></td>
-    </tr>
-    <tr bgcolor="#eeeeee">
-        <td style="text-align: left;" rowspan="3">ZED</td>
-        <td style="text-align: left;" rowspan="3" >Left- and right-eye RGB videos</td>
-        <td style="text-align: left;" rowspan="3">.SVO</td>
-        <td style="text-align: left;">RGB images</td>
-        <td style="text-align: left;">.PNG</td>
-    </tr>
-    <tr bgcolor="#eeeeee">
-        <td style="text-align: left;">Depth maps (unnormalized)</td>
-        <td style="text-align: left;">.NPY</td>
-    </tr>
-    <tr bgcolor="#eeeeee">
-        <td style="text-align: left;">Depth images (normalized)</td>
-        <td style="text-align: left;">.PNG</td>
-    </tr>
-    <tr >
-        <td style="text-align: left;" rowspan="2">Event</td>
-        <td style="text-align: left;">Binary events in EVT3.0 format</td>
-        <td style="text-align: left;">.RAW</td>
-        <td style="text-align: left;">Events ($x, y, p, t$)</td>
-        <td style="text-align: left;">.CSV</td>
-    </tr>
-    <tr >
-        <td style="text-align: left;">Sensor setting for recording</td>
-        <td style="text-align: left;">.BIAS</td>
-        <td style="text-align: left;">Event images</td>
-        <td style="text-align: left;">.JPG</td>
-    </tr>
-    <tr bgcolor="#eeeeee">
-        <td style="text-align: left;" rowspan="4">MoCap Pro</td>
-        <td style="text-align: left;">Sensors&#39; reading and hand joint angles</td>
-        <td style="text-align: left;">.CSV</td>
-        <td style="text-align: left;" rowspan="4">Hand joint values</td>
-        <td style="text-align: left;" rowspan="4">.CSV</td>
-    </tr>
-    <tr bgcolor="#eeeeee">
-        <td style="text-align: left;" >Hand calibration parameters</td>
-        <td style="text-align: left;" >.CAL</td>
-    </tr>
-    <tr bgcolor="#eeeeee">
-        <td style="text-align: left;">3D animation visualization</td>
-        <td style="text-align: left;">.FBX</td>
-    </tr>
-    <tr bgcolor="#eeeeee">
-        <td style="text-align: left;">Metadata of the recording</td>
-        <td style="text-align: left;">.JSON</td>
-    </tr>
-    <tr >
-        <td style="text-align: left;">OptiTrack</td>
-        <td style="text-align: left;">Local and global transformatiom matrices</td>
-        <td style="text-align: left;">.CSV</td>
-        <td style="text-align: left;">6D pose in throw-catch coordinate</td>
-        <td style="text-align: left;">.CSV</td>
-    </tr>
-</table>>
     <tr>
         <td rowspan="2" ><b>Device</b></td>
         <td colspan="2" bgcolor="#eeeeee"><b>Raw</b></td>
@@ -278,7 +211,7 @@ Our data processing script converts the raw data to the format as below.
 </table>
 
 
-To run the script, you have to **first** put the raw data of each recording into an individual folder named by the recording ID under the directory `/data` and organize the data from different sensors as displayed in [Raw Data](https://lipengroboticsx.github.io/dataset/). This sorting can be much effortless if the raw data is recorded using our recorder program since they will be produced in a way ready to be processed. For example, the raw data of the recording "011998" should be organized in a way as below:
+To run the tool, you have to **first** put the raw data of each recording into an individual folder named by the recording ID under the directory `/data` and organize the data from different sensors as displayed in [Raw Data](https://lipengroboticsx.github.io/dataset/). This sorting can be much effortless if the raw data is recorded using our recorder program since they will be produced in a way ready to be processed. For example, the raw data of the recording "011998" should be organized in a way as below:
 
 * ***data/***
   * ***011998/***
