@@ -213,9 +213,10 @@ Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main
 ### &#x2022; How to Process
 
 To run the tool, please: 
-1) Get the raw data. Download <a href="https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0">our captured raw data</a> (dropbox). 
 
-2) Organize the raw data. Extract the raw data and put them into an individual folder `YOURPATH/data`. 
+1. Get the raw data. Download <a href="https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0">our captured raw data</a> (dropbox). 
+
+2. Organize the raw data. Extract the raw data and put them into an individual folder `YOURPATH/data`. 
 Each recording should be under the folder. For example, the raw data of the recording "011998" should be organized in a way as below:
 
 <!-- * ***YOURPATH/***
@@ -242,7 +243,7 @@ Each recording should be under the folder. For example, the raw data of the reco
 
 For a detailed explanation of each file, please refer to the post `/doc/data_structure_full.md`.
 
-3) Process the organized data. Once the data organized, simply run the following command with your data folder path:
+3. Process the organized data. Once the data organized, simply run the following command with your data folder path:
 
 ```python
 python src/postprocess.py --datapath YOURPATH/data
@@ -251,7 +252,7 @@ python src/postprocess.py --datapath YOURPATH/data
 There are several parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail. 
 <!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_structure_full.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail.  -->
 
-(<small>Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two.</small> )
+<!-- (<small>Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two.</small> ) -->
  <!-- to produce only a minimum set of data required for annotation. By default, event streams are integrated over a fixed span of time into RGB frames, and depth maps are normalized over the pixels, for **visualization**. The command for this is 
 ```python
 python src/postprocess.py
@@ -264,7 +265,7 @@ After the processing finished, the raw and processed data files will be separate
       * ***raw/***: all raw data
       * ***processed/***: all processed data
 
-For the technical detail of how we process the data, please refer to `/doc/postprocessing.md`. 
+The data hierarchy would be like Figure 7 of [our paper](). For the technical detail of how we process the data, please refer to `/doc/postprocessing.md`. 
 
 ### &#x2022; Trouble Shooting ❗
 
@@ -276,8 +277,7 @@ If you want so, you have to manually remove the existing, processed, data. If yo
 
 The current mechanism allows for maximally 10 failed attempts to decode (or grab in ZED term) a frame. After failed more 10 times, the decoding will abort and the processing will continue to the next part e.g. next ZED device or next stream. The frames have been decoded will be stored, while the rest frames will be ignored. This issue usually happens when decoding the last frame.
 
-To fix this bug, one can simply reprocess the problematic takes following the [reprocess the processed take](#reprocess-the-processed-take).
-
+To fix this bug, one can simply reprocess the problematic takes following the `reprocess the processed take`. 
 
 ## Annotator
 In case you want to annotate your custom-captured data with annotations as described in [our paper](), 
