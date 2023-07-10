@@ -131,25 +131,164 @@ and the NatNet client:
 
 now you should be able to see the prompt indicating that these two applications have successfully communicated with each other, if everything goes well, as shown blow 
 
-<u>***TODO pictures of connection established.***</u>
+<!-- <u>***TODO pictures of connection established.***</u> -->
 
 **Last**, operate the main recorder to record following the interactive instruction. The main recorder will automatically communicate with and command Hand Engine and NatNet client to record. Nevertheless, we do recommend you to regularly check Hand Engine and NatNet client to see if bug.
 
-<u>***TODO picture of a complete take***</u>
+<!-- <u>***TODO picture of a complete take***</u> -->
 
 ## Data Processing
 
-Our data processing script converts the raw data to the format as described in [Processed Data](https://lipengroboticsx.github.io/dataset/). To run the script, you have to **first** put the raw data of each recording into an individual folder named by the recording ID under the directory `/data` and organize the data from different sensors as displayed in [Raw Data](https://lipengroboticsx.github.io/dataset/). This sorting can be much effortless if the raw data is recorded using our recorder program since they will be produced in a way ready to be processed. For example, the raw data of the recording "011998" should be organized in a way as below:
+Our data processing script converts the raw data to the format as below. 
+
+<table <table border="1" cellspacing="0">
+    <tr>
+        <td rowspan="2" ><b>Device</b></td>
+        <td colspan="2" bgcolor="#eeeeee"><b>Raw</b></td>
+        <td colspan="2" bgcolor="#eeeeee"><b>Processed</b></td>
+    </tr>
+    <tr >
+        <!-- <td>\multicolumn{1}{c}{}</td> -->
+        <td style="text-align: left;"><b>Data</b></td>
+        <td style="text-align: left;"><b>File</b></td>
+        <td style="text-align: left;"><b>Data</b></td>
+        <td style="text-align: left;"><b>File</b></td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td style="text-align: left;" rowspan="3">ZED</td>
+        <td style="text-align: left;" rowspan="3" >Left- and right-eye RGB videos</td>
+        <td style="text-align: left;" rowspan="3">.SVO</td>
+        <td style="text-align: left;">RGB images</td>
+        <td style="text-align: left;">.PNG</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td style="text-align: left;">Depth maps (unnormalized)</td>
+        <td style="text-align: left;">.NPY</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td style="text-align: left;">Depth images (normalized)</td>
+        <td style="text-align: left;">.PNG</td>
+    </tr>
+    <tr >
+        <td style="text-align: left;" rowspan="2">Event</td>
+        <td style="text-align: left;">Binary events in EVT3.0 format</td>
+        <td style="text-align: left;">.RAW</td>
+        <td style="text-align: left;">Events ($x, y, p, t$)</td>
+        <td style="text-align: left;">.CSV</td>
+    </tr>
+    <tr >
+        <td style="text-align: left;">Sensor setting for recording</td>
+        <td style="text-align: left;">.BIAS</td>
+        <td style="text-align: left;">Event images</td>
+        <td style="text-align: left;">.JPG</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td style="text-align: left;" rowspan="4">MoCap Pro</td>
+        <td style="text-align: left;">Sensors&#39; reading and hand joint angles</td>
+        <td style="text-align: left;">.CSV</td>
+        <td style="text-align: left;" rowspan="4">Hand joint values</td>
+        <td style="text-align: left;" rowspan="4">.CSV</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td style="text-align: left;" >Hand calibration parameters</td>
+        <td style="text-align: left;" >.CAL</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td style="text-align: left;">3D animation visualization</td>
+        <td style="text-align: left;">.FBX</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td style="text-align: left;">Metadata of the recording</td>
+        <td style="text-align: left;">.JSON</td>
+    </tr>
+    <tr >
+        <td style="text-align: left;">OptiTrack</td>
+        <td style="text-align: left;">Local and global transformatiom matrices</td>
+        <td style="text-align: left;">.CSV</td>
+        <td style="text-align: left;">6D pose in throw-catch coordinate</td>
+        <td style="text-align: left;">.CSV</td>
+    </tr>
+</table>>
+    <tr>
+        <td rowspan="2" ><b>Device</b></td>
+        <td colspan="2" bgcolor="#eeeeee"><b>Raw</b></td>
+        <td colspan="2" bgcolor="#eeeeee"><b>Processed</b></td>
+    </tr>
+    <tr >
+        <!-- <td>\multicolumn{1}{c}{}</td> -->
+        <td style="text-align: left;"><b>Data</b></td>
+        <td style="text-align: left;"><b>File</b></td>
+        <td style="text-align: left;"><b>Data</b></td>
+        <td style="text-align: left;"><b>File</b></td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td style="text-align: left;" rowspan="3">ZED</td>
+        <td style="text-align: left;" rowspan="3" >Left- and right-eye RGB videos</td>
+        <td style="text-align: left;" rowspan="3">.SVO</td>
+        <td style="text-align: left;">RGB images</td>
+        <td style="text-align: left;">.PNG</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td style="text-align: left;">Depth maps (unnormalized)</td>
+        <td style="text-align: left;">.NPY</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td style="text-align: left;">Depth images (normalized)</td>
+        <td style="text-align: left;">.PNG</td>
+    </tr>
+    <tr >
+        <td style="text-align: left;" rowspan="2">Event</td>
+        <td style="text-align: left;">Binary events in EVT3.0 format</td>
+        <td style="text-align: left;">.RAW</td>
+        <td style="text-align: left;">Events ($x, y, p, t$)</td>
+        <td style="text-align: left;">.CSV</td>
+    </tr>
+    <tr >
+        <td style="text-align: left;">Sensor setting for recording</td>
+        <td style="text-align: left;">.BIAS</td>
+        <td style="text-align: left;">Event images</td>
+        <td style="text-align: left;">.JPG</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td style="text-align: left;" rowspan="4">MoCap Pro</td>
+        <td style="text-align: left;">Sensors&#39; reading and hand joint angles</td>
+        <td style="text-align: left;">.CSV</td>
+        <td style="text-align: left;" rowspan="4">Hand joint values</td>
+        <td style="text-align: left;" rowspan="4">.CSV</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td style="text-align: left;" >Hand calibration parameters</td>
+        <td style="text-align: left;" >.CAL</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td style="text-align: left;">3D animation visualization</td>
+        <td style="text-align: left;">.FBX</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td style="text-align: left;">Metadata of the recording</td>
+        <td style="text-align: left;">.JSON</td>
+    </tr>
+    <tr >
+        <td style="text-align: left;">OptiTrack</td>
+        <td style="text-align: left;">Local and global transformatiom matrices</td>
+        <td style="text-align: left;">.CSV</td>
+        <td style="text-align: left;">6D pose in throw-catch coordinate</td>
+        <td style="text-align: left;">.CSV</td>
+    </tr>
+</table>
+
+
+To run the script, you have to **first** put the raw data of each recording into an individual folder named by the recording ID under the directory `/data` and organize the data from different sensors as displayed in [Raw Data](https://lipengroboticsx.github.io/dataset/). This sorting can be much effortless if the raw data is recorded using our recorder program since they will be produced in a way ready to be processed. For example, the raw data of the recording "011998" should be organized in a way as below:
 
 * ***data/***
   * ***011998/***
-    * **{ZED-ID}.svo**: raw data of ZED camera with the ID
-    * **{ZED-ID}.csv**: timestamps of the raw data of ZED camera with the ID
-    * **event_{timestamp}.raw**: raw data of Event camera
-    * **optitrack.csv**: raw data of optitrack
+    * **{ZED-ID}.svo**  (<em>raw data of ZED camera with the ID</em>)
+    * **{ZED-ID}.csv** (<em>timestamps of the raw data of ZED camera with the ID</em>)
+    * **event_{timestamp}.raw** (<em>raw data of Event camera</em>)
+    * **optitrack.csv** (<em>raw data of optitrack</em>)
     * ***hand/***
-      * **P1L.csv / P1R.csv**: raw data of left / right hand pose for Hand Engine
-      * **P1LMeta.json / P1RMeta.json**: metadata of recording for Hand Engine
+      * **P1L.csv / P1R.csv** (<em>raw data of left / right hand pose for Hand Engine</em>)
+      * **P1LMeta.json / P1RMeta.json** (<em>metadata of recording for Hand Engine</em>)
 
 This is the minimum set of raw data files required for processing. It is smaller than the real set of raw files exported from each sensor, because some are not used in processing. For a full set of raw files and the detailed explanation of each file, please refer to the post `/doc/data_structure_full.md`.
 
@@ -186,7 +325,7 @@ If you want so, you have to manually remove the existing, processed, data. If yo
 
 The current mechanism allows for maximally 10 failed attempts to decode (or grab in ZED term) a frame. After failed more 10 times, the decoding will abort and the processing will continue to the next part e.g. next ZED device or next stream. The frames have been decoded will be stored, while the rest frames will be ignored. This issue usually happens when decoding the last frame.
 
-To fix this bug, one can simply reprocess the problematic takes following the [instruction](#reprocess-the-processed-take).
+To fix this bug, one can simply reprocess the problematic takes following the [reprocess the processed take](#reprocess-the-processed-take).
 
 
 ## Annotator
@@ -220,19 +359,19 @@ Inside the information panel, the annotation result is displayed in real-time.
 Each text entry inside the information panel represents:
 
     1. the status of the annotation: finished, unfinished or problematic
-    2. which hand used to throw at moment *throw*
-    3. the position of the thrower at moment *throw*
-    4. the position of the catcher at moment *throw*
-    5. the average flying speed of the thrown object
-    6. the vertical hand position of the thrower at moment *throw*
-    7. the horizontal hand position of the thrower at moment *throw*
-    8. the vertical hand position of the catcher at moment *throw*
-    9. the horizontal hand position of the catcher at moment *throw*
+    2. which hand used to throw at the moment *throw*
+    3. the position of the thrower at the moment *throw*
+    4. the position of the catcher at the moment *throw*
+    5. the average flying speed of the the thrown object
+    6. the vertical hand position of the thrower at the moment *throw*
+    7. the horizontal hand position of the thrower at the moment *throw*
+    8. the vertical hand position of the catcher at the moment *throw*
+    9. the horizontal hand position of the catcher at the moment *throw*
     10. the frame number and the timestamp of the moment *throw*
-    11. which hand used to catch at moment *catch (stable)* 
-    12. the position of the catcher at moment *catch (touch)*
-    13. the vertical hand position of the catcher at moment *catch (stable)*
-    14. the horizontal hand position of the catcher at moment *catch (stable)*
+    11. which hand used to catch at the moment *catch (stable)* 
+    12. the position of the catcher at the moment *catch (touch)*
+    13. the vertical hand position of the catcher at the moment *catch (stable)*
+    14. the horizontal hand position of the catcher at the moment *catch (stable)*
     15. the frame number and the timestamp of the moment *catch (touch)*
     16. the frame number and the timestamp of the moment *catch (stable)*
 
@@ -298,7 +437,5 @@ If no frame is qualified, the entire take should be annotated as "problematic" a
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/missing_data_anno.png" width = "400" alt="missing_data_anno" />
 <!-- <div text-align:center>Information Panel of Missing OptiTrack Data</div> -->
 <!-- #### 4. Wrong result of catching
-
 In some cases, the result of catching can be miss-typed during recording. 
-
-For example, a take was labeled as "success" (should be "failed") but the catcher actually failed to catch the object. This should be corrected alongside the annotation. One should leave the take unannotated in the annotator program and manually correct this by editing the value of "success" column in the logbook `/log.xlsx`.  Note that the annotator program will automatically filter out the takes labeled as "failed", so only the case of false "success" is possible to appear during annotation. -->
+For example, a take was labeled as "success" (should be "failed") but the catcher actually failed to catch the object. This should be corrected alongside the annotation. One should leave the take unannotated in the annotator program and manually correct this by editing the value of the "success" column in the logbook `/log.xlsx`.  Note that the annotator program will automatically filter out the takes labeled as "failed", so only the case of false "success" is possible to appear during annotation. -->
