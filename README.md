@@ -219,8 +219,6 @@ To run the tool, please:
 2. Organize the raw data. Extract the raw data and put them into an individual folder `YOURPATH/data`. 
 Each recording should be under the folder. For example, the raw data of the recording "011998" should be organized in a way as below:
 
-  For a detailed explanation of each file, please refer to the post `/doc/data_structure_full.md`.
-
 <!-- * ***YOURPATH/***
   * ***data/***
     * ***011998/***
@@ -247,6 +245,7 @@ YOURPATH
         └──optitrack.csv
 ```
 
+&#8195; For a detailed explanation of each file, please refer to the post `/doc/data_structure_full.md`.
 
 3. Process the organized data. Once the data organized, simply run the following command with your data folder path:
 
