@@ -210,6 +210,7 @@ Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main
     </tr>
 </table>
 
+### &#x2022; How to Process
 
 To run the tool, please: 
 1) Get the raw data. Download <a href="https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0">our captured raw data</a> (dropbox). 
@@ -217,7 +218,7 @@ To run the tool, please:
 2) Organize the raw data. Extract the raw data and put them into an individual folder `YOURPATH/data`. 
 Each recording should be under the folder. For example, the raw data of the recording "011998" should be organized in a way as below:
 
-* ***YOURPATH/***
+<!-- * ***YOURPATH/***
   * ***data/***
     * ***011998/***
       * **{ZED-ID}.svo**  (<em>raw data of ZED camera with the ID</em>)
@@ -226,9 +227,20 @@ Each recording should be under the folder. For example, the raw data of the reco
       * **optitrack.csv** (<em>raw data of optitrack</em>)
       * ***hand/***
         * **P1L.csv / P1R.csv** (<em>raw data of left / right hand pose for Hand Engine</em>)
-        * **P1LMeta.json / P1RMeta.json** (<em>metadata of recording for Hand Engine</em>)
+        * **P1LMeta.json / P1RMeta.json** (<em>metadata of recording for Hand Engine</em>) -->
 
-<p style="padding-left: 3em;"> For a detailed explanation of each file, please refer to the post `/doc/data_structure_full.md`.</p>
+* ***YOURPATH/***
+  * ***data/***
+    * ***011998/***
+      * **{ZED-ID}.svo**  
+      * **{ZED-ID}.csv** 
+      * **event_{timestamp}.raw** 
+      * **optitrack.csv** 
+      * ***hand/***
+        * **P1L.csv / P1R.csv** 
+        * **P1LMeta.json / P1RMeta.json** 
+
+For a detailed explanation of each file, please refer to the post `/doc/data_structure_full.md`.
 
 3) Process the organized data. once the data organized appropriately, all you need to do is just running the following command:
 
