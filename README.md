@@ -364,7 +364,7 @@ You can interact with the interface to annotate labels by the keyboard as define
 |"space"| switch the values of info panel 1 between "finished" and "unfinished"|
 |"backspace"| switch the values of info panel 1 between "problematic" and "unfinished"|
 
-<b>Any modification</b> to the annotation result will be immediately saved in the corresponding annotation file under the directory `/annotations/take_id.json`.
+<b>Any modification</b> to the annotation result will be immediately saved in the corresponding annotation file under the directory `YOURPATH/annotations/take_id.json`.
 
 ### &#x2022; Note ❗
 
