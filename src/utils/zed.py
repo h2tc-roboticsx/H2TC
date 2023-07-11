@@ -334,17 +334,8 @@ def export_to_images(ipt_path, opt_path, img_format='jpg', depth_acc='float64', 
             # store depth values in numpy ndarray format
             data = depth_map.get_data()
             depth_frames.append(np.copy(data)) # depth_frames[-1].shape -> (720, 1280)
-            # lx: depth map to point cloud
-            # TODO: filter out outliers based on masks
-            mask_file = os.path.join(mask_folder,"left_{:04d}.png".format(svo_position))
-            if os.path.exists(mask_file):
-                mask = cv2.imread(mask_file, cv2.IMREAD_GRAYSCALE)
-                points = depth_image_to_point_cloud(left_image.get_data(), data, 1e-3, K, cam2world, mask)
-
-            pc_path = os.path.join(opt_path,"pc_{:04d}.ply".format(svo_position))
-            write_point_cloud(pc_path, points)
-            
-        
+          
+       
         if save_img:
             # generate file names with the frame numbering
             left_path = os.path.join(opt_path, "left_{:04d}.{}".format(svo_position, img_format))
@@ -364,9 +355,9 @@ def export_to_images(ipt_path, opt_path, img_format='jpg', depth_acc='float64', 
             sys.stdout.write("\nSVO end has been reached. Exiting now.\n")
             break
         
-    # if len(depth_frames) > 0:
-    #     # save depth map in the output path if have
-    #     np.save(os.path.join(opt_path, 'depth.npy'), np.asarray(depth_frames, dtype=depth_acc))
+    if len(depth_frames) > 0:
+        # save depth map in the output path if have
+        np.save(os.path.join(opt_path, 'depth.npy'), np.asarray(depth_frames, dtype=depth_acc))
 
     zed.close()
 

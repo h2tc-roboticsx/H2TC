@@ -164,7 +164,7 @@ def get_t_matrix(df, object_id, local_sys_id, t_matrix_type='global', rotate_rig
                        [row[12], row[13], row[14], row[15]]]
 
         # convert the transformation matrix from optitrack system to the local throw-catch zone system
-        curr_matrix = np.matmul(LOCAL_SYS_T_MATRIX_INV[local_sys_id], curr_matrix) # lx !!! coordinate transformation 
+        curr_matrix = np.matmul(LOCAL_SYS_T_MATRIX_INV[local_sys_id], curr_matrix) # coordinate transformation 
 
         # rotate extra degrees if the right/left hand needs to
         # the object id needs to be specified as this function also processes other object's optitrack transformation matrix.

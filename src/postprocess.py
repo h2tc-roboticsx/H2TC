@@ -59,7 +59,7 @@ argparser.add_argument('--xypt', action='store_true', default=False,
 argparser.add_argument('--npy', action='store_true', default=False,
                        help='true to export depth stream in npy format')
 argparser.add_argument('--datapath', type=str, default="/home/ur-5/Projects/justlx/Sample_Cases/data",
-                       help='data path to all takes')
+                       help='data path of all takes')
 
 # mapping from RGBD stream ID to ZED camera ID
 ZED_CAMS = {
@@ -106,6 +106,7 @@ def process(take, args):
         os.makedirs(take_dir)
         # move the temporary data to the raw directory
         shutil.move(_raw_dir, take_dir)
+
 
     print("processing ZED")
     ts_paths = [] # list with timestamp filepath of all streams ZEDx3, Event, optitrack, HEx2
@@ -192,6 +193,8 @@ def process(take, args):
     with open(ts_path, 'w') as f: f.writelines(ts)
     # add timestamp file path to the list for alignment
     ts_paths.append(ts_path)
+    
+    
     
     print("processing optitrack data")
     # determine local coordinate system ID according the take ID
