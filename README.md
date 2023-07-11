@@ -215,11 +215,19 @@ Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main
 To run the tool, please: 
 
 #### 1. Get the raw data
-Download <a href="https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0">our captured raw data</a> (dropbox). 
+Download <a href="https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0">our captured raw data</a> (dropbox) to your `XXXPATH` like below. All our raw data are packed in .zip files. 
+```
+XXXPATH
+└──011998.zip
+```
 
-#### 2. Organize the raw data 
-Extract the raw data and put them into an individual folder `YOURPATH/data`. 
-Each recording should be under the folder. For example, the raw data of the recording "011998" should be organized in a way as below:
+#### 2. Extract the raw data 
+Extract the packed raw data by running:
+```
+python src/extract --srcpath XXXPATH --tarpath YOURPATH
+```
+`XXXPATH` is the path where you downloaded the packed raw data in. `YOURPATH` is the target path where you want to extract the packed data to. 
+Each extracted recording should be under the folder `YOURPATH/data`. For example, the raw data of the recording "011998" should be organized in a way as below:
 
 <!-- * ***YOURPATH/***
   * ***data/***
@@ -249,8 +257,8 @@ YOURPATH
 
  For a detailed explanation of each file, please refer to the post `/doc/data_file_explanation.md`.
 
-#### 3. Process the organized data
-Once the data organized, simply run the following command with your data folder path:
+#### 3. Process the extracted data
+Once the data extracted and organized like step 2, simply run the following command with your data folder path:
 
 ```python
 python src/postprocess.py --datapath YOURPATH/data
