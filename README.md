@@ -215,7 +215,7 @@ Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main
 To run the tool, please: 
 
 #### 1. Get the raw data
-Download <a href="https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0">our captured raw data</a> (dropbox) to your `XXXPATH` like below. All our raw data are packed in .zip files. 
+Download <a href="https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0">our captured raw data</a> (dropbox) to your `XXXPATH` like below. Each recording of our raw data is packed in a .zip file.
 ```
 XXXPATH
 └──011998.zip
