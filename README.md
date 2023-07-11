@@ -227,7 +227,7 @@ Extract the packed raw data by running:
 python src/extract --srcpath XXXPATH --tarpath YOURPATH
 ```
 `XXXPATH` is the path where you downloaded the packed raw data in. `YOURPATH` is the target path where you want to extract the packed data to. 
-Each extracted recording should be under the folder `YOURPATH/data`. For example, the raw data of the recording "011998" should be organized in a way as below:
+After extraction done, each extracted recording should be under the folder `YOURPATH/data`. For example, the raw data of the recording "011998" should be organized in a way as below:
 
 <!-- * ***YOURPATH/***
   * ***data/***
