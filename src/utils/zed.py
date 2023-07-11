@@ -19,13 +19,14 @@
 ########################################################################
 
 import os, sys
-# import pyzed.sl as sl
+import pyzed.sl as sl
 import pandas as pd
 import numpy as np
 from warnings import warn
 from datetime import datetime
 import cv2
 import csv
+from pathlib import Path
 
 
 '''
@@ -183,7 +184,73 @@ def progress_bar(percent_done, bar_length=50):
     sys.stdout.flush()
 
 
-def export_to_images(ipt_path, opt_path, img_format='png', depth_acc='float64'):
+#!/usr/bin/python3
+def depth_image_to_point_cloud(rgb, depth, scale, K, pose,mask=None):
+    u = range(0, rgb.shape[1])
+    v = range(0, rgb.shape[0])
+
+    u, v = np.meshgrid(u, v)
+    u = u.astype(float)
+    v = v.astype(float)
+
+    Z = depth.astype(float) * scale
+    X = (u - K[0, 2]) * Z / K[0, 0]
+    Y = (v - K[1, 2]) * Z / K[1, 1]
+
+    X = np.ravel(X)
+    Y = np.ravel(Y)
+    Z = np.ravel(Z)
+    mask = np.ravel(mask)
+    
+    valid = (Z > 0) & (Z < 4.4) & (X<0) # sub1 area 
+    if mask is not None:
+        valid = valid & (mask==0) # human area
+
+    X = X[valid]
+    Y = Y[valid]
+    Z = Z[valid]
+
+    position = np.vstack((X, Y, Z, np.ones(len(X))))
+    position = np.dot(pose, position)
+
+    # flag = (position[0]>0)&(position[1]>0)&(position[2]>0)
+
+    R = np.ravel(rgb[:, :, 0])[valid]
+    G = np.ravel(rgb[:, :, 1])[valid]
+    B = np.ravel(rgb[:, :, 2])[valid]
+
+    points = np.transpose(np.vstack((position[0:3, :], R, G, B)))
+
+    return points
+
+#!/usr/bin/python3
+def write_point_cloud(ply_filename, points, samples = 4096):
+    if samples is not None:
+        random_flag = np.random.RandomState(seed=42).permutation(points.shape[0])[: (samples - 1)]
+        points = points[random_flag].tolist()
+    else:
+        points.tolist()
+    formatted_points = []
+    for point in points:
+        formatted_points.append("%f %f %f %d %d %d 0\n" % (point[0], point[1], point[2], point[3], point[4], point[5]))
+
+    out_file = open(ply_filename, "w")
+    out_file.write('''ply
+    format ascii 1.0
+    element vertex %d
+    property float x
+    property float y
+    property float z
+    property uchar blue
+    property uchar green
+    property uchar red
+    property uchar alpha
+    end_header
+    %s
+    ''' % (len(points), "".join(formatted_points)))
+    out_file.close()
+
+def export_to_images(ipt_path, opt_path, img_format='jpg', depth_acc='float64', save_img=True, save_depth=True, save_pc=True):
     '''
     decode RGB, depth images and depth map from raw data file
 
@@ -220,6 +287,13 @@ def export_to_images(ipt_path, opt_path, img_format='png', depth_acc='float64'):
     image_size = zed.get_camera_information().camera_resolution    
     width = image_size.width
     height = image_size.height
+    
+    # lx: cam info
+    cam_info = zed.get_camera_information().calibration_parameters.left_cam
+    K = np.array([[cam_info.fx, 0.0, cam_info.cx],
+                                [0.0, cam_info.fy, cam_info.cy],
+                                [0.0, 0.0, 1.0]])
+    cam2world = np.eye(4)
 
     # prepare single image containers
     left_image = sl.Mat()
@@ -236,6 +310,7 @@ def export_to_images(ipt_path, opt_path, img_format='png', depth_acc='float64'):
     nb_frames = zed.get_svo_number_of_frames() # total number of frames
     nb_failed = 0 # count of failed attempts to grab a frame
     depth_frames = [] # accurate depth maps
+    mask_folder = str(Path(opt_path).parent) + '/masks'
     while True:
         # grab a frame
         if zed.grab(rt_param) != sl.ERROR_CODE.SUCCESS:
@@ -252,21 +327,34 @@ def export_to_images(ipt_path, opt_path, img_format='png', depth_acc='float64'):
         # retrieve DEPTH images
         zed.retrieve_image(depth_image, sl.VIEW.DEPTH)
 
-        if depth_acc is not None:
+        if save_pc:
             # retrieve real depth values if depth accuracy is specified
             zed.retrieve_measure(depth_map, sl.MEASURE.DEPTH)
 
             # store depth values in numpy ndarray format
             data = depth_map.get_data()
             depth_frames.append(np.copy(data)) # depth_frames[-1].shape -> (720, 1280)
-        
-        # generate file names with the frame numbering
-        left_path = os.path.join(opt_path, "left_{:04d}.{}".format(svo_position, img_format))
-        depth_path = os.path.join(opt_path, "depth_{:04d}.{}".format(svo_position, img_format))
+            # lx: depth map to point cloud
+            # TODO: filter out outliers based on masks
+            mask_file = os.path.join(mask_folder,"left_{:04d}.png".format(svo_position))
+            if os.path.exists(mask_file):
+                mask = cv2.imread(mask_file, cv2.IMREAD_GRAYSCALE)
+                points = depth_image_to_point_cloud(left_image.get_data(), data, 1e-3, K, cam2world, mask)
 
-        # save images
-        cv2.imwrite(left_path, left_image.get_data())
-        cv2.imwrite(depth_path, depth_image.get_data())
+            pc_path = os.path.join(opt_path,"pc_{:04d}.ply".format(svo_position))
+            write_point_cloud(pc_path, points)
+            
+        
+        if save_img:
+            # generate file names with the frame numbering
+            left_path = os.path.join(opt_path, "left_{:04d}.{}".format(svo_position, img_format))
+            # save images
+            cv2.imwrite(left_path, left_image.get_data())
+        
+        # depth images
+        if save_depth:
+            depth_path = os.path.join(opt_path, "depth_{:04d}.{}".format(svo_position, 'png'))
+            cv2.imwrite(depth_path, depth_image.get_data())
 
         # display progress
         progress_bar((svo_position + 1) / nb_frames * 100, 30)
@@ -276,9 +364,9 @@ def export_to_images(ipt_path, opt_path, img_format='png', depth_acc='float64'):
             sys.stdout.write("\nSVO end has been reached. Exiting now.\n")
             break
         
-    if len(depth_frames) > 0:
-        # save depth map in the output path if have
-        np.save(os.path.join(opt_path, 'depth.npy'), np.asarray(depth_frames, dtype=depth_acc))
+    # if len(depth_frames) > 0:
+    #     # save depth map in the output path if have
+    #     np.save(os.path.join(opt_path, 'depth.npy'), np.asarray(depth_frames, dtype=depth_acc))
 
     zed.close()
 

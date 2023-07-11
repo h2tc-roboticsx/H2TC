@@ -1,53 +1,7 @@
-# Data Structure
+# Data File Explanation
 
 To distinguish, the **file** presents **bold**, while the ***folder*** presents **bold** and *italic*.
 
-* **log.xlsx**: logbook with the recording parameters of all takes. Please refer to ***<u>the section TODO in the paper</u>*** for detail.
-  * **{subject ID} sheet**: each sheet maintains all instructions received by a subject during recording and is named by the id of the subject. Each entry in the sheet describes one recording setting.
-    * no: the numbering of the entry in the spreadsheet, each entry 
-    * object: the name of the object
-    * equipped: if the subject is equipped with the helmet and the gloves to record data or not
-      * 1: equipped
-      * 0: not equipped
-    * action: the action that the subject is supposed to perform when recording
-      * throw
-      * catch
-    * hand: the instruction for using either single or both hands to perform the action.
-      * single
-      * both
-      * void: no constraint
-    * position: the initial (rough) position of the subject in the local rough coordinates ***<u>specified in the section TODO in the paper</u>***.
-      * x: in range [0, 1, 2, 3]
-      * y: in range [0, 1, 2, 3]
-    * height: the relative vertical position of hand immediately before performing the action. <u>***TODO: renamed as hand_vertical***</u>
-      * overhead
-      * overhand
-      * chest
-      * underhand
-      * void: no constraint
-    * horizon: the relative horizontal position of the hand immediately before performing the action. ***<u>TODO: renamed as hand_horizontal</u>***
-      * left
-      * middle
-      * right
-      * void: no constraint
-    * speed: the relative speed for the subject to throw the object. ***<u>TODO: renamed as throwing_speed in the released version</u>***
-      * fast
-      * normal
-      * slow 
-      * void: no constraint
-    * take_id: the id of the take
-    * success: the result of catching. ***<u>TODO: renamed as catch_result.</u>***
-      * 0: failed
-      * 1: success
-    * verified: if the recording has been verified. ***<u>TODO: removed in the released version</u>*** 
-      * 1: verified and no problem detected
-      * 0: verification not finished
-      * -1: problem detected
-    * annotated: if the annotation has been finished. ***<u>TODO: removed in the released version</u>***
-      * 1: finished
-      * 0: not finished
-* **subjects.csv**: the list of the subjects participating in the experiments
-* **objects.csv**: the list of used objects
 * ***data/***
   * ***{take ID}/***: take folder named by the take id e.g. 000000
     * ***raw/***: raw data directly exported by each recording device. Note that the raw data **not used** in the processing is highlighted by the <u>underscore</u>.
@@ -58,7 +12,7 @@ To distinguish, the **file** presents **bold**, while the ***folder*** presents 
           * Timecode(device): timecode from the clock inside the gloves ticks as data generated.
           * <u>Timer(device)</u>: gloves internal timer that ticks every 1/120 s.
           * <u>Timecode(master)</u>: timecode from the clock of the host where Hand Engine software runs ticks as each frame processed by Hand Engine.
-          * hand: the wrist joint. Each joint has three degrees of freedom x, y and z. ***<u>please refer to the section TODO in our paper for the detail of the hand pose model</u>***.
+          * hand: the wrist joint. Each joint has three degrees of freedom x, y and z. please refer to  [our paper]() for the detail of the hand pose model.
           * the joints start at 00 - metacarpal, 01 - proximal, 02 - middle, 03 - distal (index 00-03, middle 00-03, pinky 00-03, ring 00-03, thumb 01-03) 
         * **P1LMeta.json** / **P1RMeta.json**: metadata about the hardware and recording setting
         * <u>**P1L.cal** / **P1R.cal**</u>: calibration data
@@ -124,9 +78,12 @@ To distinguish, the **file** presents **bold**, while the ***folder*** presents 
       * **sub1_left_hand_motion.csv**: the subject1's  left hand motion (OptiTrack object id is 117 in */raw/optitrack.csv*). Similar data structure as **sub1_head_motion.csv**
       * **sub1_right_hand_motion.csv**: the subject1's  right hand motion (OptiTrack object id is 116 in */raw/optitrack.csv*). Similar data structure as **sub1_head_motion.csv**
       * **sub2_head_motion.csv**: the subject2's  head motion (OptiTrack object id is 118 in */raw/optitrack.csv*). Similar data structure as **sub1_head_motion.csv**
+
+<br>
+
 * ***annotations/***:
   * **{take ID}.json**: metadata and the annotation data of the take
-    * status: annotation status. ***<u>TODO: be removed in the released version.</u>***
+    * status: annotation status. 
       * 0: not finished
       * 1: finished
       * -1: problematic, need further inspect
@@ -177,7 +134,54 @@ To distinguish, the **file** presents **bold**, while the ***folder*** presents 
         * same data format as above
       * time_point_stable: the timestamps of each stream when catching stablizes (i.e., the pose between the hands and the object keeps, relatively, approximately static).
 
+<br>
 
+* **log.xlsx**: logbook with the recording parameters of all takes. Please refer to ***<u>the section TODO in the paper</u>*** for detail.
+  * **{subject ID} sheet**: each sheet maintains all instructions received by a subject during recording and is named by the id of the subject. Each entry in the sheet describes one recording setting.
+    * no: the numbering of the entry in the spreadsheet, each entry 
+    * object: the name of the object
+    * equipped: if the subject is equipped with the helmet and the gloves to record data or not
+      * 1: equipped
+      * 0: not equipped
+    * action: the action that the subject is supposed to perform when recording
+      * throw
+      * catch
+    * hand: the instruction for using either single or both hands to perform the action.
+      * single
+      * both
+      * void: no constraint
+    * position: the initial (rough) position of the subject in the local rough coordinates ***<u>specified in the section TODO in the paper</u>***.
+      * x: in range [0, 1, 2, 3]
+      * y: in range [0, 1, 2, 3]
+    * height: the relative vertical position of hand immediately before performing the action. <u>***TODO: renamed as hand_vertical***</u>
+      * overhead
+      * overhand
+      * chest
+      * underhand
+      * void: no constraint
+    * horizon: the relative horizontal position of the hand immediately before performing the action. ***<u>TODO: renamed as hand_horizontal</u>***
+      * left
+      * middle
+      * right
+      * void: no constraint
+    * speed: the relative speed for the subject to throw the object. ***<u>TODO: renamed as throwing_speed in the released version</u>***
+      * fast
+      * normal
+      * slow 
+      * void: no constraint
+    * take_id: the id of the take
+    * success: the result of catching. ***<u>TODO: renamed as catch_result.</u>***
+      * 0: failed
+      * 1: success
+    * verified: if the recording has been verified. ***<u>TODO: removed in the released version</u>*** 
+      * 1: verified and no problem detected
+      * 0: verification not finished
+      * -1: problem detected
+    * annotated: if the annotation has been finished. ***<u>TODO: removed in the released version</u>***
+      * 1: finished
+      * 0: not finished
+* **subjects.csv**: the list of the subjects participating in the experiments
+* **objects.csv**: the list of used objects
 
 # Reference
 

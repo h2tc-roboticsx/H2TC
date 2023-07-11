@@ -1,6 +1,7 @@
 import os, sys
 from subprocess import run
 from argparse import ArgumentParser
+import shutil
 
 # get the absolute path of the current and root directory
 curr_path = os.path.dirname(os.path.abspath(__file__))
@@ -50,25 +51,33 @@ for zip_dir in zip_dirs:
     # for file_name in os.listdir(args.zip_dir):
     for path, dir_list, file_list in walk:
         for file_name in file_list:
-        
-            # filter out the files other than .zip
-            if file_name[-4:] != '.zip': continue
-
             # parse the take ID from the file name
             take_id = file_name[:-4]
             # path to raw data zip
             zip_path = os.path.join(path, file_name)
             
-            unzip_folder = os.path.join(unzip_path, 'data' ,take_id)
+            unzip_folder = os.path.join(path, take_id)
             if os.path.exists(unzip_folder): # the take folder already exists in the data directory
                 existed_takes.append(take_id)
             else: # the take folder not exists before
                 # unzip the raw data zip by running 'unzip '
-                # Note that the raw data is previously zipped in a directory structure like
-                # data/{take_id}/, so the unzipped take folder will be automatically put in the data directory
-                proc = run(['unzip', zip_path,'-d',unzip_path])
+                proc = run(['unzip', zip_path,'-d',path])
                 if proc.returncode != 0: # unzipping succeeds
                     failed_takes.append(take_id)
+                temp_folder = os.path.join(path,"data",take_id)
+                shutil.move(temp_folder, path)
+                shutil.rmtree(os.path.join(path,"data"))
+                # zip again
+                cwd = os.getcwd()
+                os.chdir(path)
+                shutil.make_archive(take_id, 'zip', path, base_dir=take_id)
+                os.chdir(cwd)
+                # run(['zip', '-r', take_id+'.zip',unzip_folder])
+                
+                shutil.rmtree(unzip_folder)
+                
+                
+                
 
 # report the takes that already exists in the data directory
 if len(existed_takes) != 0:
