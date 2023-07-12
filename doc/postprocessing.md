@@ -2,7 +2,10 @@
 
 ## The origin of the throw-catch zone
 
-The origin of our throw-catch zone refers to the bottom-left corner of the entire throw-catch zone as shown in [to be added]. As our data collection spans more than three months, during which, our throw-catch zone in the lab was moved twice. In total, there are 3 different transformation matrices collected for the origin after each movement of the throw-catch zone.
+The origin of our throw-catch zone refers to the bottom-left corner of the entire throw-catch zone as shown in below. As our data collection spans more than three months, during which, our throw-catch zone in the lab was moved twice. In total, there are 3 different transformation matrices collected for the origin after each movement of the throw-catch zone.
+
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/workspace.png" width = "400" alt="missing_data_anno" />
+
 
 Specifically, takes 0-2888 use origin \#0; takes 2889-9788 use origin \#1; and takes 9789-12905 use origin \#2.
 
