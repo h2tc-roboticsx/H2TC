@@ -203,16 +203,15 @@ a quick reference to the terms used above.
 
 3. ZED device SN
 
-   * 17471: the fixed third person view depth sensor
+   * 17471: the fixed third-person view depth sensor
    * 24483054: the dynamic egocentric view depth sensor
-   * 28280967: the fixed egocentric view depth sensor 
+   * 28280967:the fixed third-person (back) view depth sensor 
 
 4. Stream ID
 
    * rgbd0: the fixed third person view depth sensor
-
    * rgbd1: the dynamic egocentric view depth sensor
-   * rgbd2: the fixed egocentric view depth sensor 
+   * rgbd2: the fixed third-person (back) view depth sensor 
    * event: event camera
    * left_hand_pose: left hand pose recorded by Hand Engine
    * right_hand_pose: right hand pose recorded by Hand Engine

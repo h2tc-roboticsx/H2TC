@@ -212,21 +212,21 @@ Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main
 
 ### &#x2022; How to Process
 
-To run the tool, please: 
+To process the raw data, please follow the steps as below: 
 
-#### 1. Get the raw data
+#### Step 1) Get the raw data
 Download <a href="https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0">our captured raw data</a> (dropbox) to your `RAWDATAPATH` like below. Each recording of our raw data is packed in a .zip file.
 ```
 RAWDATAPATH
 └──011998.zip
 ```
 
-#### 2. Extract the raw data 
-Extract the packed raw data by running:
+#### Step 2) Extract the raw data 
+Run following command to extract the raw data to your target path: 
 ```
-python src/extract --srcpath RAWDATAPATH --tarpath YOURPATH
+python src/extract.py --srcpath RAWDATAPATH --tarpath YOURPATH
 ```
-`RAWDATAPATH` is the path where you downloaded the packed raw data in. `YOURPATH` is the target path where you want to extract the packed data to. 
+`RAWDATAPATH` is where you downloaded the packed raw data. `YOURPATH` is the target path where you want to extract the packed data. 
 After extraction done, each extracted recording should be under the folder `YOURPATH/data`. For example, the raw data of the recording "011998" should be organized in a way as below:
 
 <!-- * ***YOURPATH/***
@@ -255,17 +255,25 @@ YOURPATH
         └──optitrack.csv
 ```
 
- For a detailed explanation of each file, please refer to the post `/doc/data_file_explanation.md`.
+`{ZED-ID}` includes three ZED device IDs, `17471`, `24483054` and `28280967`, which are the fixed third-person (side) view, the dynamic egocentric view and the fixed third-person (back) view respectively.
+`{timestamp}` is a UNIX format timestamp recording event sensor's start moment. 
+For a detailed explanation of each file, please refer to the post [/doc/data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md).
 
-#### 3. Process the extracted data
-Once the data extracted and organized like step 2, simply run the following command with your data folder path:
+#### Step 3) Process the extracted data
+Once the data extracted and organized like step 2), simply run the following command with your data folder path:
 
 ```python
 python src/postprocess.py --datapath YOURPATH/data
 ```
 
-There are several parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail. 
+There are several arguments available to configure the processing. 
+|  Argument   | Meaning  | Default |
+|  :----:  | :----  | :----:  |
+| --takes  | ID of takes to be processed. Set None to process all takes in the 'data' directory. This can be given with a single integer number for one take or a range linked by '-', e.g., '10-12' for takes [000010, 000011, 000012] | None |
+| --fps_event  | FPS for decoding event data into frames | 60 |
+| --fps_zed  | FPS for decoding ZED RGBD frames, this should equal to the value used for recording | 60 |
 <!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_file_explanation.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail.  -->
+You can also check the code or running the command `python src/postprocess.py -h` for more detail. 
 
 <!-- (<small>Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two.</small> ) -->
  <!-- to produce only a minimum set of data required for annotation. By default, event streams are integrated over a fixed span of time into RGB frames, and depth maps are normalized over the pixels, for **visualization**. The command for this is 

@@ -47,9 +47,8 @@ argparser.add_argument('-d', "--duration", type=float, default=5,
                        help="the duration of recording in seconds")
 argparser.add_argument('-t', '--tolerance', type=float, default=0.1,
                        help="the tolerance of frame dropping in the percentage for all devices")
-argparser.add_argument('--he_dir', default=None,
-                       help="the alternative path to the directory of HE data. This should only be set when the HE data is not stored at the default directory.")
-
+# argparser.add_argument('--he_dir', default=None,
+#                        help="the alternative path to the directory of HE data. This should only be set when the HE data is not stored at the default directory.")
 argparser.add_argument('-da', '--depth_accuracy', choices=['float32', 'float64'], default=None,
                        help="By default (None), the unnormalized depth map is not exported. Set this to any float precision to enable the export of depth data in the format of unnormalized depth maps.")
 argparser.add_argument('--depth_img_format', choices=['png', 'jpg'], default='png',
@@ -58,7 +57,7 @@ argparser.add_argument('--xypt', action='store_true', default=False,
                        help='true to export event stream in xypt format')
 argparser.add_argument('--npy', action='store_true', default=False,
                        help='true to export depth stream in npy format')
-argparser.add_argument('--datapath', type=str, default="/home/ur-5/Projects/justlx/Sample_Cases/data",
+argparser.add_argument('--datapath', type=str, default="",
                        help='data path of all takes')
 
 # mapping from RGBD stream ID to ZED camera ID
@@ -253,17 +252,17 @@ def process(take, args):
     print("processing Hand Engine data")
     # path to HE raw data
     take_he_path = os.path.join(raw_dir, 'hand')
-    # if the raw data path not exists
-    if not os.path.exists(take_he_path):
-        # alternative path to HE raw data must be specified in the console args
-        assert args.he_dir is not None
-        # get all raw data directories of the take under the alternative HE directory
-        he_takes = [he_take for he_take in os.listdir(args.he_dir) if take in he_take]
-        # the last one is correct one when multiple takes with the same take id
-        he_path = os.path.join(args.he_dir, sorted(he_takes)[-1])
-        print('he_path: ', he_path)
-        # move the raw data directory to the path under the raw directory
-        shutil.copytree(he_path, take_he_path)
+    # # if the raw data path not exists
+    # if not os.path.exists(take_he_path):
+    #     # alternative path to HE raw data must be specified in the console args
+    #     assert args.he_dir is not None
+    #     # get all raw data directories of the take under the alternative HE directory
+    #     he_takes = [he_take for he_take in os.listdir(args.he_dir) if take in he_take]
+    #     # the last one is correct one when multiple takes with the same take id
+    #     he_path = os.path.join(args.he_dir, sorted(he_takes)[-1])
+    #     print('he_path: ', he_path)
+    #     # move the raw data directory to the path under the raw directory
+    #     shutil.copytree(he_path, take_he_path)
     
     # evaluate frame drop rate for LEFT hand 
     he.verify_frame_integrity(take_he_path, he.Hand.LEFT, args.duration, args.tolerance) 
