@@ -139,7 +139,10 @@ now you should be able to see the prompt indicating that these two applications 
 
 ## Data Processing
 
-Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data into the formats as below. 
+Our [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data into the commonly used formats as below. You can 
+* get raw/processed data as described in [our paper]() via [How to Process](#•-how-to-process), 
+* or design your [Customized Processing](#•-customized-processing).
+
 
 <table <table border="1" cellspacing="0">
     <tr>
@@ -212,10 +215,8 @@ Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main
 
 ### &#x2022; How to Process
 
-To process the raw data, please follow the next step-by-step guideline: 
-
 #### Step 1) Get the packed raw data
-Download <a href="https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0">our captured raw data</a> (dropbox) to your `RAWDATAPATH` like below. Each recording of our raw data is packed in a .zip file.
+Download <a href="https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0">our captured raw data</a> (dropbox) to your `RAWDATAPATH` like below. Each recording of our raw data is packed in a .zip file.
 ```
 RAWDATAPATH
 └──011998.zip
@@ -256,8 +257,7 @@ YOURPATH
 ```
 
 `{ZED-ID}` includes three ZED device IDs, `17471`, `24483054` and `28280967`, which are the fixed third-person (side) view, the dynamic egocentric view and the fixed third-person (back) view respectively.
-`{timestamp}` is a UNIX format timestamp recording event sensor's start moment. 
-For a detailed explanation of each file, please refer to the post [/doc/data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md).
+`{timestamp}` is a UNIX format timestamp recording event sensor's start moment. A detailed explanation of each file is in the post [/doc/data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md). 
 
 #### Step 3) Process the extracted data
 Once the data extracted and organized like step 2), simply run the following command with your data folder path:
@@ -266,7 +266,7 @@ Once the data extracted and organized like step 2), simply run the following com
 python src/postprocess.py --datapath YOURPATH/data
 ```
 
-It will process all available recordings in `YOURPATH/data`. When the processing finished, the raw and processed data files will be separately stored in their own directory like below. Raw data files will be moved into a new directory `raw/`. The processed data will be stored in `processed/`. The data hierarchy would be like Figure 7 of [our paper]().
+It will process all available recordings in `YOURPATH/data`. When the processing finished, the raw and processed data files will be separately stored in their own directory like below. Raw data files will be moved into a new directory `raw/`. The processed data will be stored in `processed/`. The data hierarchy would be like Figure 7 of [our paper](). A detailed explanation of each file is in the post [/doc/data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md). 
 
 ```
 YOURPATH
@@ -279,6 +279,8 @@ Note that we don't export depth.npy and event xypt.csv by default. As they are v
 ```python
 python src/postprocess.py --datapath YOURPATH/data --npy --xypt
 ```
+ `--npy` enables the output of 3-dimensional numpy arrary holding the unnormalized depth estimation of each frame, `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events. For more customized usage, please check [Customized Processing](#•-customized-processing). 
+
 <!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_file_explanation.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail.  -->
 <!-- (<small>Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two.</small> ) -->
  <!-- to produce only a minimum set of data required for annotation. By default, event streams are integrated over a fixed span of time into RGB frames, and depth maps are normalized over the pixels, for **visualization**. The command for this is 
@@ -287,7 +289,12 @@ python src/postprocess.py
 ``` -->
 
 ### &#x2022; Customized Processing 
-If you want to customize the processing, there are several arguments available to configure it. 
+If you want to customize the processing, please 
+  * first follow the steps 1) and 2) in [How to Process](#•-how-to-process) to get the organized data. 
+  * then in step 3), customize your commands via available arguments as below to configure processing. 
+You can check the code [/src/postprocess.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/postprocess.py) for more detail. 
+  * design your own processing by diving into the processing technical detail. Please refer to [/doc/postprocessing.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/postprocessing.md), which explains how we deal with optitrack, hand gloves as well as ZED data streams and how we align them. 
+
 |  Arguments   | Meanings  | Defaults |
 |  :----     | :----  | :----  |
 | takes     | ID of recordings to be processed. Set 'None' to process all recordings in the 'data' directory. This can be given with a single integer number for one take or a range linked by '-', e.g., '10-12' for recordings [000010, 000011, 000012]. | None |
@@ -301,8 +308,7 @@ If you want to customize the processing, there are several arguments available t
 | depth_accuracy   | Float precision for the unnormalized depth maps. The unnormalized depth maps are not exported by default until the 'npy' are set to true. Either 'float32' or 'float64'. | float32 |
 | datapath   | The raw data directory of recordings. Users need to specify it.   | None |
 
-You can also check the code [/src/postprocess.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/postprocess.py) for more detail. 
- For the technical detail of how we process the data, please refer to [/doc/postprocessing.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/postprocessing.md). 
+
 
 ### &#x2022; Trouble Shooting ❗
 
