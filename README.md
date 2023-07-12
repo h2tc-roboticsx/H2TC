@@ -173,7 +173,7 @@ Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main
         <td style="text-align: left;" rowspan="2">Event</td>
         <td style="text-align: left;">Binary events in EVT3.0 format</td>
         <td style="text-align: left;">.RAW</td>
-        <td style="text-align: left;">Events ($x, y, p, t$)</td>
+        <td style="text-align: left;">Events (<span class="math display">x, y, p, t</span>)</td>
         <td style="text-align: left;">.CSV</td>
     </tr>
     <tr >
