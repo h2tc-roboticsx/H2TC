@@ -102,6 +102,7 @@ You should also be able to record using ZED by running the official [sample](htt
 
 ## Recorder
 <details>
+<summary>Details</summary>
 
 Our recorder integrates the functionality of arranging the content to be recorded, recording with multiple devices, and annotating the result of the recording into one user-friendly interactive program. 
 
@@ -141,6 +142,7 @@ now you should be able to see the prompt indicating that these two applications 
 
 ## Data Processing
 <details>
+<summary>Details</summary>
 
 Our [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data into the commonly used formats as below. You can 
 * get raw/processed data as described in [our paper]() via [How to Process](#•-how-to-process), 
@@ -328,6 +330,7 @@ To fix this bug, one can simply reprocess the problematic takes following the `r
 
 ## Annotator
 <details>
+<summary>Details</summary>
 
 In case you want to annotate your custom-captured data with annotations as described in [our paper](), 
 we provide an annotation tool to label catch&throw activities with an interactive interface based on the processed data. 
