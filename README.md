@@ -139,7 +139,7 @@ now you should be able to see the prompt indicating that these two applications 
 
 ## Data Processing
 
-Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data into the format as below. 
+Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data into the formats as below. 
 
 <table <table border="1" cellspacing="0">
     <tr>
@@ -215,18 +215,18 @@ Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main
 To run the tool, please: 
 
 #### 1. Get the raw data
-Download <a href="https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0">our captured raw data</a> (dropbox) to your `XXXPATH` like below. Each recording of our raw data is packed in a .zip file.
+Download <a href="https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0">our captured raw data</a> (dropbox) to your `RAWDATAPATH` like below. Each recording of our raw data is packed in a .zip file.
 ```
-XXXPATH
+RAWDATAPATH
 └──011998.zip
 ```
 
 #### 2. Extract the raw data 
 Extract the packed raw data by running:
 ```
-python src/extract --srcpath XXXPATH --tarpath YOURPATH
+python src/extract --srcpath RAWDATAPATH --tarpath YOURPATH
 ```
-`XXXPATH` is the path where you downloaded the packed raw data in. `YOURPATH` is the target path where you want to extract the packed data to. 
+`RAWDATAPATH` is the path where you downloaded the packed raw data in. `YOURPATH` is the target path where you want to extract the packed data to. 
 After extraction done, each extracted recording should be under the folder `YOURPATH/data`. For example, the raw data of the recording "011998" should be organized in a way as below:
 
 <!-- * ***YOURPATH/***
