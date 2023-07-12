@@ -24,7 +24,7 @@ You can follow the steps to run from scratch:
 
 ## Dependencies
 <details>
-
+<summary>Details</summary>
 To run our code, some dependencies have to be installed. 
 
  ### System environment
