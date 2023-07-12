@@ -49,7 +49,7 @@ argparser.add_argument('-t', '--tolerance', type=float, default=0.1,
                        help="the tolerance of frame dropping in the percentage for all devices")
 # argparser.add_argument('--he_dir', default=None,
 #                        help="the alternative path to the directory of HE data. This should only be set when the HE data is not stored at the default directory.")
-argparser.add_argument('-da', '--depth_accuracy', choices=['float32', 'float64'], default=None,
+argparser.add_argument('-da', '--depth_accuracy', choices=['float32', 'float64'], default='float32',
                        help="By default (None), the unnormalized depth map is not exported. Set this to any float precision to enable the export of depth data in the format of unnormalized depth maps.")
 argparser.add_argument('--depth_img_format', choices=['png', 'jpg'], default='png',
                        help="image format of the exported RGB-D frames for ZED")
@@ -58,7 +58,7 @@ argparser.add_argument('--xypt', action='store_true', default=False,
 argparser.add_argument('--npy', action='store_true', default=False,
                        help='true to export depth stream in npy format')
 argparser.add_argument('--datapath', type=str, default="",
-                       help='data path of all takes')
+                       help='raw data path of all takes')
 
 # mapping from RGBD stream ID to ZED camera ID
 ZED_CAMS = {

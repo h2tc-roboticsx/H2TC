@@ -212,22 +212,22 @@ Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main
 
 ### &#x2022; How to Process
 
-To process the raw data, please follow the steps as below: 
+To process the raw data, please follow the next step-by-step guideline: 
 
-#### Step 1) Get the raw data
+#### Step 1) Get the packed raw data
 Download <a href="https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0">our captured raw data</a> (dropbox) to your `RAWDATAPATH` like below. Each recording of our raw data is packed in a .zip file.
 ```
 RAWDATAPATH
 └──011998.zip
 ```
 
-#### Step 2) Extract the raw data 
-Run following command to extract the raw data to your target path: 
+#### Step 2) Extract the packed raw data 
+Run following command to extract (unzip) the packed raw data to your target path: 
 ```
 python src/extract.py --srcpath RAWDATAPATH --tarpath YOURPATH
 ```
 `RAWDATAPATH` is where you downloaded the packed raw data. `YOURPATH` is the target path where you want to extract the packed data. 
-After extraction done, each extracted recording should be under the folder `YOURPATH/data`. For example, the raw data of the recording "011998" should be organized in a way as below:
+After extraction done, each extracted recording should be organized under the folder `YOURPATH/data`. For example, the raw data of the recording "011998" should be organized in a way as below:
 
 <!-- * ***YOURPATH/***
   * ***data/***
@@ -266,22 +266,8 @@ Once the data extracted and organized like step 2), simply run the following com
 python src/postprocess.py --datapath YOURPATH/data
 ```
 
-There are several arguments available to configure the processing. 
-|  Argument   | Meaning  | Default |
-|  :----:  | :----  | :----:  |
-| --takes  | ID of takes to be processed. Set None to process all takes in the 'data' directory. This can be given with a single integer number for one take or a range linked by '-', e.g., '10-12' for takes [000010, 000011, 000012] | None |
-| --fps_event  | FPS for decoding event data into frames | 60 |
-| --fps_zed  | FPS for decoding ZED RGBD frames, this should equal to the value used for recording | 60 |
-<!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_file_explanation.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail.  -->
-You can also check the code or running the command `python src/postprocess.py -h` for more detail. 
-
-<!-- (<small>Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two.</small> ) -->
- <!-- to produce only a minimum set of data required for annotation. By default, event streams are integrated over a fixed span of time into RGB frames, and depth maps are normalized over the pixels, for **visualization**. The command for this is 
-```python
-python src/postprocess.py
-``` -->
-
- After the processing finished, the raw and processed data files will be separately stored in their own directory like below. All raw data will be moved into a new directory `raw/`. The processed data is stored in `processed/`.
+It will process all available recordings in `YOURPATH/data`. When the processing finished, the raw and processed data files will be separately stored in their own directory like below. Raw data files will be moved into a new directory `raw/`. The processed data will be stored in `processed/`. The data hierarchy would be like Figure 7 of [our paper]().
+<small>(Note that we don't export depth.npy and event xypt.csv by default. As they are very time/space-consuming. If you need them, you can add '--npy' and '--xypt' to command. )</small>
 
 ```
 YOURPATH
@@ -290,13 +276,30 @@ YOURPATH
         ├──raw              - all raw data
         └──processed        - all processed data
 ```
-<!-- * ***YOURPATH/***
-  * ***data/***
-    * ***011998/***
-      * ***raw/***: all raw data
-      * ***processed/***: all processed data -->
+<!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_file_explanation.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail.  -->
+<!-- (<small>Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two.</small> ) -->
+ <!-- to produce only a minimum set of data required for annotation. By default, event streams are integrated over a fixed span of time into RGB frames, and depth maps are normalized over the pixels, for **visualization**. The command for this is 
+```python
+python src/postprocess.py
+``` -->
 
- The data hierarchy would be like Figure 7 of [our paper](). For the technical detail of how we process the data, please refer to `/doc/postprocessing.md`. 
+### &#x2022; Customized Processing 
+If you want to customize the processing, there are several arguments available to configure it. 
+|  Arguments   | Meanings  | Defaults |
+|  :----     | :----  | :----  |
+| takes     | ID of recordings to be processed. Set 'None' to process all recordings in the 'data' directory. This can be given with a single integer number for one take or a range linked by '-', e.g., '10-12' for recordings [000010, 000011, 000012]. | None |
+| fps_event | FPS for decoding event data into frames. | 60 |
+| fps_zed   | FPS for decoding ZED RGBD frames. This should equal to the value used for recording. | 60 |
+| duration   | The duration of recording in seconds. | 5 |
+| tolerance   | The tolerance of frame dropping in the percentage for all devices. | 0.1 |
+| depth_img_format   | Image format of the exported RGB-D frames for ZED data. Either 'png' or 'jpg'.  | png |
+| xypt   | Set true to export event stream in .xypt format. | False |
+| npy   | Set true to export depth stream in npy format.  | False |
+| depth_accuracy   | Float precision for the unnormalized depth maps. The unnormalized depth maps are not exported by default until the 'npy' are set to true. Either 'float32' or 'float64'. | float32 |
+| datapath   | The raw data directory of recordings. Users need to specify it.   | None |
+
+You can also check the code [/src/postprocess.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/postprocess.py) for more detail. 
+ For the technical detail of how we process the data, please refer to [/doc/postprocessing.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/postprocessing.md). 
 
 ### &#x2022; Trouble Shooting ❗
 
