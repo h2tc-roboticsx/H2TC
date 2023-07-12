@@ -267,7 +267,6 @@ python src/postprocess.py --datapath YOURPATH/data
 ```
 
 It will process all available recordings in `YOURPATH/data`. When the processing finished, the raw and processed data files will be separately stored in their own directory like below. Raw data files will be moved into a new directory `raw/`. The processed data will be stored in `processed/`. The data hierarchy would be like Figure 7 of [our paper]().
-<small>(Note that we don't export depth.npy and event xypt.csv by default. As they are very time/space-consuming. If you need them, you can add '--npy' and '--xypt' to command. )</small>
 
 ```
 YOURPATH
@@ -275,6 +274,10 @@ YOURPATH
     └──011998
         ├──raw              - all raw data
         └──processed        - all processed data
+```
+Note that we don't export depth.npy and event xypt.csv by default. As they are very time/space-consuming. If you need them, you can add '--npy' and '--xypt' to command. Like:
+```python
+python src/postprocess.py --datapath YOURPATH/data --npy --xypt
 ```
 <!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_file_explanation.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail.  -->
 <!-- (<small>Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two.</small> ) -->
