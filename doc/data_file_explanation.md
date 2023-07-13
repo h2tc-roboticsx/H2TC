@@ -1,5 +1,5 @@
 # Files Explanation
-This document explains the meaning of every term in every file used in [our dataset H<sup>2</sup>TC](https://lipengroboticsx.github.io/). For those specific digits, such as subject IDs or device IDs, the [reference](#reference) part exlpains their meanings. 
+This document explains the meaning of every term in every file used in [our dataset H<sup>2</sup>TC](https://lipengroboticsx.github.io/). For those specific digits, such as subject IDs or device IDs, the [reference](#reference) exlpains their meanings. 
 
 As illustrated in Figure 7 of [our paper](), the data is organized by take `data/take id` that contains multiple synchronized data streams of a recorded throw&catch activity. Our dataset also contains  multiple supporting files: `annotations` contains annotation flies which provide semantic and dense annotations, `subjects.csv` and `objects.csv` contain meta data of subjects and objects respectively, and `log.xlsx` contains recording logs. 
 
