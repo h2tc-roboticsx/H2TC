@@ -106,7 +106,7 @@ You should also be able to record using ZED by running the official [sample](htt
 
 Our recorder integrates the functionality of arranging the content to be recorded, recording with multiple devices, and annotating the result of the recording into one user-friendly interactive program. 
 
-**First**, enable all recording devices and ensure each of them function smoothly. Three ZED cameras and one Prophesee event camera should be wired to the host where the recorder program is supposed to run. StretchSense MoCap Pro gloves should be wireless connected to a Windows machine with its official client software Hand Engine running. OptiTrack server can be either operated on a separate host, recommended by us, or on the same host as any of the two aforementioned ones as long as the computational resource allows and the performance will not be thus compromised. You may need to configure the firewall on each machine to allow the UDP communication among them.
+**First**, enable all recording devices and ensure each of them function smoothly. Three ZED cameras and one Prophesee event camera should be wired to the host where the recorder program is supposed to run. StretchSense MoCap Pro gloves should be wireless connected to a Windows machine with its official client software [Hand Engine](https://stretchsense.com/solution/hand-engine/) running. OptiTrack server can be either operated on a separate host, recommended by us, or on the same host as any of the two aforementioned ones as long as the computational resource allows and the performance will not be thus compromised. You may need to configure the firewall on each machine to allow the UDP communication among them.
 
 **Second**, update the configuration in our OptiTrack NatNet client code and rebuild the NatNet client. You need to set the values of OptiTrack server IP address (`char* ip_address`), recorder IP address (`servaddr.sin_addr`), and recorder port (`PORT`) according to your network setting in the file `/src/natnet_client/src/example_main.cpp`. 
 
@@ -136,7 +136,7 @@ now you should be able to see the prompt indicating that these two applications 
 
 <!-- <u>***TODO pictures of connection established.***</u> -->
 
-**Last**, operate the main recorder to record following the interactive instruction. The main recorder will automatically communicate with and command Hand Engine and NatNet client to record. Nevertheless, we do recommend you to regularly check Hand Engine and NatNet client to see if bug.
+**Last**, operate the main recorder to record following the interactive instruction. The main recorder will automatically communicate with and command [Hand Engine](https://stretchsense.com/solution/hand-engine/) and NatNet client to record. Nevertheless, we do recommend you to regularly check [Hand Engine](https://stretchsense.com/solution/hand-engine/) and NatNet client to see if bug.
 </details>
 <!-- <u>***TODO picture of a complete take***</u> -->
 

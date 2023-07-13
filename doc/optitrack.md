@@ -89,7 +89,7 @@ where `rotY` is the extra rotation expressed in the form of a 4 x 4 transformati
  [0.0, 0.0, 0.0, 1.0]]
 ```
 
-## Integrate optitrack motion with hand engine pose
+## Integrate optitrack motion with [Hand Engine](https://stretchsense.com/solution/hand-engine/) pose
 
 For each frame (e.g., if 60 fps, then 300 frames in total for a 5s long motion sequence), the translation, i.e., `x,y,z` positions in the `object_tc_transformation_matrix` are used as the metacarpal joint of the hand. Starting from the metacarpal joint, the entire hand is then recovered using forward kinematics with captured hand joint angles (i.e., XYZ euler angles) and the defined bone length. The two functions `plot_left_hand` and `plot_right_hand` in `plot_motion.py` are used to reconstruct the left and right hands respectively.
 

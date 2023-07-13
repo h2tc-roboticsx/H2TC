@@ -3,7 +3,7 @@ postprocess.py
 
 Lin Li (linli.tree@outlook.com) / 21 Sep. 2022 (last modified)
 
-Formating and processing the raw data of ZED cameras, Event camera, OptiTrack and Hand Engine.
+Formating and processing the raw data of ZED cameras, Event camera, OptiTrack and [Hand Engine](https://stretchsense.com/solution/hand-engine/).
 
 Contributions:
 

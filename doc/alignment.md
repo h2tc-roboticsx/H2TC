@@ -50,7 +50,7 @@ Alignment.json file essentially saves a dictionary whose key is the frame number
     ...
 }
 ```
-If the timestamp of a data stream is missing in certain frames, its value will be `null` as shown in the above example. Such situation is rare, and it is mainly caused by 1) the Optitrack when the tracked object is occluded; or 2) by Hand Engine when the data transmission is congested; or 3) the open of the event camera lags slightly behind the RGBD0 camera. Therefore, the corresponding timestamp is missing.
+If the timestamp of a data stream is missing in certain frames, its value will be `null` as shown in the above example. Such situation is rare, and it is mainly caused by 1) the Optitrack when the tracked object is occluded; or 2) by [Hand Engine](https://stretchsense.com/solution/hand-engine/) when the data transmission is congested; or 3) the open of the event camera lags slightly behind the RGBD0 camera. Therefore, the corresponding timestamp is missing.
 
 ### How to create an alignment.json file
 We use the timestamps of **RGBD0 camera** as the reference. Therefore, the total number of frames saved in the `alignment.json` is equal to the number of timestamps recorded by **RGBD0 camera**. 
