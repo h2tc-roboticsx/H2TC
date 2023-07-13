@@ -161,8 +161,11 @@ Before reading the file details below, please check the [annotation document](ht
     * hand_horizontal: the relative horizontal position of the hand of the catcher at the moment `catch (stable)`.
     * position: the location of the catcher in our coordinates at the moment `catch (touch)`.
     * time_point_touch: the timestamps of streams when catching happens (i.e., when the hand of the catcher first touches the object in the flight).
-      * same data format as above "time_point"
+      * stream id
+        * frame: the frame index of the corresponding stream
+        * timestamp: the UNIX timestamp in nanoseconds of the corresponding stream 
     * time_point_stable: the timestamps of streams when catching stabilizes (i.e., the hands and the object keeps relatively stable).
+      * same data format as above "time_point_touch"
 <!-- </details> -->
 <br>
 
