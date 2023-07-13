@@ -262,7 +262,7 @@ YOURPATH
 ```
 
 `{ZED-ID}` includes three ZED device IDs, `17471`, `24483054` and `28280967`, which are the fixed third-person (side) view, the dynamic egocentric view and the fixed third-person (back) view respectively.
-`{timestamp}` is a UNIX format timestamp recording event sensor's start moment. A detailed explanation of each file is in the post [/doc/data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md). 
+`{timestamp}` is a UNIX format timestamp recording event sensor's start moment. A detailed explanation of each file is in the post [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md). 
 
 #### Step 3) Process the extracted data
 Once the data extracted and organized like step 2), simply run the following command with your data folder path:
@@ -271,7 +271,7 @@ Once the data extracted and organized like step 2), simply run the following com
 python src/postprocess.py --datapath YOURPATH/data
 ```
 
-It will process all available recordings in `YOURPATH/data`. When the processing finished, the raw and processed data files will be separately stored in their own directory like below. Raw data files will be moved into a new directory `raw/`. The processed data will be stored in `processed/`. The data hierarchy would be like Figure 7 of [our paper](). A detailed explanation of each file is in the post [/doc/data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md). 
+It will process all available recordings in `YOURPATH/data`. When the processing finished, the raw and processed data files will be separately stored in their own directory like below. Raw data files will be moved into a new directory `raw/`. The processed data will be stored in `processed/`. The data hierarchy would be like Figure 7 of [our paper](). A detailed explanation of each file is in the post [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md). 
 
 ```
 YOURPATH
@@ -297,7 +297,7 @@ python src/postprocess.py
 If you want to customize the processing, please 
   * first follow the steps 1) and 2) in [How to Process](#•-how-to-process) to get the organized data. 
   * then in step 3), customize your commands via available arguments as below to configure processing. 
-You can check the code [/src/postprocess.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/postprocess.py) for more detail. 
+You can check the code [`/src/postprocess.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/postprocess.py) for more detail. 
   * design your own processing by diving into the processing technical detail. Please refer to [/doc/postprocessing.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/postprocessing.md), which explains how we deal with optitrack, hand gloves as well as ZED data streams and how we align them. 
 
 |  Arguments   | Meanings  | Defaults |
