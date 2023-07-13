@@ -80,7 +80,7 @@ def process(take, args):
 
     Returns: 
         None
-    
+
     Args:
         take (string); the id of the take
         args (dict): arguments parsed from the console
