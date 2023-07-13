@@ -20,6 +20,7 @@ To distinguish, hereafter, the **file** presents **bold**, while the ***folder**
 
 ## Data
 <!-- <details><summary>Explanation about all files in data folder</summary> -->
+Before reading the file details below, please check the [data processing document](https://github.com/lipengroboticsx/H2TC_code/tree/main/#data-processing) first to capture how we process data.
 
 * ***{take ID}/***: take folder named by the take id, e.g. 000000.
   * ***raw/***: raw data directly exported by each recording device. Note that the raw data **not used** in the processing is highlighted by the <u>underline</u>.
@@ -90,7 +91,7 @@ To distinguish, hereafter, the **file** presents **bold**, while the ***folder**
     * **right_hand_pose.csv**: similar pose data as `left_hand_pose.csv` but for right hand produced based on `/raw/hand/P1R.csv`.
     * **sub1_head_motion.csv**: the position and orientation of the subject1's helmet corresponding to the OptiTrack object 115 in `/raw/optitrack.csv`.
       * timestamp: the same timestamp as in raw data file `/raw/optitrack.csv`.
-      * x, y, z: the position of the object in our coordinate system. Note that our coordinate is Y-up, and the origin point is at the bottom left (see Figure. 3 in [our paper]()).
+      * x, y, z: the position of the object in our coordinate system. Note that our coordinate is Y-up, and the origin point is at the bottom left (see Figure 3 in [our paper]()).
       * qx, qy, qz, qw: the quaternion orientation of the object in our coordinate system. 
     * **sub1_left_hand_motion.csv**: the subject1's  left hand motion (OptiTrack object id is 117 in `/raw/optitrack.csv`). Similar data structure as `sub1_head_motion.csv`. 
     * **sub1_right_hand_motion.csv**: the subject1's  right hand motion (OptiTrack object id is 116 in `/raw/optitrack.csv`). Similar data structure as `sub1_head_motion.csv`. 
@@ -104,58 +105,64 @@ To distinguish, hereafter, the **file** presents **bold**, while the ***folder**
 
 ## Annotations
 <!-- <details><summary>Exlanation about annotation labels </summary> -->
-
-* **{take ID}.json**: metadata and the annotation data of the take
-  * status: annotation status. 
+Before reading the file details below, please check the [annotation document](https://github.com/lipengroboticsx/H2TC_code/tree/main/#annotator) first to capture how we annotate data. 
+* **{take ID}.json**: metadata and the annotation data of the take. 
+  * status: annotation status.
     * 0: not finished
     * 1: finished
     * -1: problematic, need further inspect
-  * take_id: the id of the take
-  * object: the name of the object being thrown or caught in this take
-  * catch_result: the result of catching
+  * take_id: the index of the take.
+  * object: the name of the object being thrown or caught in this take.
+  * catch_result: the result of catching.
     * 0: failed
     * 1: success
-  * sub1_cmd: the command given to the subject 1 to instruct the behavior of throwing or catching. Please refer to log.xlsx for the explanation of the attributes below.
+  * sub1_cmd: the command given to the subject 1 to instruct the behavior of throwing or catching. See [Sec. Protocol in our paper]() for more instructions details. Please refer to [log.xlsx](#supporting-files) for the explanation of the attributes below.
     * subject_id: the id of the subject 1
-    * hand: single or both
-    * position: 2 dimensional, discrete, 4x4 position e.g. (2, 2)
-    * action: throw or catch
-  * sub2_cmd: the command given to the subject 2.
+    * hand: grasp mode, `single` or `both`
+    * position: 2 dimensional location (x, z)
+    * action: `throw` or `catch`
+  * sub2_cmd: the command given to the subject 2. See [Sec. Protocol in our paper]() for more instructions details and check [Figure 3 in our paper]() for hand vertical/horizontal locations.  
     * subject_id: the id of the subject 2
-    * hand: single or both
-    * position: 2 dimensional, discrete, 4x4 position e.g. (2, 2)
-    * action: throw or catch
-    * hand_vertical: relative vertical position of the hand like "overhead"
-    * hand_horizontal: relative horizontal position of the hand like "middle"
-      * this attribute is only given when the action to be performed by the subject 2 is catch.
-    * throwing_speed: the speed of throwing away the object like "fast"
-      * this is only given when the action to be performed by the subject 2 is throw
-  * throw: annotation data for the action throw.
-    * hand: "left, right or both" hands for throwing the object
-      * this is different from "hand" in the subjects' command concerning the replacement of "single" with "left" and "right"
-    * hand_vertical_thrower: the relative vertical position of the hand, like "overhead", of the thrower at the moment *throw*.
-      * same options as above
-    * hand_vertical_catcher: the relative vertical position of the hand of the catcher at the moment *throw*.
-    * hand_horizontal_thrower: the relative horizontal position of the hand, like "left", of the thrower at the moment *throw*.
-    * hand_horizontal_catcher: the relative horizontal position of the hand of the catcher at the moment *throw*.
-    * position_thrower: the position of the thrower in the local coordinates at the moment *throw*. 
-      * x, z: 2 dimensional, real number, position
-      * this is different from the "position" in the previous subject command like "sub2_cmd"
-    * position_catcher: the position of the catcher in the local coordinates at the moment *throw*.
-      * x, z: 2 dimensional, real number, position
+    * hand: grasp mode, `single` or `both`
+    * position: 2 dimensional location (x, z)
+    * action: `throw` or `catch`
+    * hand_vertical: relative vertical position of the hand
+      * value: `overhead`, `overhand`, `chest` or `underhand`
+    * hand_horizontal: relative horizontal position of the hand
+      * value: `right`, `middle` or `left` 
+      * this attribute is only given when the action to be performed by the subject 2 is `catch`.
+    * throwing_speed: the speed of throwing away the object 
+      * value: `fast`, `normal` or `slow`
+      * this is only given when the action to be performed by the subject 2 is `throw`
+  * throw: annotation data for the moment `throw`.
+    * hand: grasp mode for throwing the object
+      * value: `left`, `right` or `both`
+      * this is different from "hand" in the subjects' command in two ways: 1) It replaces the `single` with `left` and `right`; 2) It represents the thrower's hand action in the experiment, which may be different from the command. 
+    * hand_vertical_thrower: the relative vertical position of the hand of the thrower at the moment `throw`.
+      * value: `overhead`, `overhand`, `chest` or `underhand`
+    * hand_vertical_catcher: similar to above "hand_vertical_thrower" but for the catcher
+    * hand_horizontal_thrower: the relative horizontal position of the hand of the thrower at the moment `throw`.
+      * value: `right`, `middle` or `left` 
+    * hand_horizontal_catcher: similar to above "hand_horizontal_thrower" but for the catcher
+    * position_thrower: the location of the thrower in our coordinates at the moment `throw`. 
+      * x, z: 2 dimensional position
+      <!-- * this is different from the `position` in the previous subject command like "sub2_cmd" -->
+    * position_catcher: the location of the catcher in our coordinates at the moment `throw`.
+      * x, z: 2 dimensional position
     * object_flying_speed: the flying speed of the thrown-away object in an unit of m/s.
-    * time_point: the timestamps of each stream at the moment *throw*. An object is concerned as thrown out when there is no contact observed between the object and the hand.
+    * time_point: the timestamps of streams at the moment `throw`. 
       * stream id
-        * frame: the frame number of the corresponding stream
-        * timestamp: the UNIX timestamp in nanoseconds of the corresponding stream (retrieved from the corresponding timestamp file)
-  * catch: annotation data for the action catch
-    * hand: "left, right or both" hands for catching the object
-    * hand_vertical: the relative vertical position of the hand of the catcher at the moment *catch (stable)*.
-    * hand_horizontal: the relative horizontal position of the hand of the catcher at the moment *catch (stable)*.
-    * position: the position of the catcher in the local coordinates at the moment *catch (touch)*.
-    * time_point_touch: the timestamps of each stream when catching happens (i.e., when the hand of the catcher first touches the object in the flight).
-      * same data format as above
-    * time_point_stable: the timestamps of each stream when catching stablizes (i.e., the pose between the hands and the object keeps, relatively, approximately static).
+        * frame: the frame index of the corresponding stream
+        * timestamp: the UNIX timestamp in nanoseconds of the corresponding stream 
+  * catch: annotation data for the moment `catch`
+    * hand: grasp mode for catching the object
+      * value: `left`, `right` or `both`
+    * hand_vertical: the relative vertical position of the hand of the catcher at the moment `catch (stable)`.
+    * hand_horizontal: the relative horizontal position of the hand of the catcher at the moment `catch (stable)`.
+    * position: the location of the catcher in our coordinates at the moment `catch (touch)`.
+    * time_point_touch: the timestamps of streams when catching happens (i.e., when the hand of the catcher first touches the object in the flight).
+      * same data format as above "time_point"
+    * time_point_stable: the timestamps of streams when catching stabilizes (i.e., the hands and the object keeps relatively stable).
 <!-- </details> -->
 <br>
 
