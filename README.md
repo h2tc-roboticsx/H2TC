@@ -20,8 +20,8 @@ You can follow the steps to run from scratch:
 
 
 ## Dependencies
-<details>
-<summary>Details</summary>
+<!-- <details> -->
+<!-- <summary>Details</summary> -->
 To run our code, some dependencies have to be installed. 
 
  ### System environment
@@ -93,13 +93,13 @@ metavision_viewer
 <!-- <u>***TODO: picture of running successfully***</u> -->
 
 You should also be able to record using ZED by running the official [sample](https://github.com/stereolabs/zed-examples/tree/master/svo%20recording/recording/python). If you don't have a camera or don't intend to record, you could just check if `pyzed` and `metavision_core` modules can be successfully imported in your python program. If any failure, you should inspect your installation if done manually and, unfortunately, troubleshooting this is beyond the scope of this instruction.
-</details>
+<!-- </details> -->
 
 
 
 ## Recorder
-<details>
-<summary>Details</summary>
+<!-- <details>
+<summary>Details</summary> -->
 
 Our recorder integrates the functionality of arranging the content to be recorded, recording with multiple devices, and annotating the result of the recording into one user-friendly interactive program. 
 
@@ -134,12 +134,12 @@ now you should be able to see the prompt indicating that these two applications 
 <!-- <u>***TODO pictures of connection established.***</u> -->
 
 **Last**, operate the main recorder to record following the interactive instruction. The main recorder will automatically communicate with and command [Hand Engine](https://stretchsense.com/solution/hand-engine/) and NatNet client to record. Nevertheless, we do recommend you to regularly check [Hand Engine](https://stretchsense.com/solution/hand-engine/) and NatNet client to see if bug.
-</details>
+<!-- </details> -->
 <!-- <u>***TODO picture of a complete take***</u> -->
 
 ## Data Processing
-<details>
-<summary>Details</summary>
+<!-- <details>
+<summary>Details</summary> -->
 
 Our [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data into the commonly used formats as below. You can 
 * get raw/processed data as described in [our paper]() via [How to Process](#•-how-to-process), 
@@ -323,11 +323,11 @@ If you want so, you have to manually remove the existing, processed, data. If yo
 The current mechanism allows for maximally 10 failed attempts to decode (or grab in ZED term) a frame. After failed more 10 times, the decoding will abort and the processing will continue to the next part e.g. next ZED device or next stream. The frames have been decoded will be stored, while the rest frames will be ignored. This issue usually happens when decoding the last frame.
 
 To fix this bug, one can simply reprocess the problematic takes following the `reprocess the processed take`. 
-</details>
+<!-- </details> -->
 
 ## Annotator
-<details>
-<summary>Details</summary>
+<!-- <details> -->
+<!-- <summary>Details</summary> -->
 
 In case you want to annotate your custom-captured data with annotations as described in [our paper](), 
 we provide an annotation tool to label catch&throw activities with an interactive interface based on the processed data. 
@@ -439,4 +439,4 @@ If no frame is qualified, the entire take should be annotated as "problematic" a
 <!-- #### 4. Wrong result of catching
 In some cases, the result of catching can be miss-typed during recording. 
 For example, a take was labeled as "success" (should be "failed") but the catcher actually failed to catch the object. This should be corrected alongside the annotation. One should leave the take unannotated in the annotator program and manually correct this by editing the value of the "success" column in the logbook `/log.xlsx`.  Note that the annotator program will automatically filter out the takes labeled as "failed", so only the case of false "success" is possible to appear during annotation. -->
-</details>
+<!-- </details> -->

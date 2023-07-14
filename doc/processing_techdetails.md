@@ -59,7 +59,7 @@ As our data collection spans more than three months, during which, our throw-cat
 | 9789-12905 |\#2   |         
 
 
-To transfer these different optitrack coordinates to [our coordinate](#our-coordinate-setting), we apply coordinate transformation via the 4 x 4 transformation matrices captured in the original optitrack system (shown in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)). The specific transformation matrices are shown in [here](#system-id-and-transformation-matrix). 
+To transfer these different optitrack coordinates to [our coordinate](#our-coordinate-setting), we apply coordinate transformation via the 4 x 4 transformation matrices captured in the original optitrack system (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)). The specific transformation matrices are shown in [here](#system-id-and-transformation-matrix). 
 <!-- 
 ```
 object_tc_transformation_matrix = np.matmul(origin_transformation_matrix, object_optitrack_raw_transformation_matrix)
