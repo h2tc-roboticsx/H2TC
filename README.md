@@ -19,9 +19,6 @@ You can follow the steps to run from scratch:
 4. (Optional) [Annotate](#annotator) the processed data. You can use the annotator to label your own captured data. 
 
 
-
-
-
 ## Dependencies
 <details>
 <summary>Details</summary>
