@@ -10,7 +10,7 @@ import glob
 
 def align(opt_path, rgbd0_path, rgbd1_path, rgbd2_path, event_path, opti_paths, he_paths):
     '''
-    This function is to be called by postprocess.py to align timestamps of different streams
+    This function is to be called by process.py to align timestamps of different streams
     INPUT:
         opt_path: output path for saving the alignment.json file
         rgbd0_path: rgbd0 camera timestamp file path

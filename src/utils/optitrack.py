@@ -133,7 +133,7 @@ def get_timestamp(df, object_id):
 def get_t_matrix(df, object_id, local_sys_id, t_matrix_type='global', rotate_right_hand=-1, rotate_left_hand=-1, rotate_helmet_headband=False):
     '''
     Get transformation matrix from optitrack's raw data.
-    This function will be called in postprocess.py
+    This function will be called in process.py
     INPUT:
         df: pandas dataframe of the optitrack's raw data
         object_id: object id
@@ -303,7 +303,7 @@ def save_tum_to_file(tum_format, filepath):
 
 def convert(ipt_path, opt_path, local_sys_id, t_matrix_type, rotate_right_hand, rotate_left_hand, rotate_helmet_headband):
     '''
-    postprocess.py will call this function to save all tracked objects in a take into separate csv files.
+    process.py will call this function to save all tracked objects in a take into separate csv files.
     Each csv file contains the trajectory data of tum format [URL to be added]
     INPUT:
         ipt_path: the file path of the raw optitrack data - optitrack.csv

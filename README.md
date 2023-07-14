@@ -40,7 +40,7 @@ We have not tested our code on other development environments, so you are recomm
 
 ### Softwares
 
-Apart from them, there are two more applications you have to check if you have in order to run the **postprocessing** script:
+Apart from them, there are two more applications you have to check if you have in order to run the **processing** script:
 
 * spd-say: text-to-voice convertor.
 * ffmpeg: video decoder
@@ -268,7 +268,7 @@ YOURPATH
 Once the data extracted and organized like step 2), simply run the following command with your data folder path:
 
 ```python
-python src/postprocess.py --datapath YOURPATH/data
+python src/process.py --datapath YOURPATH/data
 ```
 
 It will process all available recordings in `YOURPATH/data`. When the processing finished, the raw and processed data files will be separately stored in their own directory like below. Raw data files will be moved into a new directory `raw/`. The processed data will be stored in `processed/`. The data hierarchy would be like Figure 7 of [our paper](). A detailed explanation of each file in data folder is in the post [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data). 
@@ -282,23 +282,23 @@ YOURPATH
 ```
 Note that we don't export depth.npy and event xypt.csv by default. As they are very time/space-consuming. If you need them, you can add '--npy' and '--xypt' to command. Like:
 ```python
-python src/postprocess.py --datapath YOURPATH/data --npy --xypt
+python src/process.py --datapath YOURPATH/data --npy --xypt
 ```
  `--npy` enables the output of 3-dimensional numpy arrary holding the unnormalized depth estimation of each frame, `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events. For more customized usage, please check [Customized Processing](#•-customized-processing). 
 
-<!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_file_explanation.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail.  -->
+<!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_file_explanation.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/process.py -h` for more detail.  -->
 <!-- (<small>Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two.</small> ) -->
  <!-- to produce only a minimum set of data required for annotation. By default, event streams are integrated over a fixed span of time into RGB frames, and depth maps are normalized over the pixels, for **visualization**. The command for this is 
 ```python
-python src/postprocess.py
+python src/process.py
 ``` -->
 
 ### &#x2022; Customized Processing 
 If you want to customize the processing, please 
-  * first follow the steps 1) and 2) in [How to Process](#•-how-to-process) to get the organized data. 
+  * first follow the steps 1) and 2) in [How to Process](#•-how-to-process) to get the organized raw data. 
   * then in step 3), customize your commands via available arguments as below to configure processing. 
-You can check the code [`/src/postprocess.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/postprocess.py) for more detail. 
-  * design your own processing by diving into the processing technical detail. Please refer to [`/doc/postprocessing.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/postprocessing.md), which explains how we deal with optitrack, hand gloves as well as ZED data streams and how we align them. 
+You can check the code [`/src/process.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py) for more detail. 
+  * design your own processing by diving into the processing technical detail [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md). This document explains how we deal with optitrack tracking data, hand gloves pose data as well as ZED RGBD data and how we do time alignment. 
 
 |  Arguments   | Meanings  | Defaults |
 |  :----     | :----  | :----  |

@@ -1,6 +1,6 @@
 * **data_structure_concise.md**: an overview of the entire file organization and the data structure of the raw and processed data.
 * **data_structure_full.md**: full detail of the file organization and data structure.
-* **postprocessing.md**: the technical detail of how raw data is processed.
+* **processing_techdetails.md**: the technical detail of how raw data is processed.
 * **stream_sync.md**: the mechanism of timestamp generation and synchronizing different streams.
 * **hardware_setup.md**: the instruction of setting up hardware for recording
 * **alignment.md**: the explanation of timestamp alignment, which uses RGBD0 camera's timestamp as reference.

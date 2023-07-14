@@ -174,7 +174,7 @@ def plot_right_hand(ax, opti_t_matrix, records, color_list):
 
 def plot_hand_pose_and_motion(data_root, local_sys_id, rotate_right_hand, rotate_left_hand):
 	'''
-	This function will be called by postprocess.py to plot both hands and object's trajectory if 
+	This function will be called by process.py to plot both hands and object's trajectory if 
 	the object is attached with markers
 	INPUT:
 		data_root: data root of the current take
