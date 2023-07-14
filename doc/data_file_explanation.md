@@ -173,7 +173,7 @@ Before reading the file details below, please check the [annotation document](ht
 <!-- <details><summary>Exlanation about subjects/objects.csv and log.xlsx </summary> -->
 * **subjects.csv**: the list of the subjects participating in the experiments
 * **objects.csv**: the list of used objects
-* **log.xlsx**: logbook with the recording parameters of all takes. Please refer to ***<u>the section TODO in the paper</u>*** for detail.
+* **log.xlsx**: logbook with the recording parameters of all takes. 
   * **{subject ID} sheet**: each sheet maintains all instructions received by a subject during recording and is named by the id of the subject. Each entry in the sheet describes one recording setting.
     * no: the index of the entry in the spreadsheet, each entry 
     * object: the name of the object
@@ -187,34 +187,34 @@ Before reading the file details below, please check the [annotation document](ht
       * single
       * both
       * void: no constraint
-    * position: the initial (rough) position of the subject in the local rough coordinates ***<u>specified in the section TODO in the paper</u>***.
+    * position: the initial (rough) position of the subject in the local rough coordinates 
       * x: in range [0, 1, 2, 3]
       * y: in range [0, 1, 2, 3]
-    * height: the relative vertical position of hand immediately before performing the action. <u>***TODO: renamed as hand_vertical***</u>
+    * height: the relative vertical position of hand immediately before performing the action. 
       * overhead
       * overhand
       * chest
       * underhand
       * void: no constraint
-    * horizon: the relative horizontal position of the hand immediately before performing the action. ***<u>TODO: renamed as hand_horizontal</u>***
+    * horizon: the relative horizontal position of the hand immediately before performing the action. 
       * left
       * middle
       * right
       * void: no constraint
-    * speed: the relative speed for the subject to throw the object. ***<u>TODO: renamed as throwing_speed in the released version</u>***
+    * speed: the relative speed for the subject to throw the object. 
       * fast
       * normal
       * slow 
       * void: no constraint
     * take_id: the id of the take
-    * success: the result of catching. ***<u>TODO: renamed as catch_result.</u>***
+    * success: the result of catching. 
       * 0: failed
       * 1: success
-    * verified: if the recording has been verified. ***<u>TODO: removed in the released version</u>*** 
+    * verified: if the recording has been verified. 
       * 1: verified and no problem detected
       * 0: verification not finished
       * -1: problem detected
-    * annotated: if the annotation has been finished. ***<u>TODO: removed in the released version</u>***
+    * annotated: if the annotation has been finished. 
       * 1: finished
       * 0: not finished
 
