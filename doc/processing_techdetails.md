@@ -14,7 +14,7 @@ Here is an overview of this document:
 ### Used Devices
 We use a variety of specialized motion tracking and visual streaming devices to capture our dataset as illustrated below. The details about our recording framework are introduced in [Sec. 4 Recording Framework in our paper](). 
 
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hardware.png" width = "800" alt="hardware" />
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hardware.png" width = "1000" alt="hardware" />
 
 | Device | Manufacturer | Recording Content |FPS |Resolution  |
 |:-----|:-----:|:-----:|:-----:|:-----:|
@@ -28,7 +28,7 @@ We use a variety of specialized motion tracking and visual streaming devices to 
 
 As shown below, the **origin** of our throw-catch zone refers to the bottom-left corner of the entire throw-catch zone. The coordinate **axes** are set up as follows: XZ plane is parallel to the ground with Z-axis along the *5 m* (*2m + 1m + 2m*) side and X-axis along the *2 m* side. Y-axis is perpendicular up to the XZ plane. 
 
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/workspace.png" width = "400" alt="workspace" />
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/workspace.png" width = "600" alt="workspace" />
 
 <!-- ### Note 
 * Headband and helmet coordinate system. 
