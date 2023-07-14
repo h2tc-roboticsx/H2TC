@@ -109,7 +109,7 @@ def process(take, args):
 
     ts_paths = [] # list with timestamp filepath of all streams ZEDx3, Event, optitrack, HEx2
 
-    print("processing ZED")
+    print("processing RGBD streams")
     # iterate through three ZED streams
     for stream_id in ['rgbd0', 'rgbd1', 'rgbd2']:
         # get the camera ID by the stream ID
@@ -249,7 +249,7 @@ def process(take, args):
         ts_paths.append(opi_paths)
 
     
-    print("processing Hand Engine data")
+    print("processing hands gloves data")
     # path to HE raw data
     take_he_path = os.path.join(raw_dir, 'hand')
     # # if the raw data path not exists

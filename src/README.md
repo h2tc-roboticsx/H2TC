@@ -1,6 +1,6 @@
 # Source code
 This folder contains the source codes of our tools introduced in [our paper]() and [our project website](https://lipengroboticsx.github.io). 
-If you want to utilize the tools to deal with your data, please follow the guideline [Run from Scratch](https://github.com/lipengroboticsx/H2TC_code/tree/main#run-from-scratch). 
+If you want to utilize the tools to deal with your data, please follow the guideline in [Run from Scratch](https://github.com/lipengroboticsx/H2TC_code/tree/main#run-from-scratch). 
 
 Briefly, here is an overview of our tools:
 

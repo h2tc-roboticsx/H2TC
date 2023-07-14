@@ -295,7 +295,7 @@ If you want to customize the processing, please
   * first follow the steps 1) and 2) in [How to Process](#•-how-to-process) to get the organized raw data. 
   * then in step 3), customize your commands via available arguments as below to configure processing. 
 You can check the code [`/src/process.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py) for more detail. 
-  * design your own processing by diving into the processing technical detail [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md). This document explains how we deal with optitrack tracking data, hand gloves pose data as well as ZED RGBD data and how we do time alignment. 
+  * design your own processing by diving into the processing technical details [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md). This document explains how we coordinate those multi-modal, cross-device data and how we do time alignment among them. 
 
 |  Arguments   | Meanings  | Defaults |
 |  :----     | :----  | :----  |
