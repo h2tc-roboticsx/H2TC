@@ -5,19 +5,22 @@ Considering readers may want to design their customized processing, we introduce
 
 
 ## Our Workspace
+### Used Devices
+| Device | Manufacturer | Recording Content |FPS |Resolution  |
+|:-----|:-----:|:-----:|:-----:|:-----:|
+| ① Gloves | [StretchSense MoCap Pro](https://stretchsense.com/) | Hand Pose | 120 | - |
+| ②⑤ Tracker | [OptiTrack](https://optitrack.com/) |  Human Motion | 240 | - |
+| ③ Event Camera | [Prophesee](https://www.prophesee.ai/) | Event | - | 1280x720 |
+| ④ ZED Camera | [Stereolabs](https://www.stereolabs.com/zed-2/) |  RGB-D | - | 1280x720 |
+
 
 ### Our Coordinate Setting
-The **origin** of our throw-catch zone refers to the bottom-left corner of the entire throw-catch zone as shown in the following figure:
-![throw-catch-zone.png](resources/72E47F163C2F1E8393908550C69B2A3C.png =912x247)
 
-The frame of the origin is set up as follows: XZ plane is parallel to the ground with Z-axis along the 5 m side and X-axis along the 2 m side. Y-axis is perpendicular up to the XZ plane.
-
-As our data collection spans more than three months, during which, our throw-catch zone in the laboratory was moved twice. In total, there are 3 different transformation matrices collected for the origin after each movement of the throw-catch zone.
+As shown below, the **origin** of our throw-catch zone refers to the bottom-left corner of the entire throw-catch zone . The coordinate **axes** are set up as follows: XZ plane is parallel to the ground with Z-axis along the *5 m* (*2m + 1m + 2m*) side and X-axis along the *2 m* side. Y-axis is perpendicular up to the XZ plane. 
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/workspace.png" width = "400" alt="workspace" />
 
 
-<!-- ### The Used Devices -->
 
 <!-- tables about the devices, their features and illustrations  -->
 
