@@ -34,7 +34,7 @@ The 4 x 4 transformation matrix reference to Optitrack World frame of origin \#2
  [ 0., 0., 0., 1. ]]
 ```
 
-To convert the transformation matrix from Optitrack World frame to our local throw-catch zone, we use the inverse matrix of the above 4 x 4 transformation matrix:
+To convert the transformation matrix from Optitrack World frame to our our throw-catch zone, we use the inverse matrix of the above 4 x 4 transformation matrix:
 
 The inverse matrix of origin \#0 is:
 ```
@@ -62,7 +62,7 @@ The inverse matrix of origin \#2 is:
 
 
 
-The following code converts the 4 x 4 transformation matrix reference to the Optitrack World system to the local throw-catch zone system, where `origin_transformation_matrix_inverse` is one of the three inverse matrices above, `object_optitrack_raw_transformation_matrix` is the tracked object's 4 x 4 transformation matrix expressed in the Optitrack World system, and `object_tc_transformation_matrix` is the converted 4 x 4 transformation matrix expressed in the local throw-catch zone system.
+The following code converts the 4 x 4 transformation matrix reference to the Optitrack World system to the our throw-catch zone system, where `origin_transformation_matrix_inverse` is one of the three inverse matrices above, `object_optitrack_raw_transformation_matrix` is the tracked object's 4 x 4 transformation matrix expressed in the Optitrack World system, and `object_tc_transformation_matrix` is the converted 4 x 4 transformation matrix expressed in the our throw-catch zone system.
 
 ```
 object_tc_transformation_matrix = np.matmul(origin_transformation_matrix_inverse, object_optitrack_raw_transformation_matrix)
@@ -101,7 +101,7 @@ Please refer to Hand\_Engine\_Readme [LINK] for details about the reconstruction
 
 ## Difference between local and global transformation matrices in optitrack
 
-The raw `optitrack.csv` file contains local (from column 5 to 20) and global (from column 21 to 36) transformation matrices of the optitrack system. NOTE THAT this `local` of optitrack mocap system does not refer to the local throw-catch zone coordinate system.
+The raw `optitrack.csv` file contains local (from column 5 to 20) and global (from column 21 to 36) transformation matrices of the optitrack system. NOTE THAT this `local` of optitrack mocap system does not refer to the our throw-catch zone coordinate system.
 
 ### local transformation matrix (columns 5-20 in optitrack.csv, NOT USED IN OUR CODEBASE)
 
@@ -114,10 +114,10 @@ It is a 4 x 4 transformation matrix, whose pose is with reference to **Optitrack
 
 ## Headband and helmet coordinate system
 
-![helmet_handband_coordinate.png](resources/D6403D046FEE97803D912C8DB100C11F.png =372x492)
+![helmet_handband_coordinate.png](https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/D6403D046FEE97803D912C8DB100C11F.png)
 
 The above figure shows the defined frames of the headband and the helmet. The frame of the helmet is same as that of throw-catch zone's origin, with Z-axis parallel to the 5 m side, X-axis parallel to the 2 m side, and Y-axis perpendicular up to the XZ plane. The frame of the headband can be understood as rotating the frame of helmet along the Y-axis counterclockwise with 180 degrees.
 
 In a real scenario, when the primary subject is wearing the helmet and the auxiliary subject is wearing the headband, the coordinate systems will look like as in the following picture:
 
-![helmet_handband_coordinate_real_scenario.png](resources/A4A102E4F59E1D43D95D22ABB44AD561.png =423x482)
+![helmet_handband_coordinate_real_scenario.png](https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/A4A102E4F59E1D43D95D22ABB44AD561.png )

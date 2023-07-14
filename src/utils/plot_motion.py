@@ -63,7 +63,7 @@ def plot_left_hand(ax, opti_t_matrix, records, color_list):
 	'''
 
 	
-	# rotation for aligning righted-handed coordinate system with the local throw-catch zone coordinate system
+	# rotation for aligning righted-handed coordinate system with the our throw-catch zone coordinate system
 	rotX = np.array([[1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,0,1]])
 	rotY = np.array([[0,0,-1,0],[0,1,0,0],[1,0,0,0],[0,0,0,1]])
 	
@@ -103,7 +103,7 @@ def plot_left_hand(ax, opti_t_matrix, records, color_list):
 			# add rotation to the finger joints			
 			pos_finger = np.dot(rotX, pos_finger)
 			pos_finger = np.dot(rotY, pos_finger)
-			# apply the converted optitrack transformation matrix (already expressed in the local throw-catch zone system) 
+			# apply the converted optitrack transformation matrix (already expressed in the our throw-catch zone system) 
 			# to obtain the correct x,y,z positions of the joint
 			pos_finger = np.dot(opti_t_matrix, pos_finger)[:3]
 			
@@ -126,7 +126,7 @@ def plot_right_hand(ax, opti_t_matrix, records, color_list):
 	# matrix used to convert the right hand data to left-handed coordinate system
 	t_h = np.array([[1,0,0,0],[0,-1,0,0],[0,0,1,0],[0,0,0,1]])
 
-	# rotation for aligning left-handed coordinate system with the local throw-catch zone coordinate system
+	# rotation for aligning left-handed coordinate system with the our throw-catch zone coordinate system
 	rotY = np.array([[0,0,-1,0],[0,1,0,0],[1,0,0,0],[0,0,0,1]])
 
 	# start position to plot the hand
@@ -163,7 +163,7 @@ def plot_right_hand(ax, opti_t_matrix, records, color_list):
 			# apply rotation to the finger joint for coordinate system alignment
 			pos_finger = np.dot(rotY, pos_finger)
 			
-			# apply the converted optitrack transformation matrix (already expressed in the local throw-catch zone system) 
+			# apply the converted optitrack transformation matrix (already expressed in the our throw-catch zone system) 
 			# to obtain the correct x,y,z positions of the joint
 			pos_finger = np.dot(opti_t_matrix, pos_finger)[:3]
 			# plot the bone connecting this joint and the last one 

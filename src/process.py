@@ -196,7 +196,7 @@ def process(take, args):
     
     print("processing optitrack data")
     # determine the coordinate system ID according the take ID
-    # check the document () for more details about our coordinate system 
+    # check the document (https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md/#the-coordinate-system-id) for more details about our coordinate system 
     if int(take) < 2889:
         local_sys_id = '0'
     elif int(take) < 9789:
@@ -204,7 +204,7 @@ def process(take, args):
     else:
         local_sys_id = '2'
 
-    # the right hand in takes from 520-1699 needs to apply an extra rotation
+    # the right hand in takes from 520-1699 needs to apply an additional rotation
     # 90 degrees along the Y axis for takes from 520-1559 
     # and 180 degrees along the Y axis for takes from 1560-1699
     if 519 < int(take) and int(take) <= 1559:
@@ -214,15 +214,15 @@ def process(take, args):
     else:
         rotate_right_hand = -1
 
-    # the left hand in takes from 1040-1559 needs to apply an extra rotation 
+    # the left hand in takes from 1040-1559 needs to apply an additional rotation 
     # 45 degrees along the Y axis 
     if 1040 <= int(take) and int(take) <= 1559:
         rotate_left_hand = 45
     else:
         rotate_left_hand = -1
 
-    # the helmet and headband in takes from 0-1699 need to apply an extra rotation to correct their initial orientation
-    # this requires rotating along Y axis with extra 45 degrees for the headband, and -180 degrees for the helmet.
+    # the helmet and headband in takes from 0-1699 need to apply an additional rotation to correct their initial orientation
+    # this requires rotating along Y axis with additional 45 degrees for the headband, and -180 degrees for the helmet.
     if 0 <= int(take) and int(take) <= 1699:
         rotate_helmet_headband = True
     else:

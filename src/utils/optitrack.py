@@ -139,13 +139,13 @@ def get_t_matrix(df, object_id, local_sys_id, t_matrix_type='global', rotate_rig
         object_id: object id
         local_sys_id: the id of the origin (ids should be either 0, 1, or 2)
         t_matrix_type: the type of the optitrack transformation matrix. Either 'global' or 'local'. We use 'global' in the project.
-                       NOTE THAT this 'local' does not refer to the local throw-catch coordinate system.
+                       Check our '/doc/processing_techdetails.md' -> *Difference between local and global transformation matrices* for explanation. 
         rotate_right_hand: whether to rotate the right hand or not. -1 means not to rotate. Other options 
                            are 90 and 180, which is to rotate 90 or 180 degrees
         rotate_left_hand: whether to rotate the left hand or not. -1 means not to rotate. Other option is 45,
                            which is to rotate 45 degrees
     OUTPUT:
-        return the transformation matrix expressed in the local throw-catch zone system
+        return the transformation matrix expressed in the our throw-catch zone system
     '''
 
     df = df.loc[df.iloc[:, 0] == object_id]
@@ -163,7 +163,7 @@ def get_t_matrix(df, object_id, local_sys_id, t_matrix_type='global', rotate_rig
                        [row[8], row[9], row[10], row[11]],
                        [row[12], row[13], row[14], row[15]]]
 
-        # convert the transformation matrix from optitrack system to the local throw-catch zone system
+        # convert the transformation matrix from optitrack system to the our throw-catch zone system
         curr_matrix = np.matmul(LOCAL_SYS_T_MATRIX_INV[local_sys_id], curr_matrix) # coordinate transformation 
 
         # rotate extra degrees if the right/left hand needs to
@@ -201,13 +201,13 @@ def get_ts_t_matrix(df_all, object_id, local_sys_id, t_matrix_type='global', rot
         object_id: object id
         local_sys_id: the id of the origin (ids should be either 0, 1, or 2)
         t_matrix_type: the type of the optitrack transformation matrix. Either 'global' or 'local'. We use 'global' in the project.
-                       NOTE THAT this 'local' does not refer to the local throw-catch coordinate system.
+                       NOTE THAT this 'local' does not refer to the our throw-catch coordinate system.
         rotate_right_hand: whether to rotate the right hand or not. -1 means not to rotate. Other options 
                            are 90 and 180, which is to rotate 90 or 180 degrees
         rotate_left_hand: whether to rotate the left hand or not. -1 means not to rotate. Other option is 45,
                            which is to rotate 45 degrees
     OUTPUT:
-        return the transformation matrix expressed in the local throw-catch zone system, and its corresponding timestamp
+        return the transformation matrix expressed in the our throw-catch zone system, and its corresponding timestamp
     '''
    
     df_target = df_all.loc[df_all.iloc[:, 0] == object_id]
@@ -230,7 +230,7 @@ def get_ts_t_matrix(df_all, object_id, local_sys_id, t_matrix_type='global', rot
                        [row[8], row[9], row[10], row[11]],
                        [row[12], row[13], row[14], row[15]]]
 
-        # convert the transformation matrix from the optitrack system to the local throw-catch zone system
+        # convert the transformation matrix from the optitrack system to the our throw-catch zone system
         curr_matrix = np.matmul(LOCAL_SYS_T_MATRIX_INV[local_sys_id], curr_matrix)
 
         # rotate the right/left hand with extra degrees if needed
@@ -309,7 +309,8 @@ def convert(ipt_path, opt_path, local_sys_id, t_matrix_type, rotate_right_hand, 
         ipt_path: the file path of the raw optitrack data - optitrack.csv
         opt_path: path for saving the output files
         local_sys_id: the id of the origin (ids should be either 0, 1, or 2)
-        t_matrix_type: the type of the transformation matrix (either 'global' or 'local'). We use 'global' in the project
+        t_matrix_type: the type of the transformation matrix (either 'global' or 'local'). We use 'global' in the project. 
+                       Check our '/doc/processing_techdetails.md' -> *Difference between local and global transformation matrices* for explanation.
         rotate_right_hand: whether to rotate the right hand or not (either -1, 90 or 180). -1 means not to rotate. 
                            90 and 180 mean to rotate 90 and 180 degrees, respectively
         rotate_left_hand: whether to rotate the left hand or not (either -1 or 45). -1 means not to rotate. 

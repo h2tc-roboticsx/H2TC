@@ -8,22 +8,22 @@
 
 The above figure shows the right-handed coordinate system of the left hand. Each joint has its own XYZ frame. The X-axis is along the bone, the Y-axis is perpendicular to the palm, and the Z-axis is perpendicular to the XY plane. The enlarged frame at the bottom is put there for clarification and easier understanding.
 
-## Local throw-catch zone coordinate system
+## Our throw-catch zone coordinate system
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/C650A1275361BA54AB728D0C141801F6.png" width = "400" alt="opti_lefthand">
 
-The above figure shows the coordinate system of the captured hand motion in the local throw-catch zone. The frame is put there for clarification and easier understanding. In practice, the origin of the frame is around the center of the back of the hand. For this coordinate system, Y-axis is perpendicular up to the back of the  hand, Z-axis is parallel to the finger tip direction, and X-axis is perpendicular to the YZ plane.
+The above figure shows the coordinate system of the captured hand motion in the our throw-catch zone. The frame is put there for clarification and easier understanding. In practice, the origin of the frame is around the center of the back of the hand. For this coordinate system, Y-axis is perpendicular up to the back of the  hand, Z-axis is parallel to the finger tip direction, and X-axis is perpendicular to the YZ plane.
 
-## Align right-handed coordinate system with local throw-catch zone coordinate system
+## Align right-handed coordinate system with our throw-catch zone coordinate system
 
-As the orientation of the right-handed coordinate system differs from that of the local throw-catch zone coordinate system, we use two rotation matrices to convert the orientation of the hand coordinate system to the same as the local throw-catch zone.
+As the orientation of the right-handed coordinate system differs from that of the our throw-catch zone coordinate system, we use two rotation matrices to convert the orientation of the hand coordinate system to the same as the our throw-catch zone.
 
 Specifically, we first rotate the hand coordinate system -180 degrees along the X-axis, and then rotate it -90 degrees along the Y-axis. 
 
 
 ## Reconstruction
-As mentioned in Optitrack\_Readme [TODO link], for each hand pose, we use the translation, i.e., x, y, z positions in its associated 4 x 4 transformation matrix that has been converted to the local throw-catch zone coordinate system as the metacarpal joint. We then reconstruct the entire hand pose starting from the metacarpal joint with the captured hand joint angles (XYZ euler angles) and the defined hand bone length (see Bone length section in this readme) using **Forward Kinematics**:
+As mentioned in Optitrack\_Readme [TODO link], for each hand pose, we use the translation, i.e., x, y, z positions in its associated 4 x 4 transformation matrix that has been converted to the our throw-catch zone coordinate system as the metacarpal joint. We then reconstruct the entire hand pose starting from the metacarpal joint with the captured hand joint angles (XYZ euler angles) and the defined hand bone length (see Bone length section in this readme) using **Forward Kinematics**:
 
-Specifically, the XYZ spatial position `P` of a left hand finger joint **(except the metacarpal joint)** in the local throw-catch zone can be calculated using the following equations: (TODO)
+Specifically, the XYZ spatial position `P` of a left hand finger joint **(except the metacarpal joint)** in the our throw-catch zone can be calculated using the following equations: (TODO)
 
 
 
@@ -37,10 +37,10 @@ Specifically, the XYZ spatial position `P` of a left hand finger joint **(except
 
 The above figures shows the left-handed coordinate system of the right hand. Each joint has its own XYZ frame. The X-axis is along the bone, the Y-axis is perpendicular up towards the back of the hand, and the Z-axis is perpendicular to the XY plane. The enlarged frame at the bottom is put there for clarification and easier understanding.
 
-## Local throw-catch zone coordinate system
+## our throw-catch zone coordinate system
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/018D81940FEC63AD318DBD8B5AF0FF98.png" width = "400" alt="opti_righthand">
 
-Similar as mentioned above, the above figure shows the coordinate system of the captured hand motion in the local throw-catch zone. The frame is put there for clarification and easier understanding. In practice, the origin of the frame is around the center of the back of the hand. For this coordinate system, Y-axis is perpendicular up to the back of the  hand, Z-axis is parallel to the finger tip direction, and X-axis is perpendicular to the YZ plane.
+Similar as mentioned above, the above figure shows the coordinate system of the captured hand motion in the our throw-catch zone. The frame is put there for clarification and easier understanding. In practice, the origin of the frame is around the center of the back of the hand. For this coordinate system, Y-axis is perpendicular up to the back of the  hand, Z-axis is parallel to the finger tip direction, and X-axis is perpendicular to the YZ plane.
 
 
 ## Coordinate system conversion
@@ -58,13 +58,13 @@ rotY = [[0,0,-1,0],[0,1,0,0],[1,0,0,0],[0,0,0,1]]
 ## Reconstruction
 Similar to the reconstruction of the left hand, we use the translation of the converted 4 x 4 transformation matrix that is associated with the hand pose as the metacarpal joint, and then reconstruct the entire hand pose starting from the metacarpal joint with the captured hand joint angles (XYZ euler angles) and the defined hand bone length (see Bone length section in this readme) using **Forward Kinematics**:
 
-Specifically, the XYZ spatial position `P` of a right hand finger joint **(except the metacarpal joint)** in the local throw-catch zone can be calculated using the following equations: (TODO)
+Specifically, the XYZ spatial position `P` of a right hand finger joint **(except the metacarpal joint)** in the our throw-catch zone can be calculated using the following equations: (TODO)
 
 
 
 # Metacalpal joint offset
 
-Note that, as a common practice, we did not attach the markers directly to the hand, but fixed markers on a rigid object, and then attached the rigid object to the back of the hand (See figure below). As the geometric center of the rigid object does not exactly align with the metacarpal joint of a hand, there is an offset between the reconstructed hand and the actual hand in terms of their spatial positions in the local throw-catch zone. However, this offset is minor, and does not change the motion of the hand.
+Note that, as a common practice, we did not attach the markers directly to the hand, but fixed markers on a rigid object, and then attached the rigid object to the back of the hand (See figure below). As the geometric center of the rigid object does not exactly align with the metacarpal joint of a hand, there is an offset between the reconstructed hand and the actual hand in terms of their spatial positions in the our throw-catch zone. However, this offset is minor, and does not change the motion of the hand.
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/045A78822B66A604FE54BEC901DEC56E.png" width = "400" alt="glove_with_markers">
 
