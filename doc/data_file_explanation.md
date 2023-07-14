@@ -40,8 +40,8 @@ Before reading the file details below, please check the [data processing documen
     * **17471.csv / 24483054.csv / 28280967.csv**: the timestamps of the frames in video. The digits, similarly as above, refer to the SN of the recording device. Note that the timestamps start from starting recording, so the second timestamp is actually the timestamp of the first frame. Therefore, the first timestamp in this file is always discarded when processing or aligning the streams. The data structure is: 
       * nanoseconds: header of the unit
       * the timestamp of the beginning of recording
-      * the timestamp of the first frame 
-      * the timestamp of the second frame
+      * the timestamp of the 1st frame 
+      * the timestamp of the 2nd frame
       * ... 
       * the timestamp of the N-th frame 
     *  **event_{timestamp}.raw**: the raw output of the event camera. It includes general metadata  and events information encoded in [EVT3.0](https://docs.prophesee.ai/stable/data/encoding_formats/evt3.html?highlight=data%20format) format. Refer to [prophesee event documentation](https://docs.prophesee.ai/stable/index.html) for details. The digits `{timestamp}` in the file name log the timestamp of starting recording, which is used later in the postprocessing pipeline to align the event stream with other streams. 
@@ -108,14 +108,14 @@ Before reading the file details below, please check the [data processing documen
 Before reading the file details below, please check the [annotation document](https://github.com/lipengroboticsx/H2TC_code/tree/main/#annotator) first to capture how we annotate data. 
 * **{take ID}.json**: metadata and the annotation data of the take. 
   * status: annotation status.
-    * 0: not finished
     * 1: finished
+    * 0: not finished
     * -1: problematic, need further inspect
   * take_id: the index of the take.
   * object: the name of the object being thrown or caught in this take.
   * catch_result: the result of catching.
-    * 0: failed
     * 1: success
+    * 0: failed
   * sub1_cmd: the command given to the subject 1 to instruct the behavior of throwing or catching. See [Sec. Protocol in our paper]() for more instructions details. Please refer to [log.xlsx](#supporting-files) for the explanation of the attributes below.
     * subject_id: the id of the subject 1
     * hand: grasp mode, `single` or `both`
@@ -172,44 +172,37 @@ Before reading the file details below, please check the [annotation document](ht
 ## Supporting Files
 <!-- <details><summary>Exlanation about subjects/objects.csv and log.xlsx </summary> -->
 * **subjects.csv**: the list of the subjects participating in the experiments
+  * subject ID
 * **objects.csv**: the list of used objects
+  * object name
+  * characteristic: `rigid`, `soft` or `printed`
+  * attached with optitrack markers: 
+    * 1: yes
+    * 0: no
 * **log.xlsx**: logbook with the recording parameters of all takes. 
   * **{subject ID} sheet**: each sheet maintains all instructions received by a subject during recording and is named by the id of the subject. Each entry in the sheet describes one recording setting.
-    * no: the index of the entry in the spreadsheet, each entry 
+    * no: the index of the entry in the spreadsheet 
     * object: the name of the object
     * equipped: if the subject is equipped with the helmet and the gloves to record data or not
       * 1: equipped
       * 0: not equipped
     * action: the action that the subject is supposed to perform when recording
-      * throw
-      * catch
-    * hand: the instruction for using either single or both hands to perform the action.
-      * single
-      * both
-      * void: no constraint
-    * position: the initial (rough) position of the subject in the local rough coordinates 
+      * `throw` or `catch`
+    * hand: the instruction for using either single or both hands to perform the action
+      * `single`, `both` or `void` (no constraint)
+    * position: the initial location where the subject shall stand at the start of each recording
       * x: in range [0, 1, 2, 3]
       * y: in range [0, 1, 2, 3]
-    * height: the relative vertical position of hand immediately before performing the action. 
-      * overhead
-      * overhand
-      * chest
-      * underhand
-      * void: no constraint
-    * horizon: the relative horizontal position of the hand immediately before performing the action. 
-      * left
-      * middle
-      * right
-      * void: no constraint
-    * speed: the relative speed for the subject to throw the object. 
-      * fast
-      * normal
-      * slow 
-      * void: no constraint
+    * height: the relative vertical location for the subject hand
+      * `overhead`, `overhand`, `chest`, `underhand` or `void` (no constraint)
+    * horizon: the relative horizontal location of the subject hand
+      * `left`, `middle`, `right` or `void` (no constraint)
+    * speed: the relative velocity at which the object is supposed to be tossed out 
+      * `fast`, `normal`, `slow` or `void` (no constraint)
     * take_id: the id of the take
     * success: the result of catching. 
-      * 0: failed
       * 1: success
+      * 0: failed
     * verified: if the recording has been verified. 
       * 1: verified and no problem detected
       * 0: verification not finished

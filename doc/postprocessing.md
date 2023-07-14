@@ -6,7 +6,7 @@ The origin of our throw-catch zone refers to the bottom-left corner of the entir
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/workspace.png" width = "400" alt="workspace" />
 
-
+<!-- 
 <table style="border: 1px #000000 solid">
 	<thead>
 		<tr>
@@ -40,38 +40,15 @@ The origin of our throw-catch zone refers to the bottom-left corner of the entir
 			<td style="border: 1px #000000 solid">Cell 3x3</td>
 		</tr>
 	</tbody>
-</table>
+</table> -->
 
-|  Takes   | Matrix No. | Matrix Value |
-|  :----:  | :----:  | :----:  | 
-| 0-2888  | \#0 |               |
-| 2889-9788  | \#1 |            |
-| 9789-12905 |\#2   |           |
+|  Takes   | Matrix No. | 
+|  :----:  | :----:  | 
+| 0-2888  | \#0 |            
+| 2889-9788  | \#1 |         
+| 9789-12905 |\#2   |         
 
-Specifically, takes 0-2888 use origin \#0; takes 2889-9788 use origin \#1; and takes 9789-12905 use origin \#2.
 
-The 4 x 4 transformation matrix of origin \#0 is:
-```
-[[-0.99886939, -0.04535922, -0.01408667, 0.42632084],
- [-0.04514784, 0.99886579, -0.0149642, 0.0984003 ],
- [ 0.01474855, -0.01431195, -0.99978858, 7.67951849],
- [ 0., 0., 0., 1. ]]
-```
-
-The 4 x 4 transformation matrix of origin \#1 is:
-```
-[[-9.99963351e-01, 8.30436476e-03, 2.13574045e-03, 1.92400245e-01],
- [ 8.31340413e-03, 9.99956270e-01, 4.25134508e-03, 6.55417571e-02],
- [-2.10037766e-03, 4.26893351e-03, -9.99988700e-01, 2.17126483e+00],
- [ 0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 1.00000000e+00]]
-```
-The 4 x 4 transformation matrix of origin \#2 is:
-```
-[[-0.99997146, 0.00456379, 0.00601402, 0.19729361],
- [ 0.00454136, 0.99998255, -0.00373799, 0.06776005],
- [-0.00603099, -0.00371067, -0.99997492, 2.48060394],
- [ 0., 0., 0., 1. ]]
-```
 
 The following code converts the 4 x 4 transformation matrix captured in the original optitrack system to the local throw-catch zone system, where `origin_transformation_matrix` is one of the three matrices above.
 
@@ -99,3 +76,28 @@ object_tc_transformation_matrix = np.matmul(object_tc_transformation_matrix, rot
 For each frame (e.g., if 60 fps, then 300 frames in total for a 5s long motion sequence), the translation, i.e., `x,y,z` positions in the `object_tc_transformation_matrix` are used as the metacarpal joint of the hand. Starting from the metacarpal joint, the entire hand is then recovered using forward kinematics with captured hand joint angles (euler angles) and the defined bone length. The detail of how to recover the entire hand can refer to the functions `plot_left_hand` and `plot_right_hand` in `plot_motion.py`.
 
 Note that the left hand uses a right-handed coordinate system and the right hand uses a left-handed coordinate system.
+
+Specifically, takes 0-2888 use origin \#0; takes 2889-9788 use origin \#1; and takes 9789-12905 use origin \#2.
+
+The 4 x 4 transformation matrix of origin \#0 is:
+```
+[[-0.99886939, -0.04535922, -0.01408667, 0.42632084],
+ [-0.04514784, 0.99886579, -0.0149642, 0.0984003 ],
+ [ 0.01474855, -0.01431195, -0.99978858, 7.67951849],
+ [ 0., 0., 0., 1. ]]
+```
+
+The 4 x 4 transformation matrix of origin \#1 is:
+```
+[[-9.99963351e-01, 8.30436476e-03, 2.13574045e-03, 1.92400245e-01],
+ [ 8.31340413e-03, 9.99956270e-01, 4.25134508e-03, 6.55417571e-02],
+ [-2.10037766e-03, 4.26893351e-03, -9.99988700e-01, 2.17126483e+00],
+ [ 0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 1.00000000e+00]]
+```
+The 4 x 4 transformation matrix of origin \#2 is:
+```
+[[-0.99997146, 0.00456379, 0.00601402, 0.19729361],
+ [ 0.00454136, 0.99998255, -0.00373799, 0.06776005],
+ [-0.00603099, -0.00371067, -0.99997492, 2.48060394],
+ [ 0., 0., 0., 1. ]]
+```
