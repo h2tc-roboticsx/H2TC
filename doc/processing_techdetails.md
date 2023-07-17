@@ -1,14 +1,15 @@
 # Data Processing Technical Details
-[Our dataset H<sup>2</sup>TC](https://lipengroboticsx.github.io/) contains multi-model cross-device raw data streams. 
+[Our dataset H<sup>2</sup>TC](https://lipengroboticsx.github.io/) contains multi-modal cross-device raw data streams. 
 To make the dataset easier to use, we have developed the [processor source code](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) and provided the [data processing document](https://github.com/lipengroboticsx/H2TC_code/tree/main#data-processing) to help readers get aligned and common-format data. 
 Considering readers may want to design their customized processing, we introduce the processing technical details in this document to auxiliarly explain the [source code](https://github.com/lipengroboticsx/H2TC_code/tree/main/src). 
 
 Here is an overview of this document:
 
-* [**Our Workspace**](#our-workspace): introduces our used devices and our coordinate setting. 
-* [**OptiTrack Data Processing**](#optitrack-data-processing): explains the original optitrack coordinate and how to tranfer it to our coordinate. 
-* [**Hand Pose Data Processing**](#hand-pose-data-processing): explains how to extract hand poses and how to visualize them. 
-* [**Timestamp Alignment**](#timestamp-alignment): explains how to do time alignment. 
+* [**Our Workspace**](#our-workspace): introduces our used multi-modal devices and our coordinate setting. 
+* [**Timestamping and Data Synchronization**](#timestamping-and-data-synchronization): introduce how those multi-modal devices are timestamped in recording and alignd in processing. 
+<!-- * [**Alignment.json**](#alignmentjson): explains how to do time alignment.  -->
+* [**OptiTrack Data Processing**](#optitrack-data-processing): auxiliarly explains the original optitrack coordinate and how to tranfer it to our coordinate. 
+* [**Hand Pose Data Processing**](#hand-pose-data-processing): auxiliarly explains how to extract hand poses and how to visualize them. 
 
 ## Our Workspace
 ### Used Devices
@@ -47,6 +48,114 @@ In a real scenario, when the primary subject is wearing the helmet and the auxil
 
 <!-- ## Prophesee Event -->
 <br>
+
+## Timestamping and Data Synchronization
+
+Our recording system consists of  3 ZED RGBD cameras, 1 Prophesee event camera, 1 StretchSense data gloves, and 1 OptiTrack motion capture system. We describe below how each data stream is timestamped in recording,  synchronized and alignd in processing. 
+
+### ZED RGBD
+
+**Timestamps in recording.** 
+In our recording, each ZED RGBD camera timestamp is retrieved by calling the [ZED API method](https://www.stereolabs.com/docs/api/python/classpyzed_1_1sl_1_1Camera.html#af18a2528093f7d4e5515b96e6be989d0) `get_timestamp(sl.TIME_REFERENCE.IMAGE)`. The returned value corresponds to the time, in UNIX nanosecond, at which the entire image was stored in `/data/{take_id}/raw/{zed_id}.svo`. For each RGBD stream, we record the timestamp of each frame and the beginning of the recording, resulting in N+1 timestamps in total. The timestamps are initially stored in a separate file `/data/{take_id}/raw/{zed_id}.csv` with a structure as
+* nanoseconds: header of the unit
+* the timestamp of the beginning of recording
+* the timestamp of the 1st frame 
+* the timestamp of the 2nd frame
+* ... 
+* the timestamp of the N-th frame 
+
+
+**Timestamps in processing.** 
+ We observed that the timestamp retrieved by previously mentioned ZED API ignores the communication time resulting in the value of timestamps earlier (smaller) than the real frame time.
+
+To fix this issue, we compensate the timestamp of each frame by adding a positive constant of (addressed in the script [zed.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/zed.py)): 
+
+```
+T(1stframe) = T(startrecording) + 1/FPS * 1e9
+```
+T(startrecording) is the timestamp of start recording, and T(1stframe) is the timestamp of the real 1st frame. 
+This is equivalent to set the timestamp of 1st frame to the timestamp of start recording plus the theoretical frame time (1/FPS), and keep the offset between every two consecutive frames unchanged. 
+
+Finally, we also observed that the last timestamp in the raw timestamp file doesn't correspond to any decoded frame image, in other words, the total amount of frames is one less than the total amount of timestamps. Therefore, the last timestamp is ignored and not saved in the processed timestamp file. 
+
+After processing, the calibrated timestamps will be saved into a separate file `/data/{take_id}/processed/{stream_id}.csv`.  
+
+### Event
+
+Event raw data can be exported into two alternative formats: event streams (xypt) and event frames (RGB images). Each has a slightly different timestamp result, but they are essentially based on the same timestamps. The Event raw data file timestamps each Contrast Detector (CD) event with an offset, in microseconds, to the timepoint of recording started. Unfortunately, the raw file only includes the timestamp of recording started in seconds (see [this](https://docs.prophesee.ai/stable/data_formats/file_formats/raw.html)), so we manually took one in UNIX nanoseconds in our recording API `/src/utils/event.py` and attached it in the name of the raw data file, e.g., `event_1662023682456716448.raw`, where the 19-digit number is the timestamp of recording started.
+
+For xypt format, the timestamp of each event is calculated by adding its time offset (t) to the timestamp of recording started (initial timestamp). Note that the time offset in xypt is in microseconds, so it has to be converted to nanoseconds first before adding. The calculated timestamps are stored directly with the decoded event streams in the file `/data/{take_id}/processed/event_xypt.csv`.
+
+```python
+timestamp = initial timestamp + t * 1000
+```
+
+For event frames, timestamps are inferred, instead of taken in real time, based on the aforementioned initial timestamp and the target decoding FPS (60 by default to align with the FPS of ZED RGBD streams). It is calculated as
+
+```
+timestamp = initial timestamp + 1/FPS * 1e9 * frame number
+```
+
+, where `* 1e9` converts the time offset to nanoseconds. The generated timestamps are stored in the file `/data/{take_id}/processed/event_frames_ts.csv`.
+
+### Gloves Hands Pose
+
+There are two different schemes of timestamps, device and master, in the output files, `/data/{take_id}/raw/hand/P1L.csv(P1R.csv)`, of Hand Engine (HE). The device timecode is read from the internal clock of the gloves, while the master timecode is generated according to the host PC (where Hand Engine runs) clock as the frame data received by Hand Engine from the gloves. The internal clock of gloves will be periodically calibrated to the host PC clock during connected. Therefore, these two different timestamps inevitably differ for the same frame, since they are recording different timepoints using slightly different clocks. Nevertheless, we observed that the difference between them is negligible, i.e., normally no greater than 1 frame time (120 FPS by default). In practice, we adopt the device timecode as the timestamp of each frame, because the master timecode has the catastrophic issue of freezing in the first dozens of frames.
+
+Raw timecode exported by Hand Engine is not a real timestamp, since it uses a base of 120 (same as FPS), instead of the conventional decimal system, to represent the time below a second. A typical HE timecode looks like, e.g., 171442052 is equivalent to 17 (hour), 14 (minute), 42 (second) and 052 (frame time). 052 is converted to the decimal seconds by `52 * 1/120`. To retrieve the timestamp in UNIX time, we also need the information of date, which is stored under the key `startDate` in another file `/data/{take_id}/raw/hand/P1LMeta.json`. Finally, we concatenate the date and the time together to generate a single timestamp and then convert it to UNIX nanoseconds.
+
+### OptiTrack
+
+OptiTrack data is received by the client software NatNet on the same host PC as ZED and Event cameras. For each frame data, NatNet measures and provides the latency from camera exposure to the reception on the local host PC. We then calculate the timestamp of camera exposure as the timestamp of the frame by the current timestamp minus the above latency.
+
+```
+timestamp = the UNIX time of receiving the frame data - latency
+```
+
+### Clock Synchronization
+
+Only Hand Engine is hosted on a Windows machine, while the other devices are connected, or streamed, to the same Ubuntu machine and hence timestamped based on the same system clock. To align HE data with others, we synchronized the clocks of these two host machines using Precision Time Protocol (PTP). We set up the PTP server on Ubuntu using `ptpd` and the PTP client on Windows following the official [guide](https://techcommunity.microsoft.com/t5/networking-blog/windows-subsystem-for-linux-for-testing-windows-10-ptp-client/ba-p/389181) (same as the copy `/dev/time_sync/PTP_guide.docx`). Timecode is distributed from the Ubuntu host (server) to the Windows host (client). The time drift between the clocks of these hosts is, after synchronized, normally **around 0.3 milliseconds** and peaking at 3 milliseconds in some rare cases. This accuracy is less comparable to the theoretical accuracy, sub-microsecond range, of PTP. This is most likely due to the PTP client implementation issue of Windows, since we were able to achieve the few-microsecond level accuracy using only the Ubuntu PTP server and client. 
+
+We currently align the streams directly with their timestamps without any further processing. This means that we didn't calibrate the timestamp to the same event, e.g., camera exposure, of each stream, because timestamping the recording in this low-level, fine-grained, way is beyond the capacity of the API we used. Nevertheless, the empirical maximum offset among all data streams is **no more than 1 frames at 60 FPS**, as manually evaluated during annotation.
+
+### Alignment.json
+
+Although all data streams have been timestamped during data collection, it is impossible for their timestamps to be exactly the same. There exists time drift in millisecond-level between data streams. Therefore, during processing, we use the timestamp of **rgbd0 camera**, the fixed third-person (side) view camera, serial number: 17471, as the reference, and align the timestamps of the rest data streams to it. The resulting timestamp alignment is saved in a file called `alignment.json`. 
+
+#### How to create an alignment.json file
+We use the timestamps of **rgbd0 camera** as the reference. Therefore, the total number of frames saved in the `alignment.json` is equal to the number of timestamps recorded by **rgbd0 camera**. 
+
+Given a timestamp of **rgbd0 camera** and its associated frame number, for each of other data streams, we use the binary search alogrithm to find their **nearest** timestamp to the timestamp of **rgbd0 camera**. This nearest timestamp is then used as the timestamp of that frame of the other data stream. Note that the difference between the nearest timestamp and its query **rgbd0 camera**'s timestamp has to be within a threshold, which is currently set to 1/60 * 10e9 nanosecond.
+
+#### The alignment.json file
+`Alignment.json` file essentially saves a dictionary whose keys represent the frame indices. The corresponding value for each key is a mapping between stream id and its timestamp. In each frame (key), we align each stream timestamp to the frame reference timestamp (`rgbd0`) by finding the closest one to the reference.
+* frame index: starting from 0
+	* key: stream id
+	* value: timestamp
+	
+The following is a snapshot of an example alignment.json file:
+```
+{
+    "0": {
+        "rgbd0": 1662023682418648047,
+        "rgbd1": 1662023682421582524,
+        "rgbd2": 1662023682427297843,
+        "event": null,
+        "left_hand_pose": 1662023682433333504,
+        "right_hand_pose": 1662023682424999936,
+        "sub1_head_motion": 1662023682430291456,
+        "sub1_right_hand_motion": 1662023682430291456,
+        "sub1_left_hand_motion": 1662023682434457856,
+        "sub2_head_motion": 1662023682430291456
+    },
+    ...
+}
+```
+
+#### Data Missing
+If the timestamp of a data stream is missing in certain frames, its value will be `null` as shown in the above example. Such situation is rare, and it is mainly caused by 1) the Optitrack when the tracked object is occluded; or 2) by StretchSense gloves when the data transmission is congested; or 3) the open of the event camera lags slightly behind the rgbd0 camera. Therefore, the corresponding timestamp is missing.
+
+
 
 ## OptiTrack Data Processing
 ### The Coordinate System ID
@@ -191,43 +300,6 @@ middle = [8.0,      6.0,     3.5,   2.7]
 ring =   [7.5,      5.5,     3.3,   2.5]
 pinky =  [6.5,      4.5,     2.5,   2.5]
 ``` -->
-
-## Timestamp Alignment
-
-Although all data streams have been timestamped during data collection, it is impossible for their timestamps to be exactly the same. There exists time drift in millisecond-level between data streams. Therefore, during processing, we use the timestamp of **rgbd0 camera**, the fixed third-person (side) view camera, serial number: 17471, as the reference, and align the timestamps of the rest data streams to it. The resulting timestamp alignment is saved in a file called `alignment.json`. 
-
-### How to create an alignment.json file
-We use the timestamps of **rgbd0 camera** as the reference. Therefore, the total number of frames saved in the `alignment.json` is equal to the number of timestamps recorded by **rgbd0 camera**. 
-
-Given a timestamp of **rgbd0 camera** and its associated frame number, for each of other data streams, we use the binary search alogrithm to find their **nearest** timestamp to the timestamp of **rgbd0 camera**. This nearest timestamp is then used as the timestamp of that frame of the other data stream. Note that the difference between the nearest timestamp and its query **rgbd0 camera**'s timestamp has to be within a threshold, which is currently set to 1/60 * 10e9 nanosecond.
-
-### The alignment.json file
-`Alignment.json` file essentially saves a dictionary whose keys represent the frame indices. The corresponding value for each key is a mapping between stream id and its timestamp. In each frame (key), we align each stream timestamp to the frame reference timestamp (`rgbd0`) by finding the closest one to the reference.
-* frame index: starting from 0
-	* key: stream id
-	* value: timestamp
-	
-The following is a snapshot of an example alignment.json file:
-```
-{
-    "0": {
-        "rgbd0": 1662023682418648047,
-        "rgbd1": 1662023682421582524,
-        "rgbd2": 1662023682427297843,
-        "event": null,
-        "left_hand_pose": 1662023682433333504,
-        "right_hand_pose": 1662023682424999936,
-        "sub1_head_motion": 1662023682430291456,
-        "sub1_right_hand_motion": 1662023682430291456,
-        "sub1_left_hand_motion": 1662023682434457856,
-        "sub2_head_motion": 1662023682430291456
-    },
-    ...
-}
-```
-
-### Data Missing
-If the timestamp of a data stream is missing in certain frames, its value will be `null` as shown in the above example. Such situation is rare, and it is mainly caused by 1) the Optitrack when the tracked object is occluded; or 2) by StretchSense gloves when the data transmission is congested; or 3) the open of the event camera lags slightly behind the rgbd0 camera. Therefore, the corresponding timestamp is missing.
 
 
 
