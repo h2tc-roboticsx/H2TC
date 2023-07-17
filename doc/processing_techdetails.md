@@ -104,7 +104,7 @@ You can check [data_file_explanation.md](https://github.com/lipengroboticsx/H2TC
 
 **Left hand uses a right-handed coordinate system** 
 
-### Right-handed coordinate system
+#### Right-handed coordinate system
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/97CE3BB762B65208FED74A7D8A0D4C12.png" width = "400" alt="left_hand">
 
 
@@ -122,16 +122,16 @@ As the orientation of the right-handed coordinate system differs from that of th
 Specifically, we first rotate the hand coordinate system -180 degrees along the X-axis, and then rotate it -90 degrees along the Y-axis.  -->
 
 
-### Motion Visualization
+#### Motion Visualization
 For each hand pose, we use the translation, i.e., x, y, z positions in its associated 4 x 4 transformation matrix that has been converted to the our throw-catch zone coordinate system as the metacarpal joint. We then reconstruct the entire hand pose starting from the metacarpal joint with the captured hand joint angles (XYZ euler angles) and the defined hand bone length (see Bone length section in this readme) using **Forward Kinematics**. 
 
 
 
-## Visualize the right hand
+### Visualize the right hand
 
 **Right hand uses a left-handed coordinate system**
 
-### Left-handed coordinate system
+#### Left-handed coordinate system
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/B08B2DCADADCFD3D2B101CC1AFFBA015.png" width = "400" alt="right_hand">
 
 The above figures shows the left-handed coordinate system of the right hand. Each joint has its own XYZ frame. The X-axis is along the bone, the Y-axis is perpendicular up towards the back of the hand, and the Z-axis is perpendicular to the XY plane. The enlarged frame at the bottom is put there for clarification and easier understanding.
@@ -142,7 +142,7 @@ The above figures shows the left-handed coordinate system of the right hand. Eac
 Similar as mentioned above, the above figure shows the coordinate system of the captured hand motion in the our throw-catch zone. The frame is put there for clarification and easier understanding. In practice, the origin of the frame is around the center of the back of the hand. For this coordinate system, Y-axis is perpendicular up to the back of the  hand, Z-axis is parallel to the finger tip direction, and X-axis is perpendicular to the YZ plane. -->
 
 
-### Coordinate system conversion
+#### Coordinate system conversion
 To reconstruct the right hand, we first convert the left-handed coordinate system to the right-handed one using an extra matrix `t_h` 
 <!-- (is this description corret??? also is the comment in line 126 above t\_h correct in plot\_motion.py??? what does t\_h exactly do? convert coordinate system or convert data??) -->
 
@@ -155,7 +155,7 @@ We also apply a rotation matrix rotY as shown in the `plot_right_hand` function 
 rotY = [[0,0,-1,0],[0,1,0,0],[1,0,0,0],[0,0,0,1]]
 ```
 
-### Motion Visualization
+#### Motion Visualization
 Similar to the reconstruction of the left hand, we use the translation of the converted 4 x 4 transformation matrix that is associated with the hand pose as the metacarpal joint, and then reconstruct the entire hand pose starting from the metacarpal joint with the captured hand joint angles (XYZ euler angles) and the defined hand bone length (see Bone length section in this readme) using **Forward Kinematics**. 
 
 <!-- Specifically, the XYZ spatial position `P` of a right hand finger joint **(except the metacarpal joint)** in the our throw-catch zone can be calculated using the following equations: (TODO) -->
