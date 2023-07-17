@@ -264,7 +264,7 @@ def get_ts_t_matrix(df_all, object_id, local_sys_id, t_matrix_type='global', rot
 
 def t_matrix_to_tum_format(t_matrix, timestamp_list):
     '''
-    Convert transformation matrix to tum format (x, y, z, qx, qy, qz, qw).
+    Convert transformation matrix to tum format (x, y, z, qx, qy, qz, qw) (https://cvg.cit.tum.de/data/datasets/rgbd-dataset/file_formats).
     For detains of the tum format, please refer to [URL to be added]
     INPUT:
         t_matrix: a transformation matrix
@@ -304,7 +304,7 @@ def save_tum_to_file(tum_format, filepath):
 def convert(ipt_path, opt_path, local_sys_id, t_matrix_type, rotate_right_hand, rotate_left_hand, rotate_helmet_headband):
     '''
     process.py will call this function to save all tracked objects in a take into separate csv files.
-    Each csv file contains the trajectory data of tum format [URL to be added]
+    Each csv file contains the trajectory data of tum pose format (https://cvg.cit.tum.de/data/datasets/rgbd-dataset/file_formats)
     INPUT:
         ipt_path: the file path of the raw optitrack data - optitrack.csv
         opt_path: path for saving the output files
@@ -317,10 +317,12 @@ def convert(ipt_path, opt_path, local_sys_id, t_matrix_type, rotate_right_hand, 
                           45 means to rotate 45 degrees    
     '''
     opti_df = read_csv(ipt_path)
+    # get all objects' ids from optitrack's raw data
     obj_ids = get_all_obj_ids(opti_df)
     obj_paths = []
     
     for obj_id in obj_ids:
+        # get transformation matrix in our coordinidate setting
         t_matrix = get_t_matrix(opti_df, obj_id, local_sys_id, t_matrix_type=t_matrix_type, rotate_right_hand=rotate_right_hand, 
                                 rotate_left_hand=rotate_left_hand, rotate_helmet_headband=rotate_helmet_headband)
         timestamps = get_timestamp(opti_df, obj_id)

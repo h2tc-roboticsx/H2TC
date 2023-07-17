@@ -381,6 +381,7 @@ def calibrate_timestamps(in_path, out_path, fps):
 
     '''
     
+    # a detailed explanation is in https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md/#zed-rgbd
     # load timestamps
     with open(in_path, 'r') as f:
         tss = f.readlines()
