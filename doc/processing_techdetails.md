@@ -117,11 +117,11 @@ Our [OptiTrack](https://optitrack.com/) motion capture system has recorded helme
 
 Note there exists the latency from camera exposure to the reception. We then calculate the timestamp of camera exposure as the timestamp of the frame by the current timestamp minus the above latency.
 ```
-timestamp = the UNIX time of receiving the frame data - latency
+timestamp = timestamp of reception - latency
 ```
 
 **Timestamps in processing.** 
-In processing, we save the tracked motion data of the objects described above into separate .csv files via `convert` function in script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py). Each csv file contains the trajectory data of [tum pose format](https://cvg.cit.tum.de/data/datasets/rgbd-dataset/file_formats) (tx, ty, tz, qx, qy, qz, qw) and timestamps. 
+In processing, we save the tracked motion data of the objects described above into separate .csv files via `convert` function in script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py). Each .csv file contains the frame timestamps and the corresponding trajectory data in [tum pose format](https://cvg.cit.tum.de/data/datasets/rgbd-dataset/file_formats) (tx, ty, tz, qx, qy, qz, qw). 
 
 ### Gloves Hands Pose
 
