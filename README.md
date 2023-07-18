@@ -140,12 +140,15 @@ now you should be able to see the prompt indicating that these two applications 
 <!-- <details>
 <summary>Details</summary> -->
 
-Our [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data into the commonly used formats as below. You can 
-* get raw/processed data as described in [our paper]() via [How to Process](#•-how-to-process), 
-* or design your [Customized Processing](#•-customized-processing).
+Our [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data into the commonly used formats. With the tool, one can easily
+* process all raw data into the formats as detailed in the table below, or,
+* process raw data into one's preferred formats for customized needs by modifying the provided tool. 
 
+
+We refer readers to [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md) for technical details on how we process the multi-modal and cross-device raw data.
 
 <table <table border="1" cellspacing="0">
+    <caption style="text-align:centering">Table 1. Data modalities and formats</caption>
     <tr>
         <td rowspan="2" ><b>Device</b></td>
         <td colspan="2" bgcolor="#eeeeee"><b>Raw</b></td>
@@ -216,22 +219,25 @@ Our [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src)
 
 ### &#x2022; How to Process
 
-#### Step 1) Get the packed raw data
-Download <a href="https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0">our captured raw data</a> (dropbox) to your `RAWDATAPATH` like below. Each recording of our raw data is packed in a .zip file.
+#### Step 1: Get the raw data
+Download the <a href="https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0"> raw data</a> to your own folder `RAWDATA_PATH`. Each recording of our raw data is packed in a .zip file.
 ```
-RAWDATAPATH
-└──011998.zip
+RAWDATA_PATH
+└──011998.zip           - 011998 is the take number
 ```
 
-#### Step 2) Extract the packed raw data 
-Run following command to extract (unzip) the packed raw data to your target path: 
+#### Step 2: Extract the packed raw data 
+Run the following command to extract (unzip) the packed raw data to your target path `YOUR_PATH`: 
 ```
-python src/extract.py --srcpath RAWDATAPATH --tarpath YOURPATH
+python src/extract.py --srcpath RAWDATA_PATH --tarpath YOUR_PATH
 ```
-`RAWDATAPATH` is where you downloaded the packed raw data. `YOURPATH` is the target path where you want to extract the packed data. 
-After extraction done, each extracted recording should be organized under the folder `YOURPATH/data`. For example, the raw data of the recording "011998" should be organized in a way as below:
+<small>`RAWDATA_PATH` is where you downloaded the packed raw data. `YOUR_PATH` is the target path where you want to extract the packed data.</small>
 
-<!-- * ***YOURPATH/***
+Each extracted recording should be organized under the folder `YOUR_PATH/data`. 
+
+<small>For example, the raw data of the recording "011998" should be organized in a way as below, </small>
+
+<!-- * ***YOUR_PATH/***
   * ***data/***
     * ***011998/***
       * **{ZED-ID}.svo**  (<em>raw data of ZED camera with the ID</em>)
@@ -242,7 +248,7 @@ After extraction done, each extracted recording should be organized under the fo
         * **P1L.csv / P1R.csv** (<em>raw data of left / right hand pose for Hand Engine</em>)
         * **P1LMeta.json / P1RMeta.json** (<em>metadata of recording for Hand Engine</em>) -->
 ```
-YOURPATH
+YOUR_PATH
 └──data
     └──011998
         ├──hand
@@ -257,44 +263,17 @@ YOURPATH
         └──optitrack.csv
 ```
 
-`{ZED-ID}` includes three ZED device IDs, `17471`, `24483054` and `28280967`, which are the fixed third-person (side) view, the dynamic egocentric view and the fixed third-person (back) view respectively.
-`{timestamp}` is a UNIX format timestamp recording event sensor's start moment. A detailed explanation of each raw data file is in the post [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data). 
+`{ZED-ID}` indicates three ZED devices, `17471`, `24483054` and `28280967`, which are the fixed third-person (side) view, the dynamic egocentric view and the fixed third-person (back) view respectively.
+`{timestamp}` is the initial timestamp of the event camera in a UNIX format. 
+A detailed explanation of each raw data file is provided in [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data). 
 
-#### Step 3) Process the extracted data
-Once the data extracted and organized like step 2), simply run the following command with your data folder path:
+#### Step 3: Process the extracted data
+Once the raw data is extracted and organized properly as in step 2), then run the following command:
 
 ```python
-python src/process.py --datapath YOURPATH/data
+python src/process.py --datapath YOUR_PATH/data
 ```
-
-It will process all available recordings in `YOURPATH/data`. When the processing finished, the raw and processed data files will be separately stored in their own directory like below. Raw data files will be moved into a new directory `raw/`. The processed data will be stored in `processed/`. The data hierarchy would be like Figure 7 of [our paper](). A detailed explanation of each file in data folder is in the post [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data). 
-
-```
-YOURPATH
-└──data
-    └──011998
-        ├──raw              - all raw data
-        └──processed        - all processed data
-```
-Note that we don't export depth.npy and event xypt.csv by default. As they are very time/space-consuming. If you need them, you can add '--npy' and '--xypt' to command. Like:
-```python
-python src/process.py --datapath YOURPATH/data --npy --xypt
-```
- `--npy` enables the output of 3-dimensional numpy arrary holding the unnormalized depth estimation of each frame, `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events. For more customized usage, please check [Customized Processing](#•-customized-processing). 
-
-<!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_file_explanation.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/process.py -h` for more detail.  -->
-<!-- (<small>Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two.</small> ) -->
- <!-- to produce only a minimum set of data required for annotation. By default, event streams are integrated over a fixed span of time into RGB frames, and depth maps are normalized over the pixels, for **visualization**. The command for this is 
-```python
-python src/process.py
-``` -->
-
-### &#x2022; Customized Processing 
-If you want to customize the processing, please 
-  * first follow the steps 1) and 2) in [How to Process](#•-how-to-process) to get the organized raw data. 
-  * then in step 3), customize your commands via available arguments as below to configure processing. 
-You can check the code [`/src/process.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py) for more detail. 
-  * design your own processing by diving into the processing technical details [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md). This document explains how we coordinate those multi-modal, cross-device data and how we do time alignment among them. 
+Several arguments are allowed to configure the processing when running the script [src/process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py). The available arguments are:
 
 |  Arguments   | Meanings  | Defaults |
 |  :----     | :----  | :----  |
@@ -304,12 +283,42 @@ You can check the code [`/src/process.py`](https://github.com/lipengroboticsx/H2
 | duration   | The duration of recording in seconds. | 5 |
 | tolerance   | The tolerance of frame dropping in the percentage for all devices. | 0.1 |
 | depth_img_format   | Image format of the exported RGB-D frames for ZED data. Either 'png' or 'jpg'.  | png |
-| xypt   | Set true to export event stream in .xypt format. | False |
-| npy   | Set true to export depth stream in npy format.  | False |
-| depth_accuracy   | Float precision for the unnormalized depth maps. The unnormalized depth maps are not exported by default until the 'npy' are set to true. Either 'float32' or 'float64'. | float32 |
+| xypt   | Set true to export event stream in `.xypt` format which is the raw format of the events. | False |
+| npy   | Set true to export depth stream in `.npy` format which is 3-dimensional numpy arrary holding the unnormalized depth estimation of each frame.  | False |
+| depth_accuracy   | Float precision forThis document explains how we coordinate those multi-modal, cross-device data and how we do time alignment among them. the unnormalized depth maps. The unnormalized depth maps are not exported by default until the 'npy' are set to true. Either 'float32' or 'float64'. | float32 |
 | datapath   | The raw data directory of recordings. Users need to specify it.   | None |
 
+You can change the default setting by adding specific arguments into your command. E.g., we don't export depth.npy and event xypt.csv by default (`xypt` and `npy` are `False` by default). As they are very time/space-consuming. If you need them, you can add '--npy' and '--xypt' to the command: 
+```python
+python src/process.py --datapath YOUR_PATH/data --npy --xypt
+```
+ <!-- `--npy` enables the output of 3-dimensional numpy arrary holding the unnormalized depth estimation of each frame, `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events. For more customized usage, please check [Customized Processing](#•-customized-processing).  -->
 
+<!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_file_explanation.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/process.py -h` for more detail.  -->
+<!-- (<small>Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two.</small> ) -->
+ <!-- to produce only a minimum set of data required for annotation. By default, event streams are integrated over a fixed span of time into RGB frames, and depth maps are normalized over the pixels, for **visualization**. The command for this is 
+```python
+python src/process.py
+``` -->
+
+<!-- It will process all available raw data in `YOUR_PATH/data`.  -->
+Once the process is done, the raw data files will be moved into a new directory `YOUR_PATH/data/raw/`, while processed data files will be stored in another new directory `YOUR_PATH/data/processed/`. The complete data hierarchy and a detailed explanation of each file are provided in [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data). 
+
+```
+YOUR_PATH
+└──data
+    └──011998
+        ├──raw              - all raw data
+        └──processed        - all processed data
+```
+
+
+
+
+### &#x2022; Customized Processing 
+If you want to customize the processing, please: 
+  * first follow the step 1 and 2 in [How to Process](#•-how-to-process) to get the organized raw data. 
+  * then in step 3, design your own processing by diving into the processing technical details in [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md). This document explains how we process the multi-modal, cross-device data. 
 
 ### &#x2022; Trouble Shooting ❗
 
@@ -321,7 +330,7 @@ If you want so, you have to manually remove the existing, processed, data. If yo
 
 The current mechanism allows for maximally 10 failed attempts to decode (or grab in ZED term) a frame. After failed more 10 times, the decoding will abort and the processing will continue to the next part e.g. next ZED device or next stream. The frames have been decoded will be stored, while the rest frames will be ignored. This issue usually happens when decoding the last frame.
 
-To fix this bug, one can simply reprocess the problematic takes following the `reprocess the processed take`. 
+To fix this bug, one can simply reprocess the problematic takes [reprocess the processed take](#1-reprocess-the-processed-take). 
 <!-- </details> -->
 
 ## Annotator
@@ -331,11 +340,11 @@ To fix this bug, one can simply reprocess the problematic takes following the `r
 In case you want to annotate your custom-captured data with annotations as described in [our paper](), 
 we provide an annotation tool to label catch&throw activities with an interactive interface based on the processed data. 
 To annotate, please:  
-- **First** have the processed data under the directory `YOURPATH/data/take_id/processed`. The processed data can be obtained by processing the raw data as suggested in [Data Processing](#data-processing). 
+- **First** have the processed data under the directory `YOUR_PATH/data/take_id/processed`. The processed data can be obtained by processing the raw data as suggested in [Data Processing](#data-processing). 
 - **Next** run the following command to launch the annotation application.  
 
 ```p
-python src/annotate.py --datapath YOURPATH/data
+python src/annotate.py --datapath YOUR_PATH/data
 ```
 
 <!-- By default, the takes that are "failed" or have been already annotated (either "finished" or "problematic") are ignored by the program so that they will not present in the annotator.  To review the annotated takes, you should run the program with the option `--review` like:
@@ -359,7 +368,7 @@ Each text entry inside the information panel represents:
 
     1. the status of the annotation: finished, unfinished or problematic
     2. which hand used to throw at the moment *throw*
-    3. the position of the thrower at the moment *throw*
+    3. the positio`reprocess tn of the thrower at the moment *throw*
     4. the position of the catcher at the moment *throw*
     5. the average flying speed of the the thrown object
     6. the vertical hand position of the thrower at the moment *throw*
@@ -383,7 +392,7 @@ You can interact with the interface to annotate labels by the keyboard as define
 |"right arrow"| next frame|
 |"left arrow"| last frame|
 |"down arrow"| next recording|
-|"up arrow"| last recording|
+|"up arrow"| last `reprocess trecording|
 |"return"| take the current frame as a moment of throw, catch (touch), and catch (stable) in order|
 |"del"| remove the last annotated moment|
 |"Q"| switch the values of info panel 2 among left, right, and both |
@@ -397,21 +406,21 @@ You can interact with the interface to annotate labels by the keyboard as define
 |"space"| switch the values of info panel 1 between "finished" and "unfinished"|
 |"backspace"| switch the values of info panel 1 between "problematic" and "unfinished"|
 
-<b>Any modification</b> to the annotation result will be immediately saved in the corresponding annotation file under the directory `YOURPATH/annotations/take_id.json`.
+<b>Any modification</b> to the annotation result will be immediately saved in the corresponding annotation file under the dir`reprocess tectory `YOUR_PATH/annotations/take_id.json`.
 
 ### &#x2022; Note ❗
 
 #### 1. Criteria for horizontal and vertical hand positions
 The vertical and horizontal hand positions are determined according to the below illustration.
 <!-- <div style="display: flex; justify-content: center;"> -->
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png" width = "400" alt="missing_data_anno" />
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png" width = "400" alt="missing_data_`reprocess tanno" />
 <!-- </div> -->
 <!-- <div style="display: flex; justify-content: center;">Hand Locations</div> -->
 
 <!-- #### 2. Hand position is referenced to the present human body
 
 The horizontal and vertical hand position is referenced to the human body at the annotated moment. <br>
-For example, a catcher may stand before catching and squat to catch so that the body center (chest) lowers. In this case, when annotating the vertical hand position of catcher (13 in information panel) at the moment *catch (stable)*, one should refer the hand vertical position to the chest position (lowered) when squat instead of stand. The same situation can happen, while annotating horizontal hand position, if the subject turned sideways at the annotation moment. Note that, the body pose at the moment of catching can be significantly different from the standard standing pose regarding both position and orientation. This will also affect the position and orientation of the coordinates used to determine the horizontal and vertical hand positions. For example, in the case below, the subject squatted and leaned the chest down, so that the region that is classified as "chest" is simultaneously lowered and turned down. 
+For example, a catcher may stand before catching and squat to catch so that the body center (chest) lowers. In this case, when annotating the vertical hand position of catche`reprocess tr (13 in information panel) at the moment *catch (stable)*, one should refer the hand vertical position to the chest position (lowered) when squat instead of stand. The same situation can happen, while annotating horizontal hand position, if the subject turned sideways at the annotation moment. Note that, the body pose at the moment of catching can be significantly different from the standard standing pose regarding both position and orientation. This will also affect the position and orientation of the coordinates used to determine the horizontal and vertical hand positions. For example, in the case below, the subject squatted and leaned the chest down, so that the region that is classified`reprocess t as "chest" is simultaneously lowered and turned down. 
 
 ![ref_catch_stand](https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/ref_catch_stand.png)
 

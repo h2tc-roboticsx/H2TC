@@ -1,6 +1,6 @@
 # Source code
-This folder contains the source codes of our tools introduced in [our paper]() and [our project website](https://lipengroboticsx.github.io). 
-If you want to utilize the tools to deal with your data, please follow the guideline in [Run from Scratch](https://github.com/lipengroboticsx/H2TC_code/tree/main#run-from-scratch). 
+This folder contains the source codes of our tools to record, process and annotate our dataset. 
+If you want to utilize the tools, please follow the [guideline](https://github.com/lipengroboticsx/H2TC_code/tree/main#run-from-scratch). 
 
 Briefly, here is an overview of our tools:
 
@@ -8,8 +8,8 @@ Briefly, here is an overview of our tools:
 |  Scripts   | Features | Documents | 
 |  :----  | :----  | :---- |
 | **recorder.py**  | &#x2022; provides a framework that supports high-quality synchronized streaming, saving and visualization of human activities from multi-modality sensors |    [recoder document](https://github.com/lipengroboticsx/H2TC_code/tree/main#recorder)        |
-| **process.py**  | &#x2022; processes the collected raw data into the commonly used format <br> &#x2022; aligns those processed data with their timestamps |  [processer document](https://github.com/lipengroboticsx/H2TC_code/tree/main#data-processing)         |
-| **annotate.py** | &#x2022; provides an interactive interface to annatate <br> &#x2022; supports users in visually annotating subjects&objects status in real-time  |   [annotator document](https://github.com/lipengroboticsx/H2TC_code/tree/main#annotator)          |
+| **process.py**  | &#x2022; processes the collected raw data into the commonly used formats <br> &#x2022; synchronizes processed data |  [processer document](https://github.com/lipengroboticsx/H2TC_code/tree/main#data-processing)         |
+| **annotate.py** | &#x2022; provides an interactive interface that supports users to easily annotate the dataset with a variety of [dense and symbolic lables](https://github.com/lipengroboticsx/H2TC_code/tree/main#-interface).  |   [annotator document](https://github.com/lipengroboticsx/H2TC_code/tree/main#annotator)          |
 
 
 
