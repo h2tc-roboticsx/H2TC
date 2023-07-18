@@ -1,14 +1,14 @@
 # Data Processing Technical Details
 [Our dataset H<sup>2</sup>TC](https://lipengroboticsx.github.io/) contains multi-modal cross-device raw data streams. 
 To make the dataset easier to use, we have developed the [processor source code](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) and provided the [data processing document](https://github.com/lipengroboticsx/H2TC_code/tree/main#data-processing) to help readers get aligned and common-format data. 
-Considering readers may want to design their customized processing, we introduce the processing technical details in this document to auxiliarly explain the [source code](https://github.com/lipengroboticsx/H2TC_code/tree/main/src). For a more thorough explanation of the raw/processed files mentioned in this page, see [/doc/data_file_explanation.md](). 
+Considering readers may want to design their customized processing, we introduce the processing technical details in this document to auxiliarly explain the [source code](https://github.com/lipengroboticsx/H2TC_code/tree/main/src). For a more thorough explanation of the raw/processed files mentioned on this page, see [/doc/data_file_explanation.md](). 
 
 Here is an overview of this document:
 
 * [**Our Workspace**](#our-workspace): introduces our [used multi-modal devices](#used-devices) and [our coordinate setting](#our-coordinate-setting). 
 * [**Timestamping and Data Alignment**](#timestamping-and-data-alignment): introduce how [ZED RGBD](#zed-rgbd), [Event](#event), [Optitrack](#optitrack) and [Gloves Hands Pose](#gloves-hands-pose) data streams are timestamped and [aligned](#alignment) in recording and processing. 
     <!-- * [Clock Synchronization](#clock-synchronization) -->
-* [**OptiTrack Data Processing**](#optitrack-data-processing): auxiliarly explains the original optitrack coordinate and how to tranfer it to our coordinate. 
+* [**OptiTrack Data Processing**](#optitrack-data-processing): auxiliarly explains the original optitrack coordinate and how to transfer it to our coordinate. 
 * [**Hand Pose Data Processing**](#hand-pose-data-processing): auxiliarly explains how to extract hand poses and how to visualize them. 
 
 ## Our Workspace
