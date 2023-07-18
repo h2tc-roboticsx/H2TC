@@ -1,14 +1,16 @@
 '''
-postprocess.py
+process.py
 
-Lin Li (linli.tree@outlook.com) / 21 Sep. 2022 (last modified)
+Lin Li (linli.tree@outlook.com) / 21 Sep. 2022 
+Xi Luo (sunshine.just@outlook.com) / 14 Jul. 2023 
 
-Formating and processing the raw data of ZED cameras, Event camera, OptiTrack and Hand Engine.
+Formating and processing the raw data of ZED cameras, Event camera, OptiTrack and [Hand Engine](https://stretchsense.com/solution/hand-engine/).
 
 Contributions:
 
 The main processing logic and interface was written by Lin.
 The interfaces of OptiTrack and alignment was written by Jianing Qiu
+The codes refinement and documents were written by Xi
 
 
 '''
@@ -47,10 +49,7 @@ argparser.add_argument('-d', "--duration", type=float, default=5,
                        help="the duration of recording in seconds")
 argparser.add_argument('-t', '--tolerance', type=float, default=0.1,
                        help="the tolerance of frame dropping in the percentage for all devices")
-argparser.add_argument('--he_dir', default=None,
-                       help="the alternative path to the directory of HE data. This should only be set when the HE data is not stored at the default directory.")
-
-argparser.add_argument('-da', '--depth_accuracy', choices=['float32', 'float64'], default=None,
+argparser.add_argument('-da', '--depth_accuracy', choices=['float32', 'float64'], default='float32',
                        help="By default (None), the unnormalized depth map is not exported. Set this to any float precision to enable the export of depth data in the format of unnormalized depth maps.")
 argparser.add_argument('--depth_img_format', choices=['png', 'jpg'], default='png',
                        help="image format of the exported RGB-D frames for ZED")
@@ -58,8 +57,8 @@ argparser.add_argument('--xypt', action='store_true', default=False,
                        help='true to export event stream in xypt format')
 argparser.add_argument('--npy', action='store_true', default=False,
                        help='true to export depth stream in npy format')
-argparser.add_argument('--datapath', type=str, default="/home/ur-5/Projects/justlx/Sample_Cases/data",
-                       help='data path of all takes')
+argparser.add_argument('--datapath', type=str, default="",
+                       help='raw data path of all takes')
 
 # mapping from RGBD stream ID to ZED camera ID
 ZED_CAMS = {
@@ -81,7 +80,7 @@ def process(take, args):
 
     Returns: 
         None
-    
+
     Args:
         take (string); the id of the take
         args (dict): arguments parsed from the console
@@ -108,9 +107,9 @@ def process(take, args):
         shutil.move(_raw_dir, take_dir)
 
 
-    print("processing ZED")
     ts_paths = [] # list with timestamp filepath of all streams ZEDx3, Event, optitrack, HEx2
 
+    print("processing RGBD streams")
     # iterate through three ZED streams
     for stream_id in ['rgbd0', 'rgbd1', 'rgbd2']:
         # get the camera ID by the stream ID
@@ -144,7 +143,6 @@ def process(take, args):
             raw_ts_path = os.path.join(raw_dir, '{}.csv'.format(device_id))
             # calibrate the ZED timestamps
             zed.calibrate_timestamps(raw_ts_path, proc_ts_path, args.fps_zed)
-            
             
         # adding timestamp file path to the list for the alignment processing
         ts_paths.append(proc_ts_path)
@@ -197,7 +195,8 @@ def process(take, args):
     
     
     print("processing optitrack data")
-    # determine local coordinate system ID according the take ID
+    # determine the coordinate system ID according the take ID
+    # check the document (https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md/#the-coordinate-system-id) for more details about our coordinate system 
     if int(take) < 2889:
         local_sys_id = '0'
     elif int(take) < 9789:
@@ -205,9 +204,10 @@ def process(take, args):
     else:
         local_sys_id = '2'
 
-    # the right hand in takes from 520-1699 needs to apply an extra rotation
+    # the right hand in takes from 520-1699 needs to apply an additional rotation
     # 90 degrees along the Y axis for takes from 520-1559 
     # and 180 degrees along the Y axis for takes from 1560-1699
+    # check the document (https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md/#note) for more details about the extra transformation
     if 519 < int(take) and int(take) <= 1559:
         rotate_right_hand = 90
     elif 1559 < int(take) and int(take) <= 1699:
@@ -215,15 +215,15 @@ def process(take, args):
     else:
         rotate_right_hand = -1
 
-    # the left hand in takes from 1040-1559 needs to apply an extra rotation 
+    # the left hand in takes from 1040-1559 needs to apply an additional rotation 
     # 45 degrees along the Y axis 
     if 1040 <= int(take) and int(take) <= 1559:
         rotate_left_hand = 45
     else:
         rotate_left_hand = -1
 
-    # the helmet and headband in takes from 0-1699 need to apply an extra rotation to correct their initial orientation
-    # this requires rotating along Y axis with extra 45 degrees for the headband, and -180 degrees for the helmet.
+    # the helmet and headband in takes from 0-1699 need to apply an additional rotation to correct their initial orientation
+    # this requires rotating along Y axis with additional 45 degrees for the headband, and -180 degrees for the helmet.
     if 0 <= int(take) and int(take) <= 1699:
         rotate_helmet_headband = True
     else:
@@ -237,7 +237,7 @@ def process(take, args):
 
     # if the processed optitrack data not exists
     if not opi.if_processed_exist(proc_dir):
-        # convert the data from optitrack global coordinate to our local coordinate
+        # convert the data from optitrack global coordinate to our coordinate
         # we use the optitrack's global transformation matrix
         opi_paths = opi.convert(raw_path,
                                 proc_dir,
@@ -250,20 +250,20 @@ def process(take, args):
         ts_paths.append(opi_paths)
 
     
-    print("processing Hand Engine data")
-    # path to HE raw data
+    print("processing gloves hands pose data")
+    # path to hands raw data generated by hand engine (he for short)
     take_he_path = os.path.join(raw_dir, 'hand')
-    # if the raw data path not exists
-    if not os.path.exists(take_he_path):
-        # alternative path to HE raw data must be specified in the console args
-        assert args.he_dir is not None
-        # get all raw data directories of the take under the alternative HE directory
-        he_takes = [he_take for he_take in os.listdir(args.he_dir) if take in he_take]
-        # the last one is correct one when multiple takes with the same take id
-        he_path = os.path.join(args.he_dir, sorted(he_takes)[-1])
-        print('he_path: ', he_path)
-        # move the raw data directory to the path under the raw directory
-        shutil.copytree(he_path, take_he_path)
+    # # if the raw data path not exists
+    # if not os.path.exists(take_he_path):
+    #     # alternative path to HE raw data must be specified in the console args
+    #     assert args.he_dir is not None
+    #     # get all raw data directories of the take under the alternative HE directory
+    #     he_takes = [he_take for he_take in os.listdir(args.he_dir) if take in he_take]
+    #     # the last one is correct one when multiple takes with the same take id
+    #     he_path = os.path.join(args.he_dir, sorted(he_takes)[-1])
+    #     print('he_path: ', he_path)
+    #     # move the raw data directory to the path under the raw directory
+    #     shutil.copytree(he_path, take_he_path)
     
     # evaluate frame drop rate for LEFT hand 
     he.verify_frame_integrity(take_he_path, he.Hand.LEFT, args.duration, args.tolerance) 

@@ -167,7 +167,8 @@ def export_to_xypt(ipt_path, opt_path, ts_init):
         ts_init (int): the UNIX timestamp in nanoseconds of recording start
 
     '''
-
+    
+    # a detailed explanation is in https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md/#event
     opt_path = os.path.join(opt_path, XYPT_FILENAME) # path to the output xypt file
 
     if os.path.isfile(opt_path):
@@ -214,6 +215,7 @@ def export_to_images(ipt_path, opt_path, fps=30):
 
     '''
 
+    # a detailed explanation is in https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md/#event
     frames_path = os.path.join(opt_path, FRAME_DIR) # directory to export the frames
 
     if os.path.exists(frames_path):

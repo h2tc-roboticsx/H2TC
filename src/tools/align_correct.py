@@ -9,7 +9,7 @@ root_path = os.path.join(curr_path, "../..")
 # add root directory to the system path
 sys.path.append(root_path)
 
-from src.postprocess import ZED_CAMS
+from process import ZED_CAMS
 from src.annotate import anno_dir, load_timestamp, save_anno
 from src.log import data_path
 from src.utils.align import align
@@ -102,7 +102,7 @@ def align_ts(take):
     ts_paths.append(ts_path)
 
     
-    # determine local coordinate system ID according the take ID
+    # determine the coordinate system ID according the take ID
     if int(take) < 2889:
         local_sys_id = '0'
     elif int(take) < 9789:
@@ -142,7 +142,7 @@ def align_ts(take):
 
     # if the processed optitrack data not exists
     if not opi.if_processed_exist(proc_dir):
-        # convert the data from optitrack global coordinate to our local coordinate
+        # convert the data from optitrack global coordinate to our coordinate
         # we use the optitrack's global transformation matrix
         opi_paths = opi.convert(raw_path,
                                 proc_dir,

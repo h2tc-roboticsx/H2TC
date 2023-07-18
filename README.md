@@ -19,11 +19,9 @@ You can follow the steps to run from scratch:
 4. (Optional) [Annotate](#annotator) the processed data. You can use the annotator to label your own captured data. 
 
 
-
-
-
 ## Dependencies
-
+<!-- <details> -->
+<!-- <summary>Details</summary> -->
 To run our code, some dependencies have to be installed. 
 
  ### System environment
@@ -39,7 +37,7 @@ We have not tested our code on other development environments, so you are recomm
 
 ### Softwares
 
-Apart from them, there are two more applications you have to check if you have in order to run the **postprocessing** script:
+Apart from them, there are two more applications you have to check if you have in order to run the **processing** script:
 
 * spd-say: text-to-voice convertor.
 * ffmpeg: video decoder
@@ -95,18 +93,22 @@ metavision_viewer
 <!-- <u>***TODO: picture of running successfully***</u> -->
 
 You should also be able to record using ZED by running the official [sample](https://github.com/stereolabs/zed-examples/tree/master/svo%20recording/recording/python). If you don't have a camera or don't intend to record, you could just check if `pyzed` and `metavision_core` modules can be successfully imported in your python program. If any failure, you should inspect your installation if done manually and, unfortunately, troubleshooting this is beyond the scope of this instruction.
-
+<!-- </details> -->
 
 
 
 ## Recorder
+<!-- <details>
+<summary>Details</summary> -->
 
-Our recorder integrates the functionality of arranging the content to be recorded, recording with multiple devices, and annotating the result of the recording into one user-friendly interactive program. 
+Our recorder integrates the functionality of arranging the contents to be recorded and recording with multiple devices. As shown in [our paper](), our recording system consists of  3 [Stereolabs ZED RGBD cameras](https://www.stereolabs.com/zed-2/), 1 [Prophesee event camera](https://www.prophesee.ai/), 1 [StretchSense two-hand pose capturing glove](https://stretchsense.com/), and 1 [OptiTrack motion capture system](https://optitrack.com/). To record these devices synchronously, please: 
 
-**First**, enable all recording devices and ensure each of them function smoothly. Three ZED cameras and one Prophesee event camera should be wired to the host where the recorder program is supposed to run. StretchSense MoCap Pro gloves should be wireless connected to a Windows machine with its official client software Hand Engine running. OptiTrack server can be either operated on a separate host, recommended by us, or on the same host as any of the two aforementioned ones as long as the computational resource allows and the performance will not be thus compromised. You may need to configure the firewall on each machine to allow the UDP communication among them.
+**Step 1)**, enable all recording devices and ensure each of them function smoothly. 
+* Three ZED cameras and one Prophesee event camera should be wired to the host where the recorder program is supposed to run. 
+* StretchSense MoCap Pro gloves should be wireless connected to a Windows machine with its official client software [Hand Engine](https://stretchsense.com/solution/hand-engine/) running. 
+* OptiTrack server can be either operated on a separate host, recommended by us, or on the same host as any of the two aforementioned ones as long as the computational resource allows and the performance will not be thus compromised. You may need to configure the firewall on each machine to allow the user datagram protocol (UDP) communication among them.
 
-**Second**, update the configuration in our OptiTrack NatNet client code and rebuild the NatNet client. You need to set the values of OptiTrack server IP address (`char* ip_address`), recorder IP address (`servaddr.sin_addr`), and recorder port (`PORT`) according to your network setting in the file `/src/natnet_client/src/example_main.cpp`. 
-
+**Step 2)**, update the configuration in our OptiTrack NatNet client code and rebuild the NatNet client by following [our NatNet document](https://github.com/lipengroboticsx/H2TC_code/tree/main/src/natnet_client). Briefly, you need to set the values of OptiTrack server IP address (`char* ip_address`), recorder IP address (`servaddr.sin_addr`), and recorder port (`PORT`) according to your network setting in the file [`/src/natnet_client/src/example_main.cpp`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/natnet_client/src/example_main.cpp). 
 ```p
 cd natnet_client
 mkdir build
@@ -115,31 +117,33 @@ cmake ..
 make
 ```
 
-**Third**, initialize your lists of subjects and objects in the corresponding files `/register/subjects.csv` and `/register/objects.csv` respectively. Each subject and object should lie in a new line. Please check the sample lists in our repository for detailed format.
+**Step 3)**, initialize your lists of subjects and objects in the corresponding files `/register/subjects.csv` and `/register/objects.csv` respectively. Each subject and object should lie in a new line. Please check the sample lists in our repository for detailed format.
 
-**Next**, launch the main recorder application with the IP and Port of the local machine and of the HE application:
-
+**Step 4)**, launch the main recorder application with the IP and Port of the local machine and of the HE application:
 ```
-python src/recorder.py --addr IP:PORT --he_addr IP:PORT
-```
-
-and the NatNet client:
-
-```
-./src/natnet_client/build/natnet_client
+python src/recorder.py --addr IP:PORT --he_addr IP:PORT     
 ```
 
-now you should be able to see the prompt indicating that these two applications have successfully communicated with each other, if everything goes well, as shown blow 
+and run the NatNet client 
+```
+./src/natnet_client/build/natnet_client                   
+```
 
+now you should be able to see the prompt indicating that these two applications have successfully communicated with each other, if everything goes well, as shown below 
 <!-- <u>***TODO pictures of connection established.***</u> -->
 
-**Last**, operate the main recorder to record following the interactive instruction. The main recorder will automatically communicate with and command Hand Engine and NatNet client to record. Nevertheless, we do recommend you to regularly check Hand Engine and NatNet client to see if bug.
-
+**Step 5)**, operate the main recorder to record following the interactive instruction. The main recorder will automatically communicate with and command Hand Engine and NatNet client to record. Nevertheless, we do recommend you to regularly check Hand Engine and NatNet client to see if bug.
+<!-- </details> -->
 <!-- <u>***TODO picture of a complete take***</u> -->
 
 ## Data Processing
+<!-- <details>
+<summary>Details</summary> -->
 
-Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data into the format as below. 
+Our [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data into the commonly used formats as below. You can 
+* get raw/processed data as described in [our paper]() via [How to Process](#•-how-to-process), 
+* or design your [Customized Processing](#•-customized-processing).
+
 
 <table <table border="1" cellspacing="0">
     <tr>
@@ -173,7 +177,7 @@ Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main
         <td style="text-align: left;" rowspan="2">Event</td>
         <td style="text-align: left;">Binary events in EVT3.0 format</td>
         <td style="text-align: left;">.RAW</td>
-        <td style="text-align: left;">Events ($x, y, p, t$)</td>
+        <td style="text-align: left;">Events (<span class="math display">x, y, p, t</span>)</td>
         <td style="text-align: left;">.CSV</td>
     </tr>
     <tr >
@@ -212,22 +216,20 @@ Our data [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main
 
 ### &#x2022; How to Process
 
-To run the tool, please: 
-
-#### 1. Get the raw data
-Download <a href="https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0">our captured raw data</a> (dropbox) to your `XXXPATH` like below. Each recording of our raw data is packed in a .zip file.
+#### Step 1) Get the packed raw data
+Download <a href="https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0">our captured raw data</a> (dropbox) to your `RAWDATAPATH` like below. Each recording of our raw data is packed in a .zip file.
 ```
-XXXPATH
+RAWDATAPATH
 └──011998.zip
 ```
 
-#### 2. Extract the raw data 
-Extract the packed raw data by running:
+#### Step 2) Extract the packed raw data 
+Run following command to extract (unzip) the packed raw data to your target path: 
 ```
-python src/extract --srcpath XXXPATH --tarpath YOURPATH
+python src/extract.py --srcpath RAWDATAPATH --tarpath YOURPATH
 ```
-`XXXPATH` is the path where you downloaded the packed raw data in. `YOURPATH` is the target path where you want to extract the packed data to. 
-After extraction done, each extracted recording should be under the folder `YOURPATH/data`. For example, the raw data of the recording "011998" should be organized in a way as below:
+`RAWDATAPATH` is where you downloaded the packed raw data. `YOURPATH` is the target path where you want to extract the packed data. 
+After extraction done, each extracted recording should be organized under the folder `YOURPATH/data`. For example, the raw data of the recording "011998" should be organized in a way as below:
 
 <!-- * ***YOURPATH/***
   * ***data/***
@@ -255,25 +257,17 @@ YOURPATH
         └──optitrack.csv
 ```
 
- For a detailed explanation of each file, please refer to the post `/doc/data_file_explanation.md`.
+`{ZED-ID}` includes three ZED device IDs, `17471`, `24483054` and `28280967`, which are the fixed third-person (side) view, the dynamic egocentric view and the fixed third-person (back) view respectively.
+`{timestamp}` is a UNIX format timestamp recording event sensor's start moment. A detailed explanation of each raw data file is in the post [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data). 
 
-#### 3. Process the extracted data
-Once the data extracted and organized like step 2, simply run the following command with your data folder path:
+#### Step 3) Process the extracted data
+Once the data extracted and organized like step 2), simply run the following command with your data folder path:
 
 ```python
-python src/postprocess.py --datapath YOURPATH/data
+python src/process.py --datapath YOURPATH/data
 ```
 
-There are several parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail. 
-<!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_file_explanation.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/postprocess.py -h` for more detail.  -->
-
-<!-- (<small>Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two.</small> ) -->
- <!-- to produce only a minimum set of data required for annotation. By default, event streams are integrated over a fixed span of time into RGB frames, and depth maps are normalized over the pixels, for **visualization**. The command for this is 
-```python
-python src/postprocess.py
-``` -->
-
- After the processing finished, the raw and processed data files will be separately stored in their own directory like below. All raw data will be moved into a new directory `raw/`. The processed data is stored in `processed/`.
+It will process all available recordings in `YOURPATH/data`. When the processing finished, the raw and processed data files will be separately stored in their own directory like below. Raw data files will be moved into a new directory `raw/`. The processed data will be stored in `processed/`. The data hierarchy would be like Figure 7 of [our paper](). A detailed explanation of each file in data folder is in the post [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data). 
 
 ```
 YOURPATH
@@ -282,13 +276,40 @@ YOURPATH
         ├──raw              - all raw data
         └──processed        - all processed data
 ```
-<!-- * ***YOURPATH/***
-  * ***data/***
-    * ***011998/***
-      * ***raw/***: all raw data
-      * ***processed/***: all processed data -->
+Note that we don't export depth.npy and event xypt.csv by default. As they are very time/space-consuming. If you need them, you can add '--npy' and '--xypt' to command. Like:
+```python
+python src/process.py --datapath YOURPATH/data --npy --xypt
+```
+ `--npy` enables the output of 3-dimensional numpy arrary holding the unnormalized depth estimation of each frame, `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events. For more customized usage, please check [Customized Processing](#•-customized-processing). 
 
- The data hierarchy would be like Figure 7 of [our paper](). For the technical detail of how we process the data, please refer to `/doc/postprocessing.md`. 
+<!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_file_explanation.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/process.py -h` for more detail.  -->
+<!-- (<small>Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two.</small> ) -->
+ <!-- to produce only a minimum set of data required for annotation. By default, event streams are integrated over a fixed span of time into RGB frames, and depth maps are normalized over the pixels, for **visualization**. The command for this is 
+```python
+python src/process.py
+``` -->
+
+### &#x2022; Customized Processing 
+If you want to customize the processing, please 
+  * first follow the steps 1) and 2) in [How to Process](#•-how-to-process) to get the organized raw data. 
+  * then in step 3), customize your commands via available arguments as below to configure processing. 
+You can check the code [`/src/process.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py) for more detail. 
+  * design your own processing by diving into the processing technical details [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md). This document explains how we coordinate those multi-modal, cross-device data and how we do time alignment among them. 
+
+|  Arguments   | Meanings  | Defaults |
+|  :----     | :----  | :----  |
+| takes     | ID of recordings to be processed. Set 'None' to process all recordings in the 'data' directory. This can be given with a single integer number for one take or a range linked by '-', e.g., '10-12' for recordings [000010, 000011, 000012]. | None |
+| fps_event | FPS for decoding event data into frames. | 60 |
+| fps_zed   | FPS for decoding ZED RGBD frames. This should equal to the value used for recording. | 60 |
+| duration   | The duration of recording in seconds. | 5 |
+| tolerance   | The tolerance of frame dropping in the percentage for all devices. | 0.1 |
+| depth_img_format   | Image format of the exported RGB-D frames for ZED data. Either 'png' or 'jpg'.  | png |
+| xypt   | Set true to export event stream in .xypt format. | False |
+| npy   | Set true to export depth stream in npy format.  | False |
+| depth_accuracy   | Float precision for the unnormalized depth maps. The unnormalized depth maps are not exported by default until the 'npy' are set to true. Either 'float32' or 'float64'. | float32 |
+| datapath   | The raw data directory of recordings. Users need to specify it.   | None |
+
+
 
 ### &#x2022; Trouble Shooting ❗
 
@@ -301,8 +322,12 @@ If you want so, you have to manually remove the existing, processed, data. If yo
 The current mechanism allows for maximally 10 failed attempts to decode (or grab in ZED term) a frame. After failed more 10 times, the decoding will abort and the processing will continue to the next part e.g. next ZED device or next stream. The frames have been decoded will be stored, while the rest frames will be ignored. This issue usually happens when decoding the last frame.
 
 To fix this bug, one can simply reprocess the problematic takes following the `reprocess the processed take`. 
+<!-- </details> -->
 
 ## Annotator
+<!-- <details> -->
+<!-- <summary>Details</summary> -->
+
 In case you want to annotate your custom-captured data with annotations as described in [our paper](), 
 we provide an annotation tool to label catch&throw activities with an interactive interface based on the processed data. 
 To annotate, please:  
@@ -413,3 +438,4 @@ If no frame is qualified, the entire take should be annotated as "problematic" a
 <!-- #### 4. Wrong result of catching
 In some cases, the result of catching can be miss-typed during recording. 
 For example, a take was labeled as "success" (should be "failed") but the catcher actually failed to catch the object. This should be corrected alongside the annotation. One should leave the take unannotated in the annotator program and manually correct this by editing the value of the "success" column in the logbook `/log.xlsx`.  Note that the annotator program will automatically filter out the takes labeled as "failed", so only the case of false "success" is possible to appear during annotation. -->
+<!-- </details> -->

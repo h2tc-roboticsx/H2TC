@@ -64,6 +64,7 @@ def format(fdir, hand):
 
     '''
     
+    # a detailed explanation is in https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md/#gloves-hands-pose
     fpath = os.path.join(fdir, RAW[hand]) # path to the raw data of the hand
     # load raw data to a list
     with open(fpath, 'r') as f: frames = f.readlines()
