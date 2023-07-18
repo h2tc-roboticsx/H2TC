@@ -8,7 +8,7 @@ Briefly, here is an overview of our tools:
 |  Scripts   | Features | Documents | 
 |  :----  | :----  | :---- |
 | **recorder.py**  | &#x2022; provides a framework that supports high-quality synchronized streaming, saving and visualization of human activities from multi-modality sensors |    [recoder document](https://github.com/lipengroboticsx/H2TC_code/tree/main#recorder)        |
-| **process.py**  | &#x2022; converts the raw data into the commonly used format <br> &#x2022; aligns those captured data in the same frame per second |  [processer document](https://github.com/lipengroboticsx/H2TC_code/tree/main#data-processing)         |
+| **process.py**  | &#x2022; processes the collected raw data into the commonly used format <br> &#x2022; aligns those processed data with their timestamps |  [processer document](https://github.com/lipengroboticsx/H2TC_code/tree/main#data-processing)         |
 | **annotate.py** | &#x2022; provides an interactive interface to annatate <br> &#x2022; supports users in visually annotating subjects&objects status in real-time  |   [annotator document](https://github.com/lipengroboticsx/H2TC_code/tree/main#annotator)          |
 
 

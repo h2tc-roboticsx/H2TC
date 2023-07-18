@@ -220,36 +220,29 @@ A quick reference to the terms used above.
 
 <!-- ## Terms We Created -->
 
-1. subject 1 and 2
-
-   * subject 1: the subject who is equipped with the helmet and the gloves. The left person in Figure 4 of [our paper]().
-   * subject 2: the subject who is equipped with only the head band. The right person in Figure 4 of [our paper]().
-
-2. OptiTrack object ID
-
-   * 115: the helmet
-   * 116: the right hand tracking plate
-   * 117: the left hand tracking plate
-   * 118: the headband
-
-3. ZED device SN
-
-   * 17471: the fixed third-person (side) view ZED RGBD sensor
-   * 24483054: the dynamic egocentric view ZED RGBD sensor
-   * 28280967:the fixed third-person (back) view ZED RGBD sensor 
-
-4. Stream ID
-
-   * rgbd0: the fixed third person (side) view ZED RGBD sensor
-   * rgbd1: the dynamic egocentric view ZED RGBD sensor
-   * rgbd2: the fixed third-person (back) view ZED RGBD sensor 
-   * event: event camera
-   * left_hand_pose: left hand pose recorded by stretchsense gloves
-   * right_hand_pose: right hand pose recorded by stretchsense gloves
-   * sub1_head_motion: the motion of the subject 1's head (helmet) recorded by OptiTrack
-   * sub1_left_hand_motion: the motion of the subject 1's left hand (left hand glove) recorded by OptiTrack
-   * sub1_right_hand_motion: the motion of the subject 1's right hand (right hand glove) recorded by OptiTrack
-   * sub2_head_motion: the motion of the subject 2's head (headband) recorded by OptiTrack
+* subject 1 and 2
+  * subject 1: the subject who is equipped with the helmet and the gloves. The left person in Figure 4 of [our paper]().
+  * subject 2: the subject who is equipped with only the head band. The right person in Figure 4 of [our paper]().
+* OptiTrack object ID
+  * 115: the helmet
+  * 116: the right hand tracking plate
+  * 117: the left hand tracking plate
+  * 118: the headband
+* ZED device SN
+  * 17471: the fixed third-person (side) view ZED RGBD sensor
+  * 24483054: the dynamic egocentric view ZED RGBD sensor
+  * 28280967:the fixed third-person (back) view ZED RGBD sensor 
+* Stream ID
+  * rgbd0: the fixed third person (side) view ZED RGBD sensor
+  * rgbd1: the dynamic egocentric view ZED RGBD sensor
+  * rgbd2: the fixed third-person (back) view ZED RGBD sensor 
+  * event: event camera
+  * left_hand_pose: left hand pose recorded by stretchsense gloves
+  * right_hand_pose: right hand pose recorded by stretchsense gloves
+  * sub1_head_motion: the motion of the subject 1's head (helmet) recorded by OptiTrack
+  * sub1_left_hand_motion: the motion of the subject 1's left hand (left hand glove) recorded by OptiTrack
+  * sub1_right_hand_motion: the motion of the subject 1's right hand (right hand glove) recorded by OptiTrack
+  * sub2_head_motion: the motion of the subject 2's head (headband) recorded by OptiTrack
 
 <!-- 5. pose coordinates: there are three coordinates involved for positioning 
 

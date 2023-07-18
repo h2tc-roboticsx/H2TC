@@ -148,9 +148,9 @@ We currently align the streams directly with their timestamps without any furthe
 Although all data streams have been timestamped in recording, it is impossible for their timestamps to be exactly the same. There exists time drift in millisecond-level between data streams. Therefore, during processing, we use the timestamp of **rgbd0 camera**, the fixed third-person (side) view camera, serial number: 17471, as the reference, and align the timestamps of the rest data streams to it. The resulting timestamp alignment is saved in a file called `alignment.json`. 
 
 #### How to create an alignment.json file
-We use the timestamps of **rgbd0 camera** as the reference. Therefore, the total number of frames saved in the `alignment.json` is equal to the number of timestamps recorded by **rgbd0 camera**. 
-
-Given a timestamp of **rgbd0 camera** and its associated frame number, for each of other data streams, we use the binary search alogrithm to find their **nearest** timestamp to the timestamp of **rgbd0 camera**. This nearest timestamp is then used as the timestamp of that frame of the other data stream. Note that the difference between the nearest timestamp and its query **rgbd0 camera**'s timestamp has to be within a threshold, which is currently set to 1/60 * 10e9 nanosecond.
+We use the timestamps of **rgbd0 camera** as the reference. Therefore, the total number of frames saved in the `alignment.json` is equal to the number of timestamps recorded by rgbd0 camera. 
+<br>
+Given a timestamp of rgbd0 camera and its associated frame number, for each of other data streams, we use the binary search alogrithm to find their **nearest** timestamp to the timestamp of rgbd0 camera. This nearest timestamp is then used as the timestamp of that frame of the other data stream. Note that the difference between the nearest timestamp and its query rgbd0 camera's timestamp has to be within a threshold, which is currently set to 1/60 * 10e9 nanosecond.
 
 #### The alignment.json file
 `Alignment.json` file essentially saves a dictionary whose keys represent the frame indices. The corresponding value for each key is a mapping between stream id and its timestamp. In each frame (key), we align each stream timestamp to the frame reference timestamp (`rgbd0`) by finding the closest one to the reference.
