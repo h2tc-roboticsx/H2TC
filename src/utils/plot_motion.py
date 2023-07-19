@@ -235,21 +235,20 @@ def plot_hand_pose_and_motion(data_root, local_sys_id, rotate_right_hand, rotate
 		ax.set_xlabel('x')
 		ax.set_ylabel('y')
 		ax.set_zlabel('z')
-		ax.view_init(elev=30, azim=180, vertical_axis='y')
+		ax.view_init(elev=10, azim=90, vertical_axis='y')
     
-
-		# plot the right hand
-		if aligned_tss['right_hand_pose'] != None and aligned_tss['sub1_right_hand_motion'] != None:
-			curr_right_hand_data = right_records.loc[right_records['timestamp'] == aligned_tss['right_hand_pose']]
-			curr_right_hand_t_matrix = np.array(right_hand_ts_t_matrix[aligned_tss['sub1_right_hand_motion']])
-			plot_right_hand(ax, curr_right_hand_t_matrix, curr_right_hand_data, right_color)
-		
 		# plot the left hand
 		if aligned_tss['left_hand_pose'] != None and aligned_tss['sub1_left_hand_motion'] != None:
 			curr_left_hand_data = left_records.loc[left_records['timestamp'] == aligned_tss['left_hand_pose']]
 			curr_left_hand_t_matrix = np.array(left_hand_ts_t_matrix[aligned_tss['sub1_left_hand_motion']])
 			plot_left_hand(ax, curr_left_hand_t_matrix, curr_left_hand_data, left_color)
 
+		# # plot the right hand
+		if aligned_tss['right_hand_pose'] != None and aligned_tss['sub1_right_hand_motion'] != None:
+			curr_right_hand_data = right_records.loc[right_records['timestamp'] == aligned_tss['right_hand_pose']]
+			curr_right_hand_t_matrix = np.array(right_hand_ts_t_matrix[aligned_tss['sub1_right_hand_motion']])
+			plot_right_hand(ax, curr_right_hand_t_matrix, curr_right_hand_data, right_color)
+		
 		# plot the object if it was tracked by the optitrack system
 		if object_stream_name != None and aligned_tss[object_stream_name] != None:
 			curr_object_data = object_records.loc[object_records['timestamp'] == aligned_tss[object_stream_name]]

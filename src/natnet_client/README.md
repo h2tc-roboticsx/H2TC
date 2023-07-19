@@ -17,7 +17,6 @@ NatNet client, used to communicate with the NatNet server (Motive on Windows) wi
 ## Build
 
 ```bash
-git clone http://git.code.oa.com/robotics_x_vision/Optitrack_NatNet_client.git
 cd natnet_client
 mkdir build
 cd build

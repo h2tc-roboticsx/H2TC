@@ -101,7 +101,7 @@ You should also be able to record using ZED by running the official [sample](htt
 <!-- <details>
 <summary>Details</summary> -->
 
-Our recorder integrates the functionality of arranging the contents to be recorded and recording with multiple devices. As shown in [our paper](), our recording system consists of  3 [Stereolabs ZED RGBD cameras](https://www.stereolabs.com/zed-2/), 1 [Prophesee event camera](https://www.prophesee.ai/), 1 [StretchSense two-hand pose capturing glove](https://stretchsense.com/), and 1 [OptiTrack motion capture system](https://optitrack.com/). To record these devices synchronously, please: 
+Our recorder integrates the functionality of arranging the contents to be recorded and recording with multiple devices. Our recording system consists of  3 [Stereolabs ZED RGBD cameras](https://www.stereolabs.com/zed-2/), 1 [Prophesee event camera](https://www.prophesee.ai/), 1 [StretchSense two-hand pose capturing glove](https://stretchsense.com/), and 1 [OptiTrack motion capture system](https://optitrack.com/). To record these modalities synchronously, please: 
 
 **Step 1)**, enable all recording devices and ensure each of them function smoothly. 
 * Three ZED cameras and one Prophesee event camera should be wired to the host where the recorder program is supposed to run. 
@@ -110,7 +110,7 @@ Our recorder integrates the functionality of arranging the contents to be record
 
 **Step 2)**, update the configuration in our OptiTrack NatNet client code and rebuild the NatNet client by following [our NatNet document](https://github.com/lipengroboticsx/H2TC_code/tree/main/src/natnet_client). Briefly, you need to set the values of OptiTrack server IP address (`char* ip_address`), recorder IP address (`servaddr.sin_addr`), and recorder port (`PORT`) according to your network setting in the file [`/src/natnet_client/src/example_main.cpp`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/natnet_client/src/example_main.cpp). 
 ```p
-cd natnet_client
+cd src/natnet_client
 mkdir build
 cd build
 cmake ..
@@ -118,21 +118,25 @@ make
 ```
 
 **Step 3)**, initialize your lists of subjects and objects in the corresponding files `/register/subjects.csv` and `/register/objects.csv` respectively. Each subject and object should lie in a new line. Please check the sample lists in our repository for detailed format.
+[tbd: check sub.csv and obj.csv path]
 
 **Step 4)**, launch the main recorder application with the IP and Port of the local machine and of the HE application:
 ```
 python src/recorder.py --addr IP:PORT --he_addr IP:PORT     
 ```
 
-and run the NatNet client 
+[tbd: add recorder.py arguments]
+
+and run the NatNet client in another terminal:
 ```
 ./src/natnet_client/build/natnet_client                   
 ```
 
 now you should be able to see the prompt indicating that these two applications have successfully communicated with each other, if everything goes well, as shown below 
+[tbd: pictures of connection established]
 <!-- <u>***TODO pictures of connection established.***</u> -->
 
-**Step 5)**, operate the main recorder to record following the interactive instruction. The main recorder will automatically communicate with and command Hand Engine and NatNet client to record. Nevertheless, we do recommend you to regularly check Hand Engine and NatNet client to see if bug.
+**Step 5)**, operate the main recorder to record following the interactive instruction. The main recorder will automatically communicate with and command Hand Engine and NatNet client to record. Nevertheless, we do recommend you to regularly check Hand Engine and NatNet client to see if it bugs.
 <!-- </details> -->
 <!-- <u>***TODO picture of a complete take***</u> -->
 
@@ -337,7 +341,7 @@ To fix this bug, one can simply reprocess the problematic takes [reprocess the p
 <!-- <details> -->
 <!-- <summary>Details</summary> -->
 
-In case you want to annotate your custom-captured data with annotations as described in [our paper](), 
+In case you want to annotate your custom-captured data with annotations, 
 we provide an annotation tool to label catch&throw activities with an interactive interface based on the processed data. 
 To annotate, please:  
 - **First** have the processed data under the directory `YOUR_PATH/data/take_id/processed`. The processed data can be obtained by processing the raw data as suggested in [Data Processing](#data-processing). 
@@ -346,12 +350,15 @@ To annotate, please:
 ```p
 python src/annotate.py --datapath YOUR_PATH/data
 ```
-
+[tbd: add arguments]
 <!-- By default, the takes that are "failed" or have been already annotated (either "finished" or "problematic") are ignored by the program so that they will not present in the annotator.  To review the annotated takes, you should run the program with the option `--review` like:
 
 ```
 python src/annotate.py --review
 ``` -->
+
+### Segmentation and Annotation
+[tbd: add table 6 and fig 9]
 
 ### &#x2022; Interface
 After running the command, you can see the following interface excluding the orange bars (they are figure annotation). 
@@ -363,12 +370,12 @@ The interface consists of multi-view RGB streams (left column), multi-view depth
 Inside the information panel, the annotation result is displayed in real-time. 
 
 ![](https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/info_panel_explanation.png)
-
+[tbd: add "", check paper for consistance]
 Each text entry inside the information panel represents:
 
-    1. the status of the annotation: finished, unfinished or problematic
+    1. the status of the annotation: "finished", unfinished or problematic
     2. which hand used to throw at the moment *throw*
-    3. the positio`reprocess tn of the thrower at the moment *throw*
+    3. the position of the thrower at the moment *throw*
     4. the position of the catcher at the moment *throw*
     5. the average flying speed of the the thrown object
     6. the vertical hand position of the thrower at the moment *throw*
@@ -392,7 +399,7 @@ You can interact with the interface to annotate labels by the keyboard as define
 |"right arrow"| next frame|
 |"left arrow"| last frame|
 |"down arrow"| next recording|
-|"up arrow"| last `reprocess trecording|
+|"up arrow"| last recording|
 |"return"| take the current frame as a moment of throw, catch (touch), and catch (stable) in order|
 |"del"| remove the last annotated moment|
 |"Q"| switch the values of info panel 2 among left, right, and both |
@@ -406,21 +413,21 @@ You can interact with the interface to annotate labels by the keyboard as define
 |"space"| switch the values of info panel 1 between "finished" and "unfinished"|
 |"backspace"| switch the values of info panel 1 between "problematic" and "unfinished"|
 
-<b>Any modification</b> to the annotation result will be immediately saved in the corresponding annotation file under the dir`reprocess tectory `YOUR_PATH/annotations/take_id.json`.
+<b>Any modification</b> to the annotation result will be immediately saved in the corresponding annotation file under the directory `YOUR_PATH/annotations/take_id.json`.
 
 ### &#x2022; Note ❗
-
+[tbd: move to seg and anno]
 #### 1. Criteria for horizontal and vertical hand positions
 The vertical and horizontal hand positions are determined according to the below illustration.
 <!-- <div style="display: flex; justify-content: center;"> -->
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png" width = "400" alt="missing_data_`reprocess tanno" />
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png" width = "400" alt="missing_data_anno" />
 <!-- </div> -->
 <!-- <div style="display: flex; justify-content: center;">Hand Locations</div> -->
 
 <!-- #### 2. Hand position is referenced to the present human body
 
 The horizontal and vertical hand position is referenced to the human body at the annotated moment. <br>
-For example, a catcher may stand before catching and squat to catch so that the body center (chest) lowers. In this case, when annotating the vertical hand position of catche`reprocess tr (13 in information panel) at the moment *catch (stable)*, one should refer the hand vertical position to the chest position (lowered) when squat instead of stand. The same situation can happen, while annotating horizontal hand position, if the subject turned sideways at the annotation moment. Note that, the body pose at the moment of catching can be significantly different from the standard standing pose regarding both position and orientation. This will also affect the position and orientation of the coordinates used to determine the horizontal and vertical hand positions. For example, in the case below, the subject squatted and leaned the chest down, so that the region that is classified`reprocess t as "chest" is simultaneously lowered and turned down. 
+For example, a catcher may stand before catching and squat to catch so that the body center (chest) lowers. In this case, when annotating the vertical hand position of catcher (13 in information panel) at the moment *catch (stable)*, one should refer the hand vertical position to the chest position (lowered) when squat instead of stand. The same situation can happen, while annotating horizontal hand position, if the subject turned sideways at the annotation moment. Note that, the body pose at the moment of catching can be significantly different from the standard standing pose regarding both position and orientation. This will also affect the position and orientation of the coordinates used to determine the horizontal and vertical hand positions. For example, in the case below, the subject squatted and leaned the chest down, so that the region that is classified as "chest" is simultaneously lowered and turned down. 
 
 ![ref_catch_stand](https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/ref_catch_stand.png)
 
@@ -428,7 +435,7 @@ For example, a catcher may stand before catching and squat to catch so that the 
 
 #### 2. Main annotation camera
 
-We suggest users annotate based mainly on <b>the third-person (side)</b> and <b>egocentric views</b>, while the third-person back view is used as an auxiliary when significant occlusion is observed in the former two views. 
+We suggest that users rely mainly on <b>the third-person (side)</b> and <b>egocentric views</b> to annotate, while the third-person back view is used as an auxiliary when significant occlusion is observed in the former two views. 
 
 The viewing angle of cameras of egocentric are all higher than the normal height of human eyes resulting in a top-down viewing angle. This may lead to a biased observation of the vertical hand position. You can use the third-person back view to provide additional information. 
 <!-- One should also pay attention to the viewing angle of cameras particularly the third-person (back) and egocentric. They are all higher than the normal height of human eyes resulting in a top-down viewing angle. This may lead to a biased observation of the vertical hand position. The same situation also applies to observing horizontal hand position since the cameras may not face to the object and the subject straight. -->
