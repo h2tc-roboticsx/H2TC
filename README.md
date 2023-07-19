@@ -419,9 +419,9 @@ You can interact with the interface to annotate labels by the keyboard as define
 [tbd: move to seg and anno]
 #### 1. Criteria for horizontal and vertical hand positions
 The vertical and horizontal hand positions are determined according to the below illustration.
-<!-- <div style="display: flex; justify-content: center;"> -->
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png" width = "400" alt="missing_data_anno" />
-<!-- </div> -->
+<div style="display: flex; justify-content: center;">
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png" width = "400" alt="missing_data_anno">
+</div>
 <!-- <div style="display: flex; justify-content: center;">Hand Locations</div> -->
 
 <!-- #### 2. Hand position is referenced to the present human body
@@ -448,9 +448,9 @@ Then the annotation can not be switched to the status of "finished" due to the m
 For example, when you label the moment of *throw* but without OptiTrack data, the information panel appears like below. 
 To handle the issue, you should seek close frames that include complete data and indicate the same event of the moment. 
 If no frame is qualified, the entire take should be annotated as "problematic" and skipped to the next take.
-
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/missing_data_anno.png" width = "400" alt="missing_data_anno" />
-<!-- <div text-align:center>Information Panel of Missing OptiTrack Data</div> -->
+<div style="display: flex; justify-content: center;">
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/missing_data_anno.png" width = "400" alt="missing_data_anno">
+</div>
 <!-- #### 4. Wrong result of catching
 In some cases, the result of catching can be miss-typed during recording. 
 For example, a take was labeled as "success" (should be "failed") but the catcher actually failed to catch the object. This should be corrected alongside the annotation. One should leave the take unannotated in the annotator program and manually correct this by editing the value of the "success" column in the logbook `/log.xlsx`.  Note that the annotator program will automatically filter out the takes labeled as "failed", so only the case of false "success" is possible to appear during annotation. -->
