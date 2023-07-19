@@ -231,7 +231,7 @@ Run the following command to extract (unzip) the packed raw data to your target 
 ```
 python src/extract.py --srcpath RAWDATA_PATH --tarpath YOUR_PATH
 ```
-<small>`RAWDATA_PATH` is where you downloaded the packed raw data. `YOUR_PATH` is the target path where you want to extract the packed data.</small>
+<small>`--srcpath` is where you downloaded the packed raw data. `--tarpath` is the target path where you want to extract the packed data.</small>
 
 Each extracted recording should be organized under the folder `YOUR_PATH/data`. 
 
@@ -273,7 +273,7 @@ Once the raw data is extracted and organized properly as in step 2), then run th
 ```python
 python src/process.py --datapath YOUR_PATH/data
 ```
-Several arguments are allowed to configure the processing when running the script [src/process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py). The available arguments are:
+Several arguments are allowed to configure the processing when running the script [src/process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py). The available arguments are:[tbd: ]
 
 |  Arguments   | Meanings  | Defaults |
 |  :----     | :----  | :----  |
@@ -288,7 +288,7 @@ Several arguments are allowed to configure the processing when running the scrip
 | depth_accuracy   | Float precision forThis document explains how we coordinate those multi-modal, cross-device data and how we do time alignment among them. the unnormalized depth maps. The unnormalized depth maps are not exported by default until the 'npy' are set to true. Either 'float32' or 'float64'. | float32 |
 | datapath   | The raw data directory of recordings. Users need to specify it.   | None |
 
-You can change the default setting by adding specific arguments into your command. E.g., we don't export depth.npy and event xypt.csv by default (`xypt` and `npy` are `False` by default). As they are very time/space-consuming. If you need them, you can add '--npy' and '--xypt' to the command: 
+You can change the default setting by adding specific arguments into your command. For example, we don't export depth.npy and event xypt.csv by default (`xypt` and `npy` are `False` by default), as they are very time/space-consuming. If you need them, you can add '--npy' and '--xypt' to the command: 
 ```python
 python src/process.py --datapath YOUR_PATH/data --npy --xypt
 ```
