@@ -193,7 +193,6 @@ def process(take, args):
     ts_paths.append(ts_path)
     
     
-    
     print("processing optitrack data")
     # determine the coordinate system ID according the take ID
     # check the document (https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md/#the-coordinate-system-id) for more details about our coordinate system 
