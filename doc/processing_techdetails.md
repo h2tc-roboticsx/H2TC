@@ -238,28 +238,27 @@ For each frame (e.g., if 60 fps, then 300 frames in total for a 5s long motion s
 Note that the left hand uses a right-handed coordinate system and the right hand uses a left-handed coordinate system. -->
 
 ## Hand Data Processing
-As shown below, the two hands pose data is collected by StretchSense MoCap Pro gloves and the two hands motion is captured by OptiTrack. 
+As shown below, the two hands pose data is collected by StretchSense MoCap Pro gloves, and the two hands motion is captured by OptiTrack. 
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_devices.png" width = "400" alt="right_hand" style="display: flex; justify-content: center;">
 <!-- You can check [data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data) to get each term's meaning.  -->
 
 [tbd: check the frame, lx_1] 
-### &#x2022; Hand Pose Data Coordinate Frame 
+### &#x2022; Hand Pose Data Coordinate 
 
 The left (L) and right (R) hand coordinates are shown below. 
 Please note that **the left hand uses a right-handed coordinate frame**, while **the right hand uses a left-handed coordinate frame**. 
 Each joint in the hands has its own frame. 
-<br>
-For the left hand, the X-axis is along the bone, the Y-axis is perpendicular to the palm, and the Z-axis is perpendicular to the XY plane. The enlarged frame at the bottom is for coordinate clarification and easier understanding.
-<br>
-For the right hand, the X-axis is along the bone, the Y-axis is perpendicular up towards the back of the hand, and the Z-axis is perpendicular to the XY plane. The enlarged frame at the bottom is also for coordinate clarification. 
+* For the left hand, the X-axis is along the bone, the Y-axis is perpendicular to the palm, and the Z-axis is perpendicular to the XY plane. The enlarged frame at the bottom is for coordinate clarification and easier understanding.
+* For the right hand, the X-axis is along the bone, the Y-axis is perpendicular up towards the back of the hand, and the Z-axis is perpendicular to the XY plane. The enlarged frame at the bottom is also for coordinate clarification. 
 
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_frame.png" width = "800" alt="hand_frame" style="display: flex; justify-content: center;">
 
+### &#x2022; Hand Motion Data Coordinate 
 #### The throw-catch zone coordinate system
 
-The above figure shows the coordinate system of the captured hand motion in the The throw-catch zone. The frame is put there for clarification and easier understanding. In practice, the origin of the frame is around the center of the back of the hand. For this coordinate system, Y-axis is perpendicular up to the back of the  hand, Z-axis is parallel to the finger tip direction, and X-axis is perpendicular to the YZ plane. -->
+The figure shows the coordinate system of the captured hand motion in the The throw-catch zone. The frame is put there for clarification and easier understanding. In practice, the origin of the frame is around the center of the back of the hand. For this coordinate system, Y-axis is perpendicular up to the back of the  hand, Z-axis is parallel to the finger tip direction, and X-axis is perpendicular to the YZ plane. -->
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_in_catch_throw_frame.png" width = "700" alt="hand_in_catch_throw_frame" style="display: flex; justify-content: center;">
 
@@ -275,18 +274,6 @@ For each hand pose, we use the translation, i.e., x, y, z positions in its assoc
 
 
 
-### Visualize the right hand
-
-**Right hand uses a left-handed coordinate system**
-
-#### Left-handed coordinate system
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/B08B2DCADADCFD3D2B101CC1AFFBA015.png" width = "400" alt="right_hand">
-
-The above figures shows the left-handed coordinate system of the right hand. Each joint has its own XYZ frame. 
-<!-- ## The throw-catch zone coordinate system
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/018D81940FEC63AD318DBD8B5AF0FF98.png" width = "400" alt="opti_righthand">
-
-Similar as mentioned above, the above figure shows the coordinate system of the captured hand motion in the The throw-catch zone. The frame is put there for clarification and easier understanding. In practice, the origin of the frame is around the center of the back of the hand. For this coordinate system, Y-axis is perpendicular up to the back of the  hand, Z-axis is parallel to the finger tip direction, and X-axis is perpendicular to the YZ plane. -->
 
 
 #### Coordinate system conversion
