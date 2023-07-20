@@ -238,7 +238,7 @@ For each frame (e.g., if 60 fps, then 300 frames in total for a 5s long motion s
 Note that the left hand uses a right-handed coordinate system and the right hand uses a left-handed coordinate system. -->
 
 ## Hand Data Processing
-As shown below, the two hands pose data is collected by StretchSense MoCap Pro gloves, and the two hands motion is captured by OptiTrack. 
+As shown below, the pose motions of both hands are collected by StretchSense MoCap Pro gloves, and their 3D global motions are captured by OptiTrack as well. 
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_devices.png" width = "400" alt="right_hand" style="display: flex; justify-content: center;">
 <!-- You can check [data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data) to get each term's meaning.  -->
@@ -255,12 +255,11 @@ Each joint in the hands has its own frame.
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_frame.png" width = "800" alt="hand_frame" style="display: flex; justify-content: center;">
 
-### &#x2022; Hand Motion Data Coordinate 
-#### The throw-catch zone coordinate system
+### &#x2022; 3D Global Hand Motion Data Coordinate 
 
-The figure shows the coordinate system of the captured hand motion in the The throw-catch zone. The frame is put there for clarification and easier understanding. In practice, the origin of the frame is around the center of the back of the hand. For this coordinate system, Y-axis is perpendicular up to the back of the  hand, Z-axis is parallel to the finger tip direction, and X-axis is perpendicular to the YZ plane. -->
+The figure below shows the coordinate frame of the OptiTrack captured hand motion. The origin of the frame is roughly located at the center of the back of the palm. Y-axis is perpendicular up to the back of the  hand, Z-axis is parallel to the finger tip direction, and X-axis is perpendicular to the YZ plane. 
 
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_in_catch_throw_frame.png" width = "700" alt="hand_in_catch_throw_frame" style="display: flex; justify-content: center;">
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_motion_frame.png" width = "700" alt="hand_in_catch_throw_frame" style="display: flex; justify-content: center;">
 
 #### Align right-handed coordinate system with The throw-catch zone coordinate system
 
@@ -269,12 +268,9 @@ As the orientation of the right-handed coordinate system differs from that of th
 Specifically, we first rotate the hand coordinate system -180 degrees along the X-axis, and then rotate it -90 degrees along the Y-axis. 
 
 
-#### Motion Visualization
+### &#x2022; Motion Visualization
 For each hand pose, we use the translation, i.e., x, y, z positions in its associated 4 x 4 transformation matrix that has been converted to the The throw-catch zone coordinate system as the metacarpal joint. We then reconstruct the entire hand pose starting from the metacarpal joint with the captured hand joint angles (XYZ euler angles) and the defined hand bone length (see Bone length section in this readme) using **Forward Kinematics**. 
-
-
-
-
+<!-- Specifically, the XYZ spatial position `P` of a right hand finger joint **(except the metacarpal joint)** in the catch-throw zone coordinate can be calculated using the following equations: (TODO) -->
 
 #### Coordinate system conversion
 To reconstruct the right hand, we first convert the left-handed coordinate system to the right-handed one using an extra matrix `t_h` 
@@ -292,7 +288,7 @@ rotY = [[0,0,-1,0],[0,1,0,0],[1,0,0,0],[0,0,0,1]]
 #### Motion Visualization
 Similar to the reconstruction of the left hand, we use the translation of the converted 4 x 4 transformation matrix that is associated with the hand pose as the metacarpal joint, and then reconstruct the entire hand pose starting from the metacarpal joint with the captured hand joint angles (XYZ euler angles) and the defined hand bone length (see Bone length section in this readme) using **Forward Kinematics**. 
 
-<!-- Specifically, the XYZ spatial position `P` of a right hand finger joint **(except the metacarpal joint)** in the The throw-catch zone can be calculated using the following equations: (TODO) -->
+
 
 
 
