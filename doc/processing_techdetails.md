@@ -238,7 +238,9 @@ For each frame (e.g., if 60 fps, then 300 frames in total for a 5s long motion s
 Note that the left hand uses a right-handed coordinate system and the right hand uses a left-handed coordinate system. -->
 
 ## Hand Data Processing
-The two hands pose data is collected by StretchSense MoCap Pro gloves. The two hands motion is captured by OptiTrack. 
+As shown below, the two hands pose data is collected by StretchSense MoCap Pro gloves and the two hands motion is captured by OptiTrack. 
+
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_devices.png" width = "400" alt="right_hand" style="display: flex; justify-content: center;">
 <!-- You can check [data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data) to get each term's meaning.  -->
 
 [tbd: check the frame, lx_1] 
@@ -256,9 +258,10 @@ For the right hand, the X-axis is along the bone, the Y-axis is perpendicular up
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_frame.png" width = "800" alt="hand_frame" style="display: flex; justify-content: center;">
 
 #### The throw-catch zone coordinate system
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_in_catch_throw_frame.png" width = "700" alt="opti_lefthand" style="display: flex; justify-content: center;">
 
 The above figure shows the coordinate system of the captured hand motion in the The throw-catch zone. The frame is put there for clarification and easier understanding. In practice, the origin of the frame is around the center of the back of the hand. For this coordinate system, Y-axis is perpendicular up to the back of the  hand, Z-axis is parallel to the finger tip direction, and X-axis is perpendicular to the YZ plane. -->
+
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_in_catch_throw_frame.png" width = "700" alt="hand_in_catch_throw_frame" style="display: flex; justify-content: center;">
 
 #### Align right-handed coordinate system with The throw-catch zone coordinate system
 
