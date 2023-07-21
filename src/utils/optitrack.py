@@ -252,8 +252,6 @@ def get_ts_t_matrix(df_all, object_id, local_sys_id, t_matrix_type='global', rot
         if object_id == 118 and rotate_helmet_headband:
             curr_matrix = np.matmul(curr_matrix, rotY_45)
 
-
-
         # save the converted matrix in a dictionary with the key being its timestamp
         ts_t_matrix_dict[int(row[-1])] = curr_matrix
 

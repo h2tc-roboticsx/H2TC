@@ -64,8 +64,8 @@ def plot_left_hand(ax, opti_t_matrix, records, color_list):
 
 	
 	# rotation for aligning righted-handed coordinate system with the our throw-catch zone coordinate system
-	rotX = np.array([[1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,0,1]])
-	rotY = np.array([[0,0,-1,0],[0,1,0,0],[1,0,0,0],[0,0,0,1]])
+	rotX = np.array([[1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,0,1]]) # x -180
+	rotY = np.array([[0,0,-1,0],[0,1,0,0],[1,0,0,0],[0,0,0,1]]) # y -90
 	
 	# start position to plot the hand
 	pos_hand = np.dot(opti_t_matrix, np.array([0,0,0,1]))[:3]
@@ -88,11 +88,7 @@ def plot_left_hand(ax, opti_t_matrix, records, color_list):
 								np.array([0, 0, 0, 1]).reshape(1, 4)], axis=0)
 			t_p = np.eye(4)
 			t_p[0, -1] = finger_long[finger][i]
-
-
 			t = np.matmul(t_r, t_p)
-
-
 			t_finger.append(t)
 			pos_finger = np.array([0, 0, 0, 1])
 
@@ -124,10 +120,10 @@ def plot_right_hand(ax, opti_t_matrix, records, color_list):
 	'''
 
 	# matrix used to convert the right hand data to left-handed coordinate system
-	t_h = np.array([[1,0,0,0],[0,-1,0,0],[0,0,1,0],[0,0,0,1]])
+	t_h = np.array([[1,0,0,0],[0,-1,0,0],[0,0,1,0],[0,0,0,1]]) # -y
 
 	# rotation for aligning left-handed coordinate system with the our throw-catch zone coordinate system
-	rotY = np.array([[0,0,-1,0],[0,1,0,0],[1,0,0,0],[0,0,0,1]])
+	rotY = np.array([[0,0,-1,0],[0,1,0,0],[1,0,0,0],[0,0,0,1]]) # y -90
 
 	# start position to plot the hand
 	pos_hand = np.dot(opti_t_matrix, np.array([0,0,0,1]))[:3]
