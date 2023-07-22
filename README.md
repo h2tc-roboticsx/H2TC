@@ -351,6 +351,13 @@ To annotate, please:
 python src/annotate.py --datapath YOUR_PATH/data
 ```
 [tbd: add arguments]
+Several arguments are allowed to configure the annotation when running the script. The available arguments are:
+|  Arguments   | Meanings  | Defaults |
+|  :----     | :----  | :----  |
+| takes     | ID of takes to be annotated. Set None to annotate all takes in the 'data' directory. This can be given with a single integer number for one take or a range linked by '-', e.g., '10-12' for takes [000010, 000011, 000012]. | None |
+| review | Set true to review the takes have been already annotated before. By default (False), the annotated takes will not be displayed for annotation again. | False |
+| datapath | The processed data directory of recordings. Users need to specify it.  | None |
+
 <!-- By default, the takes that are "failed" or have been already annotated (either "finished" or "problematic") are ignored by the program so that they will not present in the annotator.  To review the annotated takes, you should run the program with the option `--review` like:
 
 ```
@@ -358,8 +365,9 @@ python src/annotate.py --review
 ``` -->
 
 ### Segmentation and Annotation
-[tbd: add table 6 and fig 9]
-
+[tbd: add table 6 and fig 9] <br>
+The annotator tool supports annotating a hierarchy of segmentation and
+annotations, both semantic and dense, as detailed below: 
 <table width=1000 style="text-align: left;">
     <tr>
         <td>Name</td>
@@ -381,43 +389,43 @@ python src/annotate.py --review
     </tr>
     <tr>
         <td>- Grasp mode</td>
-        <td>The subject&#39;s grasp mode to throw at the <i>throw</i> moment</td>
+        <td>The subject&#39;s grasp mode to throw at the "throw" moment</td>
         <td>{<i>&#39;left&#39;</i>, <i>&#39;right&#39;</i>, <i>&#39;both&#39;</i> } </td>
         <td>manual</td>
     </tr>
     <tr>
         <td>- Vertical location</td>
-        <td>The vertical location(s) of the subject&#39;s  hand(s) to throw at the <i>throw</i> moment</td>
+        <td>The vertical location(s) of the subject&#39;s  hand(s) to throw at the "throw" moment</td>
         <td>{<i>&#39;overhead&#39;</i>, <i>&#39;overhand&#39;</i>, <i>&#39;chest&#39;</i>, <i>&#39;underhand&#39;</i> } </td>
         <td>manual</td>
     </tr>
     <tr>
         <td>- Horizontal location</td>
-        <td>The horizontal location(s) of the subject&#39;s  hand(s) to throw at the <i>throw</i> moment</td>
+        <td>The horizontal location(s) of the subject&#39;s  hand(s) to throw at the "throw" moment</td>
         <td>{<i>&#39;left&#39;</i>, <i>&#39;middle&#39;</i>, <i>&#39;right&#39;</i> } </td>
         <td>manual</td>
     </tr>
     <tr>
         <td>- Catch vertical location</td>
-        <td>The vertical location(s) of the subject&#39;s hand(s) to catch at the <i>throw</i> moment</td>
+        <td>The vertical location(s) of the subject&#39;s hand(s) to catch at the "throw" moment</td>
         <td>{<i>&#39;overhead&#39;</i>, <i>&#39;overhand&#39;</i>, <i>&#39;chest&#39;</i>, <i>&#39;underhand&#39;</i> } </td>
         <td>manual</td>
     </tr>
     <tr>
         <td>- Catch horizontal location</td>
-        <td>The horizontal location(s) of the subject&#39;s hand(s) to catch at the <i>throw</i> moment</td>
+        <td>The horizontal location(s) of the subject&#39;s hand(s) to catch at the "throw" moment</td>
         <td>{<i>&#39;left&#39;</i>, <i>&#39;middle&#39;</i>, <i>&#39;right&#39;</i> } </td>
         <td>manual</td>
     </tr>
     <tr>
         <td>- Throw location</td>
-        <td>The subject&#39;s  body location to throw at the <i>throw</i> moment</td>
+        <td>The subject&#39;s  body location to throw at the "throw" moment</td>
         <td>(<i>x</i>, <i>z</i>)</td>
         <td>automatic</td>
     </tr>
     <tr>
         <td>- Catch location</td>
-        <td>The subject&#39;s  body location to catch at the <i>throw</i> moment</td>
+        <td>The subject&#39;s  body location to catch at the "throw" moment</td>
         <td>(<i>x</i>, <i>z</i>)</td>
         <td>automatic</td>
     </tr>
@@ -471,35 +479,76 @@ python src/annotate.py --review
     </tr>
 </table>
 
+Briefly, the annotations offer: 
+<p style="margin-left: 2em; ">
+<small>
+<b>1) Interaction States for Segmentation</b>. A throw&catch activity is segmented into four phases, including pre-throwing, object flying, catching and post-catching, with three manually annotated timestamps including <u>throw</u>, <u>catch touch</u> and <u>catch stable</u>. 
+</small>
+</p>
+
+  <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/seg_00.png" width=800>
+
+<p style="margin-left: 2em;">
+<small >
+<b>2) Subjects Properties for Semantic and Dense Annotations</b>. The subjects' behaviors are manually checked and annotated with
+symbolic labels in terms of <u>grasp mode</u> and <u>hand locations</u>. The subjects' <u>initial locations</u> and the <u>average flying speed of the object</u> are also automatically annotated as quantitative labels. 
+</small>
+</p>
+
+  <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/subject_anno.png" width=400>
+
+
 ### &#x2022; Interface
+
 After running the command, you can see the following interface excluding the orange bars (they are figure annotation). 
 The interface consists of multi-view RGB streams (left column), multi-view depth streams (middle column), an egocentric event stream (top right sub-window), two-hand motion (middle right sub-window) and an information panel (bottom right sub-window).
 
-![](https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/annotation_tool.png)
-
+<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/annotation_tool.png" alt="interface">
 
 Inside the information panel, the annotation result is displayed in real-time. 
+The representation of each text entry and the corresponding annotation name (as described in [above](#segmentation-and-annotation))  are: 
+[tbd: check paper for consistance]
+<!-- ![](https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/info_panel_explanation.png) -->
 
-![](https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/info_panel_explanation.png)
-[tbd: add "", check paper for consistance]
-Each text entry inside the information panel represents:
+<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/info_panel_explanation.png" width = "400" alt="info_panel">
 
-    1. the status of the annotation: "finished", unfinished or problematic
-    2. which hand used to throw at the moment *throw*
-    3. the position of the thrower at the moment *throw*
-    4. the position of the catcher at the moment *throw*
-    5. the average flying speed of the the thrown object
-    6. the vertical hand position of the thrower at the moment *throw*
-    7. the horizontal hand position of the thrower at the moment *throw*
-    8. the vertical hand position of the catcher at the moment *throw*
-    9. the horizontal hand position of the catcher at the moment *throw*
-    10. the frame number and the timestamp of the moment *throw*
-    11. which hand used to catch at the moment *catch (stable)* 
-    12. the position of the catcher at the moment *catch (touch)*
-    13. the vertical hand position of the catcher at the moment *catch (stable)*
-    14. the horizontal hand position of the catcher at the moment *catch (stable)*
-    15. the frame number and the timestamp of the moment *catch (touch)*
-    16. the frame number and the timestamp of the moment *catch (stable)*
+
+
+| Number |   Representation |  Annotation Name |
+|  :----:     | :----:  | :----:  |
+|   1    |    the status of the annotation: `finished`, `unfinished` or `problematic`   |    \   |
+|   2    |    which hand used to throw at the moment *throw*   |    Grasp mode  |
+|   3    |    the location of the thrower at the moment *throw*   |    Throw location  |
+|   4    |    the location of the catcher at the moment *throw*   | Catch location |
+|   5    |    the average flying speed of the the thrown object   | Object speed|
+|   6    |    the vertical hand location of the thrower at the moment *throw*   | Vertical location |
+|   7    |    the horizontal hand location of the thrower at the moment *throw*   | Horizontal location |
+|   8    |    the vertical hand location of the catcher at the moment *throw*   |Catch vertical location |
+|   9    |    the horizontal hand location of the catcher at the moment *throw*   | Catch horizontal location |
+|   10    |    the frame number and the timestamp of the moment *throw*   | \ |
+|   11    |    which hand used to catch at the moment *catch (stable)*   | Grasp mode |
+|   12    |    the location of the catcher at the moment *catch (touch)*   | Catch location |
+|   13    |    the vertical hand location of the catcher at the moment *catch (stable)*   | Vertical location |
+|   14    |    the horizontal hand location of the catcher at the moment *catch (stable)*   | Horizontal location |
+|   15    |    the frame number and the timestamp of the moment *catch (touch)*  | \ |
+|   16    |    the frame number and the timestamp of the moment *catch (stable)*  | \ |
+
+<!-- 1. the status of the annotation: `finished`, `unfinished` or `problematic`
+2. "grasp mode" to throw at the moment "throw"
+3. the "throw location" at the moment "throw"
+4. the " catch location" at the moment "throw"
+5. the average flying speed " object speed" of the thrown object
+6. the vertical hand location of the thrower at the moment "throw"
+7. the horizontal hand location of the thrower at the moment "throw"
+8. the vertical hand location of the catcher at the moment "throw"
+9. the horizontal hand location of the catcher at the moment "throw"
+10. the frame number and the timestamp of the moment "throw"
+11. which hand used to catch at the moment "catch (stable)"
+12. the location of the catcher at the moment "catch (touch)"
+13. the vertical hand location of the catcher at the moment "catch (stable)"
+14. the horizontal hand location of the catcher at the moment "catch (stable)"
+15. the frame number and the timestamp of the moment "catch (touch)"
+16. the frame number and the timestamp of the moment "catch (stable)" -->
 
 ### &#x2022; Interaction Operations
 
@@ -556,7 +605,7 @@ The viewing angle of cameras of egocentric are all higher than the normal height
 It is possible that some data is missing in your labeled frame. 
 Then the annotation can not be switched to the status of "finished" due to the missing data. 
 
-For example, when you label the moment of *throw* but without OptiTrack data, the information panel appears like below. 
+For example, when you label the moment of "throw" but without OptiTrack data, the information panel appears like below. 
 To handle the issue, you should seek close frames that include complete data and indicate the same event of the moment. 
 If no frame is qualified, the entire take should be annotated as "problematic" and skipped to the next take.
 <div style="display: flex; justify-content: center;">
