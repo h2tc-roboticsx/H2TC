@@ -277,7 +277,7 @@ Once the raw data is extracted and organized properly as in step 2), then run th
 ```python
 python src/process.py --datapath YOUR_PATH/data
 ```
-Several arguments are allowed to configure the processing when running the script [src/process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py). The available arguments are:[tbd: ]
+`--datapath` is where your extracted data locate. Several arguments are allowed to configure the processing when running the script [src/process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py). The available arguments are:[tbd: ]
 
 |  Arguments   | Meanings  | Defaults |
 |  :----     | :----  | :----  |
@@ -359,6 +359,117 @@ python src/annotate.py --review
 
 ### Segmentation and Annotation
 [tbd: add table 6 and fig 9]
+
+<table width=1000 style="border-collapse: collapse; border-spacing: 1; text-align: left;">
+    <tr>
+        <td>Name</td>
+        <td>Description</td>
+        <td>Value</td>
+        <td>Labeling Type</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td>Object</td>
+        <td>The thrown object</td>
+        <td><i>&#39;object\_id&#39;</i></td>
+        <td>automatic</td>
+    </tr>
+    <tr>
+        <td><b>Throw</b></td>
+        <td>The moment when the subject&#39;s hand(s) breaks with the thrown object during throwing</td>
+        <td>UNIX timestamp</td>
+        <td>manual</td>
+    </tr>
+    <tr>
+        <td>- Grasp mode</td>
+        <td>The subject&#39;s grasp mode to throw at the <i>throw<i> moment</td>
+        <td>{<i>&#39;left&#39;<i>, <i>&#39;right&#39;<i>, <i>&#39;both&#39;<i> }</td>
+        <td>manual</td>
+    </tr>
+    <tr>
+        <td>- Vertical location</td>
+        <td>The vertical location(s) of the subject&#39;s  hand(s) to throw at the <i>throw<i> moment</td>
+        <td>{<i>&#39;overhead&#39;<i>, <i>&#39;overhand&#39;<i>, <i>&#39;chest&#39;<i>, <i>&#39;underhand&#39;<i> }</td>
+        <td>manual</td>
+    </tr>
+    <tr>
+        <td>- Horizontal location</td>
+        <td>The horizontal location(s) of the subject&#39;s  hand(s) to throw at the <i>throw<i> moment</td>
+        <td>{<i>&#39;left&#39;<i>, <i>&#39;middle&#39;<i>, <i>&#39;right&#39;<i> }</td>
+        <td>manual</td>
+    </tr>
+    <tr>
+        <td>- Catch vertical location</td>
+        <td>The vertical location(s) of the subject&#39;s hand(s) to catch at the <i>throw<i> moment</td>
+        <td>{<i>&#39;overhead&#39;<i>, <i>&#39;overhand&#39;<i>, <i>&#39;chest&#39;<i>, <i>&#39;underhand&#39;<i> }</td>
+        <td>manual</td>
+    </tr>
+    <tr>
+        <td>- Catch horizontal location</td>
+        <td>The horizontal location(s) of the subject&#39;s hand(s) to catch at the <i>throw<i> moment</td>
+        <td>{<i>&#39;left&#39;<i>, <i>&#39;middle&#39;<i>, <i>&#39;right&#39;<i> }</td>
+        <td>manual</td>
+    </tr>
+    <tr>
+        <td>- Throw location</td>
+        <td>The subject&#39;s  body location to throw at the <i>throw<i> moment</td>
+        <td>(<i>x<i>, <i>z<i>)</td>
+        <td>automatic</td>
+    </tr>
+    <tr>
+        <td>- Catch location</td>
+        <td>The subject&#39;s  body location to catch at the <i>throw<i> moment</td>
+        <td>(<i>x<i>, <i>z<i>)</td>
+        <td>automatic</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td><b>Catch_touch</b></td>
+        <td>The moment when the subject&#39;s hand(s) touches the flying  object during catching</td>
+        <td>UNIX timestamp</td>
+        <td>manual</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td>- Catch location</td>
+        <td>The subject&#39;s exact location to catch at the <i>catch<i> (<i>touch<i>) moment</td>
+        <td>(<i>x<i>, <i>z<i>)</td>
+        <td>automatic</td>
+    </tr>
+    <tr bgcolor="#eeeeee">
+        <td>- Object speed</td>
+        <td>The  object&#39;s average speed during free flying</td>
+        <td>m/s</td>
+        <td>automatic</td>
+    </tr>
+    <tr>
+        <td><b>Catch_stable</b></td>
+        <td>The moment when the subject catches the flying object stably during catching</td>
+        <td>UNIX timestamp</td>
+        <td>manual</td>
+    </tr>
+    <tr>
+        <td>- Grasp mode</td>
+        <td>The subject&#39;s grasp mode to catch at the <i>catch (stable)<i> moment</td>
+        <td>{<i>&#39;left&#39;<i>, <i>&#39;right&#39;<i>, <i>&#39;both&#39;<i> }</td>
+        <td>manual</td>
+    </tr>
+    <tr>
+        <td>- Vertical location</td>
+        <td>The vertical location(s) of the subject&#39;s hand(s) to catch at the <i>catch (stable)<i> moment</td>
+        <td>{<i>&#39;overhead&#39;<i>, <i>&#39;overhand&#39;<i>, <i>&#39;chest&#39;<i>, <i>&#39;underhand&#39;<i> }</td>
+        <td>manual</td>
+    </tr>
+    <tr>
+        <td>- Horizontal location</td>
+        <td>The horizontal location(s) of the subject&#39;s hand(s) to catch at the <i>catch (stable)<i> moment</td>
+        <td>{<i>&#39;left&#39;<i>, <i>&#39;middle&#39;<i>, <i>&#39;right&#39;<i> }</td>
+        <td>manual</td>
+    </tr>
+    <tr>
+        <td>- Catch result</td>
+        <td>The result on whether the object is stably catched by the subject</td>
+        <td>{&#39;<i>success<i>&#39;, &#39;<i>fail<i>&#39;}</td>
+        <td>manual</td>
+    </tr>
+</table>
 
 ### &#x2022; Interface
 After running the command, you can see the following interface excluding the orange bars (they are figure annotation). 
