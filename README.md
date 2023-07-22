@@ -360,7 +360,7 @@ python src/annotate.py --review
 ### Segmentation and Annotation
 [tbd: add table 6 and fig 9]
 
-<table width=1000 style="border-collapse: collapse; border-spacing: 1; text-align: left;">
+<table width=1000 style="text-align: left;">
     <tr>
         <td>Name</td>
         <td>Description</td>
@@ -381,44 +381,44 @@ python src/annotate.py --review
     </tr>
     <tr>
         <td>- Grasp mode</td>
-        <td>The subject&#39;s grasp mode to throw at the <i>throw<i> moment</td>
-        <td>{<i>&#39;left&#39;<i>, <i>&#39;right&#39;<i>, <i>&#39;both&#39;<i> }</td>
+        <td>The subject&#39;s grasp mode to throw at the <i>throw</i> moment</td>
+        <td>{<i>&#39;left&#39;</i>, <i>&#39;right&#39;</i>, <i>&#39;both&#39;</i> } </td>
         <td>manual</td>
     </tr>
     <tr>
         <td>- Vertical location</td>
-        <td>The vertical location(s) of the subject&#39;s  hand(s) to throw at the <i>throw<i> moment</td>
-        <td>{<i>&#39;overhead&#39;<i>, <i>&#39;overhand&#39;<i>, <i>&#39;chest&#39;<i>, <i>&#39;underhand&#39;<i> }</td>
+        <td>The vertical location(s) of the subject&#39;s  hand(s) to throw at the <i>throw</i> moment</td>
+        <td>{<i>&#39;overhead&#39;</i>, <i>&#39;overhand&#39;</i>, <i>&#39;chest&#39;</i>, <i>&#39;underhand&#39;</i> } </td>
         <td>manual</td>
     </tr>
     <tr>
         <td>- Horizontal location</td>
-        <td>The horizontal location(s) of the subject&#39;s  hand(s) to throw at the <i>throw<i> moment</td>
-        <td>{<i>&#39;left&#39;<i>, <i>&#39;middle&#39;<i>, <i>&#39;right&#39;<i> }</td>
+        <td>The horizontal location(s) of the subject&#39;s  hand(s) to throw at the <i>throw</i> moment</td>
+        <td>{<i>&#39;left&#39;</i>, <i>&#39;middle&#39;</i>, <i>&#39;right&#39;</i> } </td>
         <td>manual</td>
     </tr>
     <tr>
         <td>- Catch vertical location</td>
-        <td>The vertical location(s) of the subject&#39;s hand(s) to catch at the <i>throw<i> moment</td>
-        <td>{<i>&#39;overhead&#39;<i>, <i>&#39;overhand&#39;<i>, <i>&#39;chest&#39;<i>, <i>&#39;underhand&#39;<i> }</td>
+        <td>The vertical location(s) of the subject&#39;s hand(s) to catch at the <i>throw</i> moment</td>
+        <td>{<i>&#39;overhead&#39;</i>, <i>&#39;overhand&#39;</i>, <i>&#39;chest&#39;</i>, <i>&#39;underhand&#39;</i> } </td>
         <td>manual</td>
     </tr>
     <tr>
         <td>- Catch horizontal location</td>
-        <td>The horizontal location(s) of the subject&#39;s hand(s) to catch at the <i>throw<i> moment</td>
-        <td>{<i>&#39;left&#39;<i>, <i>&#39;middle&#39;<i>, <i>&#39;right&#39;<i> }</td>
+        <td>The horizontal location(s) of the subject&#39;s hand(s) to catch at the <i>throw</i> moment</td>
+        <td>{<i>&#39;left&#39;</i>, <i>&#39;middle&#39;</i>, <i>&#39;right&#39;</i> } </td>
         <td>manual</td>
     </tr>
     <tr>
         <td>- Throw location</td>
-        <td>The subject&#39;s  body location to throw at the <i>throw<i> moment</td>
-        <td>(<i>x<i>, <i>z<i>)</td>
+        <td>The subject&#39;s  body location to throw at the <i>throw</i> moment</td>
+        <td>(<i>x</i>, <i>z</i>)</td>
         <td>automatic</td>
     </tr>
     <tr>
         <td>- Catch location</td>
-        <td>The subject&#39;s  body location to catch at the <i>throw<i> moment</td>
-        <td>(<i>x<i>, <i>z<i>)</td>
+        <td>The subject&#39;s  body location to catch at the <i>throw</i> moment</td>
+        <td>(<i>x</i>, <i>z</i>)</td>
         <td>automatic</td>
     </tr>
     <tr bgcolor="#eeeeee">
@@ -448,25 +448,25 @@ python src/annotate.py --review
     <tr>
         <td>- Grasp mode</td>
         <td>The subject&#39;s grasp mode to catch at the <i>catch (stable)<i> moment</td>
-        <td>{<i>&#39;left&#39;<i>, <i>&#39;right&#39;<i>, <i>&#39;both&#39;<i> }</td>
+        <td>{<i>&#39;left&#39;<i>, <i>&#39;right&#39;<i>, <i>&#39;both&#39;<i> } </td>
         <td>manual</td>
     </tr>
     <tr>
         <td>- Vertical location</td>
         <td>The vertical location(s) of the subject&#39;s hand(s) to catch at the <i>catch (stable)<i> moment</td>
-        <td>{<i>&#39;overhead&#39;<i>, <i>&#39;overhand&#39;<i>, <i>&#39;chest&#39;<i>, <i>&#39;underhand&#39;<i> }</td>
+        <td>{<i>&#39;overhead&#39;<i>, <i>&#39;overhand&#39;<i>, <i>&#39;chest&#39;<i>, <i>&#39;underhand&#39;<i> } </td>
         <td>manual</td>
     </tr>
     <tr>
         <td>- Horizontal location</td>
         <td>The horizontal location(s) of the subject&#39;s hand(s) to catch at the <i>catch (stable)<i> moment</td>
-        <td>{<i>&#39;left&#39;<i>, <i>&#39;middle&#39;<i>, <i>&#39;right&#39;<i> }</td>
+        <td>{<i>&#39;left&#39;<i>, <i>&#39;middle&#39;<i>, <i>&#39;right&#39;<i> } </td>
         <td>manual</td>
     </tr>
     <tr>
         <td>- Catch result</td>
         <td>The result on whether the object is stably catched by the subject</td>
-        <td>{&#39;<i>success<i>&#39;, &#39;<i>fail<i>&#39;}</td>
+        <td>{&#39;<i>success<i>&#39;, &#39;<i>fail<i>&#39;} </td>
         <td>manual</td>
     </tr>
 </table>
