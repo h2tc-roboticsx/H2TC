@@ -13,7 +13,7 @@ In our work, we have developed three tools to [record](#recorder), [process](#da
 You can follow the steps to run from scratch:
 1. Install the [dependencies](#dependencies). 
 2. Get the raw data. You have two options to get raw data.
-    - Download our captured data in [here](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0). 
+    - Download our captured data [here](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0). 
     - Capture your own data via our [recorder](#recorder). It will help you build the capturing system. 
 3. [Process](#data-processing) the raw data. 
 4. (Optional) [Annotate](#annotator) the processed data. You can use the annotator to label your own captured data. 
@@ -117,23 +117,34 @@ cmake ..
 make
 ```
 
-**Step 3)**, initialize your lists of subjects and objects in the corresponding files `/register/subjects.csv` and `/register/objects.csv` respectively. Each subject and object should lie in a new line. Please check the sample lists in our repository for detailed format.
-[tbd: check sub.csv and obj.csv path]
+**Step 3)**, initialize your lists of subjects and objects in the corresponding files `/register/subjects.csv` and `/register/objects.csv` respectively. Each subject and object should lie in a new line. Please check the sample lists in our repository for a detailed format.
 
 **Step 4)**, launch the main recorder application with the IP and Port of the local machine and of the HE application:
 ```
 python src/recorder.py --addr IP:PORT --he_addr IP:PORT     
 ```
+[tbd: add recorder.py arguments]<br>
+Several arguments are allowed to configure the processing when running the script [src/recorder.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/recorder.py). The available arguments are:
 
-[tbd: add recorder.py arguments]
+|  Arguments   | Meanings  | Defaults |
+|  :----     | :----  | :----  |
+| addr  | ip address and port of the current machine for UDP | 10.41.206.138:3003 |
+| he_addr  | ip address and port of the Hand Engine machine for UDP | 10.41.206.141:30039 |
+| length  | the length of recording | 5 |
+| nposition  | num of position squares to locate subjects | 16 |
+| clients  | clients allowed to communicateP | ['optitrack'] |
+| zed_num  | number of ZED cams for recording | 3 |
+| fps  | FPS for ZED recording | 60 |
+| resolution  | resolution for ZED recording | 720p |
+| tolerance  | frame drop tolerance | 0.1 |
 
-and run the NatNet client in another terminal:
+And then run the NatNet client in another terminal:
 ```
 ./src/natnet_client/build/natnet_client                   
 ```
 
 now you should be able to see the prompt indicating that these two applications have successfully communicated with each other, if everything goes well, as shown below 
-[tbd: pictures of connection established]
+[tbd: pictures of connection established ??]
 <!-- <u>***TODO pictures of connection established.***</u> -->
 
 **Step 5)**, operate the main recorder to record following the interactive instruction. The main recorder will automatically communicate with and command Hand Engine and NatNet client to record. Nevertheless, we do recommend you to regularly check Hand Engine and NatNet client to see if it bugs.
@@ -485,8 +496,7 @@ Briefly, the annotations offer:
 <b>1) Interaction States for Segmentation</b>. A throw&catch activity is segmented into four phases, including pre-throwing, object flying, catching and post-catching, with three manually annotated timestamps including <u>throw</u>, <u>catch touch</u> and <u>catch stable</u>. 
 </small>
 </p>
-
-  <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/seg_00.png" width=800>
+<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/seg_00.png" width=800>
 
 <p style="margin-left: 2em;">
 <small >
@@ -494,8 +504,7 @@ Briefly, the annotations offer:
 symbolic labels in terms of <u>grasp mode</u> and <u>hand locations</u>. The subjects' <u>initial locations</u> and the <u>average flying speed of the object</u> are also automatically annotated as quantitative labels. 
 </small>
 </p>
-
-  <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/subject_anno.png" width=400>
+<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/subject_anno.png" width=400>
 
 
 ### &#x2022; Interface
@@ -515,7 +524,7 @@ The representation of each text entry and the corresponding annotation name (as 
 
 
 | Number |   Representation |  Annotation Name |
-|  :----:     | :----:  | :----:  |
+|  :----:     | :----  | :----  |
 |   1    |    the status of the annotation: `finished`, `unfinished` or `problematic`   |    \   |
 |   2    |    which hand used to throw at the moment *throw*   |    Grasp mode  |
 |   3    |    the location of the thrower at the moment *throw*   |    Throw location  |
@@ -576,12 +585,12 @@ You can interact with the interface to annotate labels by the keyboard as define
 <b>Any modification</b> to the annotation result will be immediately saved in the corresponding annotation file under the directory `YOUR_PATH/annotations/take_id.json`.
 
 ### &#x2022; Note ❗
-[tbd: move to seg and anno]
-#### 1. Criteria for horizontal and vertical hand positions
+<!-- [tbd: move to seg and anno] -->
+<!-- #### 1. Criteria for horizontal and vertical hand positions
 The vertical and horizontal hand positions are determined according to the below illustration.
 <div style="display: flex; justify-content: center;">
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png" width = "400" alt="missing_data_anno">
-</div>
+</div> -->
 <!-- <div style="display: flex; justify-content: center;">Hand Locations</div> -->
 
 <!-- #### 2. Hand position is referenced to the present human body
@@ -593,14 +602,14 @@ For example, a catcher may stand before catching and squat to catch so that the 
 
 ![ref_catch_squat](https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/ref_catch_squat.png) -->
 
-#### 2. Main annotation camera
+#### 1. Main annotation camera
 
 We suggest that users rely mainly on <b>the third-person (side)</b> and <b>egocentric views</b> to annotate, while the third-person back view is used as an auxiliary when significant occlusion is observed in the former two views. 
 
 The viewing angle of cameras of egocentric are all higher than the normal height of human eyes resulting in a top-down viewing angle. This may lead to a biased observation of the vertical hand position. You can use the third-person back view to provide additional information. 
 <!-- One should also pay attention to the viewing angle of cameras particularly the third-person (back) and egocentric. They are all higher than the normal height of human eyes resulting in a top-down viewing angle. This may lead to a biased observation of the vertical hand position. The same situation also applies to observing horizontal hand position since the cameras may not face to the object and the subject straight. -->
 
-#### 3. Handling missing frames or data
+#### 2. Handling missing frames or data
 
 It is possible that some data is missing in your labeled frame. 
 Then the annotation can not be switched to the status of "finished" due to the missing data. 

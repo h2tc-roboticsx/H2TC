@@ -1,7 +1,7 @@
 # Data Processing Technical Details
 [The dataset H<sup>2</sup>TC](https://lipengroboticsx.github.io/) contains multi-modal cross-device raw data streams. 
 To make the dataset easier to use, we have developed the [processor source code](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) and provided the [data processing document](https://github.com/lipengroboticsx/H2TC_code/tree/main#data-processing) to help readers get aligned and common-format data. 
-[tbd: polishing]Considering readers may want to design their customized processing, we introduce the processing technical details in this document to auxiliarly explain the [source code](https://github.com/lipengroboticsx/H2TC_code/tree/main/src). For a more thorough explanation of the raw/processed files mentioned on this page, see [/doc/data_file_explanation.md](). 
+[tbd: polishing]Considering readers may want to know the processing technical details, we introduce them in this document to auxiliarly explain the [source code](https://github.com/lipengroboticsx/H2TC_code/tree/main/src). For a more thorough explanation of the raw/processed files mentioned on this page, see [/doc/data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/data_file_explanation.md). 
 
 Here is an overview of this document:
 
@@ -26,29 +26,26 @@ We use a variety of specialized motion tracking and visual streaming devices to 
 | ④ ZED Camera | [Stereolabs](https://www.stereolabs.com/zed-2/) |  RGB-D | - | 1280x720 |
 
 
-### The Coordinate Setting [tbd: introduce more systematically]
+### The Coordinate Setting 
+[tbd: introduce more systematically]
+
+#### The catch-throw coordinate frame
 
 As shown below, the **origin** of The throw-catch zone refers to the bottom-left corner of the entire throw-catch zone. The coordinate **axes** are set up as follows: XZ plane is parallel to the ground with Z-axis along the *5 m* (*2m + 1m + 2m*) side and X-axis along the *2 m* side. Y-axis is perpendicular up to the XZ plane. 
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/workspace.png" width = "600" alt="workspace" />
 
-<!-- ### Note 
-* Headband and helmet coordinate system. 
+#### The Headband and helmet coordinate frame 
 
-<img 
-src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/D6403D046FEE97803D912C8DB100C11F.png" width = "200">
+The figure below shows the defined coordinates of the headband and the helmet. The coordinate of the helmet is the same as that of the throw-catch zone coordinate. While the coordinate of the headband has a rotate of along the Y-axis counterclockwise with 180 degrees. 
 
-The above figure shows The defined coordinates of the headband and the helmet. The coordinate of the helmet is the same as that of The throw-catch zone coordinate. While the coordinate of the headband has a rotate of along the Y-axis counterclockwise with 180 degrees.
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/D6403D046FEE97803D912C8DB100C11F.png" width = "200">
 
 In a real scenario, when the primary subject is wearing the helmet and the auxiliary subject is wearing the headband, the coordinate systems will look like as in the following picture:
 
-<!-- ![helmet_handband_coordinate_real_scenario.png](https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/A4A102E4F59E1D43D95D22ABB44AD561.png ) 
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/A4A102E4F59E1D43D95D22ABB44AD561.png" width = "200"> -->
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/A4A102E4F59E1D43D95D22ABB44AD561.png" width = "200">
 
 
-<!-- ## ZED RGBD streams -->
-
-<!-- ## Prophesee Event -->
 <br>
 
 ## Timestamping and Data Alignment
@@ -110,14 +107,7 @@ timestamp = initial timestamp + 1/FPS * 1e9 * frame number
 ### &#x2022; OptiTrack
 
 #### **Timestamps in recording.** 
-The [OptiTrack](https://optitrack.com/) motion capture system has recorded helmet (equiped by primary subject), the right hand, the left hand and headband (equiped by auxiliary subject) motions as shown in [used devices](#used-devices). The recorded timestamps, motion data and object IDs are stored in `/data/{take_id}/raw/optitrack.csv`.  The OptiTrack IDs and their corresponding objects are: [tbd: not here]
-
-|  ID  | Object |
-|  :----:  | :----:  |
-| 115 |helmet |
-| 116 | the right hand |
-| 117 |the left hand  |
-| 118 |headband |
+The [OptiTrack](https://optitrack.com/) motion capture system has recorded helmet (equiped by primary subject), the right hand, the left hand and headband (equiped by auxiliary subject) motions as shown in [used devices](#used-devices). The recorded timestamps, motion data and object IDs are stored in `/data/{take_id}/raw/optitrack.csv`.  You can check the OptiTrack IDs and their corresponding objects [here](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/data_file_explanation.md#reference). 
 
 Note there exists the latency from camera exposure to the reception. We then calculate the timestamp of camera exposure as the timestamp of the frame by the current timestamp minus the above latency.
 ```
@@ -125,7 +115,7 @@ timestamp = timestamp of reception - latency
 ```
 
 #### **Timestamps in processing.** 
-In processing, we save the tracked motion data of the objects described above into separate .csv files via [tbd: same format as above]`convert()` function in script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py). 
+In processing, we save the tracked motion data of the objects described above into separate .csv files via `convert` function in script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py). 
 <!-- Each .csv file contains the frame timestamps and the corresponding trajectory data in [tum pose format](https://cvg.cit.tum.de/data/datasets/rgbd-dataset/file_formats) (tx, ty, tz, qx, qy, qz, qw).  -->
 
 ### &#x2022; Gloves Hands Pose
@@ -136,7 +126,7 @@ There are two different schemes of timestamps, device and master, in the output 
 Raw timecode exported by Hand Engine is not a real timestamp, since it uses a base of 120 (same as FPS), instead of the conventional decimal system, to represent the time below a second. A typical HE timecode looks like, e.g., 171442052 is equivalent to 17 (hour), 14 (minute), 42 (second) and 052 (frame time). 052 is converted to the decimal seconds by `52 * 1/120`. To retrieve the timestamp in UNIX time, we also need the information of date, which is stored under the key `startDate` in another file `/data/{take_id}/raw/hand/P1LMeta.json`. 
 
 #### **Timestamps in processing.** 
-In processing, we concatenate the date and the time together to generate a single timestamp and then convert it to UNIX nanoseconds (see function [tbd: function format]`format()` in script [he.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/he.py). The processed timestamps are stored in the file `/data/{take_id}/processed/left_hand_pose.csv(right_hand_pose.csv)` with a structure like: 
+In processing, we concatenate the date and the time together to generate a single timestamp and then convert it to UNIX nanoseconds (see function `format` in script [he.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/he.py). The processed timestamps are stored in the file `/data/{take_id}/processed/left_hand_pose.csv(right_hand_pose.csv)` with a structure like: 
 * timestamp: the unix format time derived from timecode (device) in raw data file `/raw/hand/P1L.csv(P1R.csv)`.
 * hand, index 00-03, middle 00-03, pinky 00-03, ring 00-03 and thumb 01-03: same as what they are in raw data.
 
@@ -159,7 +149,7 @@ Given a timestamp of rgbd0 camera and its associated frame number, for each of o
 
 #### The alignment.json file
 [tbd: rewrite same as file_explanation]
-`Alignment.json` file essentially saves a dictionary whose keys represent the frame indices. The corresponding value for each key is a mapping between stream id and its timestamp. In each frame (key), we align each stream timestamp to the frame reference timestamp (`rgbd0`) by finding the closest one to the reference.
+`Alignment.json` file essentially saves a dictionary whose keys represent the frame indices. Inside each frame (key), there is another dictionary which indicates the multi-modal streams and their corresponding timestamps. These streams are aligned by finding the closest timestamp to the reference timestamp (`rgbd0`). 
 * frame index: starting from 0
 	* key: stream id
 	* value: timestamp
@@ -198,8 +188,7 @@ As The data collection spans more than three months, during which, The throw-cat
 | 2889-9788  | \#1 |         
 | 9789-12905 |\#2   |         
 
-[tbd: ]
-To transfer these different optitrack coordinates to [The coordinate](#our-coordinate-setting), we apply coordinate transformation via the 4 x 4 transformation matrices captured in the original optitrack system (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)). The specific transformation matrices are shown in [here](#system-id-and-transformation-matrix). 
+To transfer these different optitrack coordinates to [the catch-throw coordinate](#our-coordinate-setting), we apply coordinate transformation via the 4 x 4 transformation matrices captured in the original optitrack system (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)). The specific transformation matrices are shown [here](#system-id-and-transformation-matrix). 
 <!-- 
 ```
 object_tc_transformation_matrix = np.matmul(origin_transformation_matrix, object_optitrack_raw_transformation_matrix)
@@ -243,7 +232,8 @@ As shown below, the pose motions of both hands are collected by StretchSense MoC
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_devices.png" width = "400" alt="right_hand" style="display: flex; justify-content: center;">
 <!-- You can check [data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data) to get each term's meaning.  -->
 
-### &#x2022; Hand Pose Data Coordinate [tbd: double-check again!!]
+### &#x2022; Hand Pose Data Coordinate 
+[tbd: double-check again!!]
 
 The left (L) and right (R) hand coordinates are shown below. 
 Please note that **the left hand uses a right-handed coordinate frame**, while **the right hand uses a left-handed coordinate frame**. 
@@ -262,32 +252,14 @@ The figure below shows the coordinate frame of the OptiTrack captured hand motio
 
 ### &#x2022; Align Hand Pose Coordinate with the 3D Global Hand Motion Coordinate
 
-As introduced above, the coordinate frames of the hand pose data differs from that of the 3D global motion coordinate. We use transformation matrices to align the hand pose data to the same as the The throw-catch zone.
+As introduced above, the coordinate frames of the hand pose data differs from that of the 3D global motion coordinate. We use several rotations to align the hand pose data to the catch-throw coordinate. Specifically, 
 
-Specifically, we first rotate the hand coordinate system -180 degrees along the X-axis, and then rotate it -90 degrees along the Y-axis. 
+* For the left hand, we first rotate the hand coordinate system -180 degrees along the X-axis, and then rotate it -90 degrees along the Y-axis. 
+* For the right hand, we first inverse the Y-axis, and then rotate the hand coordinate system -90 degrees along the Y-axis. 
 
 
 ### &#x2022; Motion Visualization
-For each hand pose, we use the translation, i.e., x, y, z positions in its associated 4 x 4 transformation matrix that has been converted to the The throw-catch zone coordinate system as the metacarpal joint. We then reconstruct the entire hand pose starting from the metacarpal joint with the captured hand joint angles (XYZ euler angles) and the defined hand bone length (see Bone length section in this readme) using **Forward Kinematics**. 
-<!-- Specifically, the XYZ spatial position `P` of a right hand finger joint **(except the metacarpal joint)** in the catch-throw zone coordinate can be calculated using the following equations: (TODO) -->
-
-<!-- #### Coordinate system conversion
-To reconstruct the right hand, we first convert the left-handed coordinate system to the right-handed one using an extra matrix `t_h` 
-<!-- (is this description corret??? also is the comment in line 126 above t\_h correct in plot\_motion.py??? what does t\_h exactly do? convert coordinate system or convert data??) -->
-
-```
-t_h = [[1,0,0,0],[0,-1,0,0],[0,0,1,0],[0,0,0,1]]
-```
-We also apply a rotation matrix rotY as shown in the `plot_right_hand` function in `plot_motion.py` to rotate the hand coordinate system -90 degrees along the Y-axis
-
-```
-rotY = [[0,0,-1,0],[0,1,0,0],[1,0,0,0],[0,0,0,1]]
-```
-
-#### Motion Visualization
-Similar to the reconstruction of the left hand, we use the translation of the converted 4 x 4 transformation matrix that is associated with the hand pose as the metacarpal joint, and then reconstruct the entire hand pose starting from the metacarpal joint with the captured hand joint angles (XYZ euler angles) and the defined hand bone length (see Bone length section in this readme) using **Forward Kinematics**.  -->
-
-
+For each hand pose, we use the translation, i.e., x, y, z positions in its associated 4 x 4 transformation matrix that has been converted to the catch-throw coordinate system as the metacarpal joint. We then reconstruct the entire hand pose starting from the metacarpal joint with the captured hand joint angles (XYZ euler angles) and the defined [hand bone length](#hand-size) using forward kinematics. 
 
 ### &#x2022; Note
 
