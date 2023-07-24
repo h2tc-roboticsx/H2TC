@@ -5,11 +5,11 @@ To make the dataset easier to use, we have developed the [processor source code]
 
 Here is an overview of this document:
 
-* [**Workspace**](#our-workspace): introduces The [used multi-modal devices](#used-devices) and [The coordinate setting](#our-coordinate-setting). 
+* [**Workspace**](#our-workspace): introduces The [used multi-modal devices](#used-devices) and [the coordinate setting](#our-coordinate-setting). 
 * [**Timestamping and Data Alignment**](#timestamping-and-data-alignment): introduce how [ZED RGBD](#zed-rgbd), [Event](#event), [Optitrack](#optitrack) and [Gloves Hands Pose](#gloves-hands-pose) data streams are timestamped and [aligned](#alignment) in recording and processing. 
     <!-- * [Clock Synchronization](#clock-synchronization) -->
 * [**OptiTrack Data Processing**](#optitrack-data-processing): auxiliarly explains the original optitrack coordinate and how to transfer it to The coordinate. 
-* [**Hand Data Processing**](#hand-data-processing): auxiliarly explains the gloves' [hands pose data coordinates](#•-hand-pose-data-coordinate-frame) and . 
+* [**Hand Data Processing**](#hand-data-processing): auxiliarly explains the gloves' [hands pose data coordinates](#•-hand-pose-data-coordinate-frame) and how to [visualize](#•-motion-visualization) hands' motion. 
 
 ## The Workspace
 ### Used Devices
