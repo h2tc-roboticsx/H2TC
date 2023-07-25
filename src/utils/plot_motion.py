@@ -108,65 +108,7 @@ def plot_left_hand(ax, opti_t_matrix, records, color_list):
 			pos_finger_0 = pos_finger
 
 			
-			
 def plot_right_hand(ax, opti_t_matrix, records, color_list):
-	'''
-	Plot right hand
-	INPUT:
-		ax: canvas ax
-		opti_t_matrix: optitrack's 4x4 converted transformation matrix
-		records: hand engine's euler angle data
-		color_list: a list of color to be used for plotting the hand
-	'''
-
-	# matrix used to convert the left-handed coordinate system to the right-handed 
-	t_h = np.array([[1,0,0,0],[0,-1,0,0],[0,0,1,0],[0,0,0,1]]) # -y
-
-	# rotation for aligning the coordinate system with the our throw-catch zone coordinate system
-	rotY = np.array([[0,0,-1,0],[0,1,0,0],[1,0,0,0],[0,0,0,1]]) # y -90
-
-	# start position to plot the hand
-	pos_hand = np.dot(opti_t_matrix, np.array([0,0,0,1]))[:3]
-
-	# use forward kinematics to plot the hand
-	for finger in ['thumb', 'index', 'middle', 'ring', 'pinky']:
-		if finger == 'thumb': n_start = 1 # the first element of thumb bone length list is None, so starting from 1
-		else: n_start = 0
-		n = 4
-
-		pos_finger_0 = pos_hand
-		t_finger = []
-		for i, color in zip(range(n_start, n), color_list):
-
-			r = R.from_euler('XYZ', [records['{}_{:0>2d}_x'.format(finger, i)].values[0],
-									 records['{}_{:0>2d}_y'.format(finger, i)].values[0],
-									 records['{}_{:0>2d}_z'.format(finger, i)].values[0]], degrees=True)
-			r = r.as_matrix()
-			t_r = np.concatenate([np.concatenate([r, np.array([0, 0, 0]).reshape(3, 1)], axis=1),
-								np.array([0, 0, 0, 1]).reshape(1, 4)], axis=0)
-			t_p = np.eye(4)
-			t_p[0, -1] = finger_long[finger][i]
-			t = np.matmul(t_r, t_p)
-			t_finger.append(t)
-			pos_finger = np.array([0, 0, 0, 1])
-
-			# inverse
-			for t in t_finger[::-1]:
-				pos_finger = np.dot(t, pos_finger)
-
-			# apply the left-handed coordinate convert matrix
-			pos_finger = np.dot(t_h, pos_finger)
-			# apply rotation to the finger joint for coordinate system alignment
-			pos_finger = np.dot(rotY, pos_finger)
-			
-			# apply the converted optitrack transformation matrix (already expressed in the our throw-catch zone system) 
-			# to obtain the correct x,y,z positions of the joint
-			pos_finger = np.dot(opti_t_matrix, pos_finger)[:3]
-			# plot the bone connecting this joint and the last one 
-			plot_lines(ax, pos_finger_0, pos_finger, color)
-			pos_finger_0 = pos_finger
-
-def plot_right_hand_lx(ax, opti_t_matrix, records, color_list):
 	'''
 	Plot right hand
 	INPUT:
@@ -295,8 +237,7 @@ def plot_hand_pose_and_motion(data_root, local_sys_id, rotate_right_hand, rotate
 		if aligned_tss['right_hand_pose'] != None and aligned_tss['sub1_right_hand_motion'] != None:
 			curr_right_hand_data = right_records.loc[right_records['timestamp'] == aligned_tss['right_hand_pose']]
 			curr_right_hand_t_matrix = np.array(right_hand_ts_t_matrix[aligned_tss['sub1_right_hand_motion']])
-			# plot_right_hand(ax, curr_right_hand_t_matrix, curr_right_hand_data, right_color)
-			plot_right_hand_lx(ax, curr_right_hand_t_matrix, curr_right_hand_data, right_color)
+			plot_right_hand(ax, curr_right_hand_t_matrix, curr_right_hand_data, right_color)
 		
 		# plot the object if it was tracked by the optitrack system
 		if object_stream_name != None and aligned_tss[object_stream_name] != None:

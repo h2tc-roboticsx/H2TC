@@ -267,5 +267,5 @@ A quick reference to the terms used above.
 <!-- 5. pose coordinates: there are three coordinates involved for positioning 
 
    * global OptiTrack coordinates: the coordinates specified and used by the OptiTrack system
-   * local coordinates: see figure xxx in The paper, and the origin is defined at the bottom right of the catch-throw zone
+   * local coordinates: see figure xxx in The paper, and the origin is defined at the bottom right of the throw-catch zone
    * local rough coordinates: the simplified local coordinates only used to instruct the initial positions of subjects in data collection. -->

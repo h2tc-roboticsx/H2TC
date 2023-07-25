@@ -29,7 +29,7 @@ We use a variety of specialized motion tracking and visual streaming devices to 
 ### The Coordinate Setting 
 [tbd: introduce more systematically]
 
-#### The catch-throw coordinate frame
+#### The throw-catch coordinate frame
 
 As shown below, the **origin** of The throw-catch zone refers to the bottom-left corner of the entire throw-catch zone. The coordinate **axes** are set up as follows: XZ plane is parallel to the ground with Z-axis along the *5 m* (*2m + 1m + 2m*) side and X-axis along the *2 m* side. Y-axis is perpendicular up to the XZ plane. 
 
@@ -188,7 +188,7 @@ As The data collection spans more than three months, during which, The throw-cat
 | 2889-9788  | \#1 |         
 | 9789-12905 |\#2   |         
 
-To transfer these different optitrack coordinates to [the catch-throw coordinate](#our-coordinate-setting), we apply coordinate transformation via the 4 x 4 transformation matrices captured in the original optitrack system (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)). The specific transformation matrices are shown [here](#system-id-and-transformation-matrix). 
+To transfer these different optitrack coordinates to [the throw-catch coordinate](#our-coordinate-setting), we apply coordinate transformation via the 4 x 4 transformation matrices captured in the original optitrack system (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)). The specific transformation matrices are shown [here](#system-id-and-transformation-matrix). 
 <!-- 
 ```
 object_tc_transformation_matrix = np.matmul(origin_transformation_matrix, object_optitrack_raw_transformation_matrix)
