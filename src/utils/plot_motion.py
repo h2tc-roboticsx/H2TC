@@ -282,8 +282,8 @@ def plot_hand_pose_and_motion(data_root, local_sys_id, rotate_right_hand, rotate
 		ax.set_xlabel('x')
 		ax.set_ylabel('y')
 		ax.set_zlabel('z')
-		# ax.view_init(elev=30, azim=180, vertical_axis='y')
-		ax.view_init(elev=10, azim=270, vertical_axis='y')
+		ax.view_init(elev=30, azim=180, vertical_axis='y')
+		# ax.view_init(elev=10, azim=270, vertical_axis='y')
     
 		# plot the left hand
 		if aligned_tss['left_hand_pose'] != None and aligned_tss['sub1_left_hand_motion'] != None:

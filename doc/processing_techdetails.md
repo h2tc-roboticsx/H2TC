@@ -36,7 +36,7 @@ As shown below, the **origin** of The throw-catch zone refers to the bottom-left
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/workspace.png" width = "600" alt="workspace" />
 
 #### The Headband and helmet coordinate frame 
-
+[tbd: check the coordinate]
 The figure below shows the defined coordinates of the headband and the helmet. The coordinate of the helmet is the same as that of the throw-catch zone coordinate. While the coordinate of the headband has a rotate of along the Y-axis counterclockwise with 180 degrees. 
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/D6403D046FEE97803D912C8DB100C11F.png" width = "200">
@@ -195,7 +195,7 @@ object_tc_transformation_matrix = np.matmul(origin_transformation_matrix, object
 ``` -->
 
 ### &#x2022; Note
-1) Additional transformation. We need additional transformation to correct some parts of tracking data in some takes (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)). They are: [tbd: polishing + code]
+1) Additional transformation. We need additional transformation to correct some parts of tracking data in some takes (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)). They are: [tbd: polishing + code ??]
 
 |  Take   | Part | Rotation | 
 |  :----:  | :----:  |:----:  |

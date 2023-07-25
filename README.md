@@ -103,12 +103,12 @@ You should also be able to record using ZED by running the official [sample](htt
 
 Our recorder integrates the functionality of arranging the contents to be recorded and recording with multiple devices. Our recording system consists of  3 [Stereolabs ZED RGBD cameras](https://www.stereolabs.com/zed-2/), 1 [Prophesee event camera](https://www.prophesee.ai/), 1 [StretchSense two-hand pose capturing glove](https://stretchsense.com/), and 1 [OptiTrack motion capture system](https://optitrack.com/). To record these modalities synchronously, please: 
 
-**Step 1)**, enable all recording devices and ensure each of them function smoothly. 
+**Step 1**, enable all recording devices and ensure each of them function smoothly. 
 * Three ZED cameras and one Prophesee event camera should be wired to the host where the recorder program is supposed to run. 
 * StretchSense MoCap Pro gloves should be wireless connected to a Windows machine with its official client software [Hand Engine](https://stretchsense.com/solution/hand-engine/) running. 
 * OptiTrack server can be either operated on a separate host, recommended by us, or on the same host as any of the two aforementioned ones as long as the computational resource allows and the performance will not be thus compromised. You may need to configure the firewall on each machine to allow the user datagram protocol (UDP) communication among them.
 
-**Step 2)**, update the configuration in our OptiTrack NatNet client code and rebuild the NatNet client by following [our NatNet document](https://github.com/lipengroboticsx/H2TC_code/tree/main/src/natnet_client). Briefly, you need to set the values of OptiTrack server IP address (`char* ip_address`), recorder IP address (`servaddr.sin_addr`), and recorder port (`PORT`) according to your network setting in the file [`/src/natnet_client/src/example_main.cpp`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/natnet_client/src/example_main.cpp). 
+**Step 2**, update the configuration in our OptiTrack NatNet client code and rebuild the NatNet client by following [our NatNet document](https://github.com/lipengroboticsx/H2TC_code/tree/main/src/natnet_client). Briefly, you need to set the values of OptiTrack server IP address (`char* ip_address`), recorder IP address (`servaddr.sin_addr`), and recorder port (`PORT`) according to your network setting in the file [`/src/natnet_client/src/example_main.cpp`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/natnet_client/src/example_main.cpp). 
 ```p
 cd src/natnet_client
 mkdir build
@@ -117,9 +117,9 @@ cmake ..
 make
 ```
 
-**Step 3)**, initialize your lists of subjects and objects in the corresponding files `/register/subjects.csv` and `/register/objects.csv` respectively. Each subject and object should lie in a new line. Please check the sample lists in our repository for a detailed format.
+**Step 3**, initialize your lists of subjects and objects in the corresponding files `/register/subjects.csv` and `/register/objects.csv` respectively. Each subject and object should lie in a new line. Please check the sample lists in our repository for a detailed format.
 
-**Step 4)**, launch the main recorder application with the IP and Port of the local machine and of the HE application:
+**Step 4**, launch the main recorder application with the IP and Port of the local machine and of the HE application:
 ```
 python src/recorder.py --addr IP:PORT --he_addr IP:PORT     
 ```
@@ -147,7 +147,7 @@ now you should be able to see the prompt indicating that these two applications 
 [tbd: pictures of connection established ??]
 <!-- <u>***TODO pictures of connection established.***</u> -->
 
-**Step 5)**, operate the main recorder to record following the interactive instruction. The main recorder will automatically communicate with and command Hand Engine and NatNet client to record. Nevertheless, we do recommend you to regularly check Hand Engine and NatNet client to see if it bugs.
+**Step 5**, operate the main recorder to record following the interactive instruction. The main recorder will automatically communicate with and command Hand Engine and NatNet client to record. Nevertheless, we do recommend you regularly check Hand Engine and the NatNet client to see if it bugs.
 <!-- </details> -->
 <!-- <u>***TODO picture of a complete take***</u> -->
 
@@ -155,7 +155,7 @@ now you should be able to see the prompt indicating that these two applications 
 <!-- <details>
 <summary>Details</summary> -->
 
-Our [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data into the commonly used formats. With the tool, one can easily
+Our [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data into commonly used formats. With the tool, one can easily
 * process all raw data into the formats as detailed in the table below, or,
 * process raw data into one's preferred formats for customized needs by modifying the provided tool. 
 
@@ -288,7 +288,7 @@ Once the raw data is extracted and organized properly as in step 2), then run th
 ```python
 python src/process.py --datapath YOUR_PATH/data
 ```
-`--datapath` is where your extracted data locate. Several arguments are allowed to configure the processing when running the script [src/process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py). The available arguments are:[tbd: ]
+`--datapath` is where your extracted data locate. Several arguments are allowed to configure the processing when running the script [src/process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py). The available arguments are: [tbd: add arguments ]
 
 |  Arguments   | Meanings  | Defaults |
 |  :----     | :----  | :----  |
@@ -515,7 +515,7 @@ The interface consists of multi-view RGB streams (left column), multi-view depth
 <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/annotation_tool.png" alt="interface">
 
 Inside the information panel, the annotation result is displayed in real-time. 
-The representation of each text entry and the corresponding annotation name (as described in [above](#segmentation-and-annotation))  are: 
+The representation of each text entry and the corresponding annotation name (as described [above](#segmentation-and-annotation))  are: 
 [tbd: check paper for consistance]
 <!-- ![](https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/info_panel_explanation.png) -->
 
