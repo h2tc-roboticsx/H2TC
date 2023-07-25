@@ -5,10 +5,10 @@ To make the dataset easier to use, we have developed the [processor source code]
 
 Here is an overview of this document:
 
-* [**Workspace**](#our-workspace): introduces the [used multi-modal devices](#used-devices) and [the throw-catch zone coordinate setting](#the-coordinate-setting). 
+* [**Workspace**](#our-workspace): introduces the [used multi-modal devices](#used-devices) and [the throw-catch coordinate setting](#the-coordinate-setting). 
 * [**Timestamping and Data Alignment**](#timestamping-and-data-alignment): introduce how [ZED RGBD](#zed-rgbd), [Event](#event), [Optitrack](#optitrack) and [Gloves Hands Pose](#gloves-hands-pose) data streams are timestamped and [aligned](#alignment) in recording and processing. 
     <!-- * [Clock Synchronization](#clock-synchronization) -->
-* [**OptiTrack Data Processing**](#optitrack-data-processing): auxiliarly explains the original optitrack coordinate and how to transfer it to the throw-catch zone coordinate. 
+* [**OptiTrack Data Processing**](#optitrack-data-processing): auxiliarly explains the original optitrack coordinate and how to transfer it to the throw-catch coordinate. 
 * [**Hand Data Processing**](#hand-data-processing): auxiliarly explains the gloves' [hands pose data coordinates](#•-hand-pose-data-coordinate-frame) and how to [reconstruct](#•-motion-reconstruction) hands' motion. 
 
 ## The Workspace
@@ -31,9 +31,9 @@ We use a variety of specialized motion tracking and visual streaming devices to 
 
 #### The throw-catch coordinate frame
 
-As shown below, the **origin** of The throw-catch zone refers to the bottom-left corner of the entire throw-catch zone. The coordinate **axes** are set up as follows: XZ plane is parallel to the ground with Z-axis along the *5 m* (*2m + 1m + 2m*) side and X-axis along the *2 m* side. Y-axis is perpendicular up to the XZ plane. 
+As shown below, the **origin** of the throw-catch zone refers to the bottom-left corner of the entire throw-catch zone. The coordinate **axes** are set up as follows: XZ plane is parallel to the ground with Z-axis along the *5 m* (*2m + 1m + 2m*) side and X-axis along the *2 m* side. Y-axis is perpendicular up to the XZ plane. 
 
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/workspace.png" width = "600" alt="workspace" />
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/workspace_lx.png" width = "600" alt="workspace" />
 
 #### The Headband and helmet coordinate frame 
 [tbd: check the coordinate]
