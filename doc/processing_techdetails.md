@@ -5,7 +5,7 @@ To make the dataset easier to use, we have developed the [processor source code]
 
 Here is an overview of this document:
 
-* [**Workspace**](#our-workspace): introduces the [used multi-modal devices](#used-devices) and [the throw-catch coordinate setting](#the-coordinate-setting). 
+* [**Workspace**](#our-workspace): introduces the [used multi-modal devices](#used-devices) and [the throw-catch coordinate setting](#the-throw-catch-coordinate-frame). 
 * [**Timestamping and Data Alignment**](#timestamping-and-data-alignment): introduce how [ZED RGBD](#zed-rgbd), [Event](#event), [Optitrack](#optitrack) and [Gloves Hands Pose](#gloves-hands-pose) data streams are timestamped and [aligned](#alignment) in recording and processing. 
     <!-- * [Clock Synchronization](#clock-synchronization) -->
 * [**OptiTrack Data Processing**](#optitrack-data-processing): auxiliarly explains the original optitrack coordinate and how to transfer it to the throw-catch coordinate. 
@@ -26,24 +26,15 @@ We use a variety of specialized motion tracking and visual streaming devices to 
 | ④ ZED Camera | [Stereolabs](https://www.stereolabs.com/zed-2/) |  RGB-D | 60 | 1280x720 |
 
 
-### The Coordinate Setting 
-[tbd: introduce more systematically]
 
-#### The throw-catch coordinate frame
+### The Throw-Catch Coordinate Frame
+[tbd: introduce systematically]
 
-As shown below, the **origin** of the throw-catch zone refers to the bottom-left corner of the entire throw-catch zone. The coordinate **axes** are set up as follows: XZ plane is parallel to the ground with Z-axis along the *5 m* (*2m + 1m + 2m*) side and X-axis along the *2 m* side. Y-axis is perpendicular up to the XZ plane. 
+In the dataset, we set the throw-catch frame as the global coordinate frame. We have transfered all OptiTrack captured data (headband, helmet, gloves, objects) to the throw-catch coordinate via `process` function in script [process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py). You can check [OptiTrack data processing](#optitrack-data-processing) for details.  
+As shown below, the **origin** of the throw-catch frame refers to the bottom-left corner of the entire throw-catch zone. The coordinate **axes** are set up as follows: XZ plane is parallel to the ground with Z-axis along the longer side and X-axis along the shorter side. Y-axis is perpendicular up to the XZ plane. 
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/workspace_lx.png" width = "600" alt="workspace" />
 
-#### The Headband and helmet coordinate frame 
-[tbd: check the coordinate]
-The figure below shows the defined coordinates of the headband and the helmet. The coordinate of the helmet is the same as that of the throw-catch zone coordinate. While the coordinate of the headband has a rotate of along the Y-axis counterclockwise with 180 degrees. 
-
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/D6403D046FEE97803D912C8DB100C11F.png" width = "200">
-
-In a real scenario, when the primary subject is wearing the helmet and the auxiliary subject is wearing the headband, the coordinate systems will look like as in the following picture:
-
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/A4A102E4F59E1D43D95D22ABB44AD561.png" width = "200">
 
 
 <br>
@@ -180,7 +171,9 @@ If the timestamp of a data stream is missing in certain frames, its value will b
 
 ## OptiTrack Data Processing
 ### &#x2022; The Coordinate System ID
-As The data collection spans more than three months, during which, The throw-catch zone in the lab was moved twice. Therefore, there are **THREE different coordinates** in The recordings. We label them as: 
+[tbd: polishing + code ]
+
+As the data collection spans more than three months, during which, the OptiTrack capturing system in the lab was moved twice. Therefore, there are **THREE different coordinates** in the raw recordings. We label them as: 
 
 |  Take   | Coordinate System ID| 
 |  :----:  | :----:  | 
@@ -188,24 +181,35 @@ As The data collection spans more than three months, during which, The throw-cat
 | 2889-9788  | \#1 |         
 | 9789-12905 |\#2   |         
 
-To transfer these different optitrack coordinates to [the throw-catch coordinate](#our-coordinate-setting), we apply coordinate transformation via the 4 x 4 transformation matrices captured in the original optitrack system (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)). The specific transformation matrices are shown [here](#system-id-and-transformation-matrix). 
+To transfer these different OptiTrack coordinates to [the throw-catch coordinate](#the-throw-catch-coordinate-frame), we apply coordinate transformation via the 4 x 4 transformation matrices [`origin_transformation_matrix`](#system-id-and-transformation-matrix) captured in the original optitrack system (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)):
+```
+object_tc_transformation_matrix = np.matmul(origin_transformation_matrix_inverse, object_optitrack_raw_transformation_matrix)
+```
+`origin_transformation_matrix_inverse` is the inverse matrix of the `origin_transformation_matrix`, `object_optitrack_raw_transformation_matrix` is the tracked object's 4 x 4 transformation matrix expressed in the Optitrack system, and `object_tc_transformation_matrix` is the converted 4 x 4 transformation matrix expressed in the throw-catch frame.
+
 <!-- 
 ```
 object_tc_transformation_matrix = np.matmul(origin_transformation_matrix, object_optitrack_raw_transformation_matrix)
 ``` -->
+### &#x2022; Extra Rotation
+
+Since takes 1700 onwards, the orientations of gloves, helmet, and headband were checked everytime before the start of recording. Therefore, no extra rotation is needed for takes from 1700 onwards.<br>
+For takes from 520-1559, right hand needs to rotate 90 degrees along the Y axis (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)) For takes from 1560-1699, right hand needs to rotate 180 degrees along the Y axis (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)) For takes from 1040-1559, left hand needs to rotate 45 degrees along the Y axis (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)) For takes from 0-1699, the orientation of the helmet and headband needs to be corrected if using their orientation (rotate along Y axis with extra 45 degrees for the headband, and -180 degrees for the helmet see the function `get_t_matrix` in [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)): 
+|  Take   | Devices | Rotation | 
+|  :----:  | :----:  |:----:  |
+| 520-1559  | right hand |  90 degrees along the Y axis |          
+| 1560-1699  | right hand |  180 degrees along the Y axis|        
+| 1040-1559 |  left hand |    45 degrees along the Y axis|
+|  0-1699 |  helmet|   45 degrees  along the Y axis|
+|  0-1699 | headband |   -180 degrees along the Y axis|
+
+```
+object_transformation_matrix = np.matmul(object_tc_transformation_matrix, rotY)
+```
+`object_tc_transformation_matrix` is the converted matrix introduced above, `rotY` is the extra transformation for rotating along the Y axis, and `object_transformation_matrix` is the result transformation matrix in throw-catch frame.  
 
 ### &#x2022; Note
-1) Additional transformation. We need additional transformation to correct some parts of tracking data in some takes (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)). They are: [tbd: polishing + code ??]
-
-|  Take   | Part | Rotation | 
-|  :----:  | :----:  |:----:  |
-| 520-1559  | right hand |  90 degrees |          
-| 1560-1699  | right hand |  180 degrees |        
-| 1040-1559 |  left hand |    45 degrees |
-|  0-1699 |  helmet|   45 degrees  |
-|  0-1699 | headband |   -180 degrees|
-
-2) Difference between local and global transformation matrices in `optitrack.csv`. 
+1. Difference between local and global transformation matrices in `optitrack.csv`. 
 The raw `optitrack.csv` file contains `local` (from column 5 to 20) and `global` (from column 21 to 36) transformation matrices of the optitrack system. The `local` transformation matrix is expressed relative to the start pose of a recorded sequence. The `global` transformation matrix is with reference to Optitrack world coordinate (Y-Up). In The codebase, we only used the `global` transformation matrix for matrix manipulation. 
 
 
