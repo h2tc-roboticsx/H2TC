@@ -242,7 +242,7 @@ Each joint in the hands has its own frame.
 * For the right hand, the X-axis is along the bone, the Y-axis is perpendicular up towards the back of the hand, and the Z-axis is perpendicular to the XY plane. The enlarged frame at the bottom is also for coordinate clarification. 
 
 
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_frame.png" width = "800" alt="hand_frame" style="display: flex; justify-content: center;">
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_frame_lx.png" width = "800" alt="hand_frame" style="display: flex; justify-content: center;">
 
 ### &#x2022; 3D Global Hand Motion Data Coordinate 
 
