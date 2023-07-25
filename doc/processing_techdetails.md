@@ -9,7 +9,7 @@ Here is an overview of this document:
 * [**Timestamping and Data Alignment**](#timestamping-and-data-alignment): introduce how [ZED RGBD](#zed-rgbd), [Event](#event), [Optitrack](#optitrack) and [Gloves Hands Pose](#gloves-hands-pose) data streams are timestamped and [aligned](#alignment) in recording and processing. 
     <!-- * [Clock Synchronization](#clock-synchronization) -->
 * [**OptiTrack Data Processing**](#optitrack-data-processing): auxiliarly explains the original optitrack coordinate and how to transfer it to The coordinate. 
-* [**Hand Data Processing**](#hand-data-processing): auxiliarly explains the gloves' [hands pose data coordinates](#•-hand-pose-data-coordinate-frame) and how to [visualize](#•-motion-visualization) hands' motion. 
+* [**Hand Data Processing**](#hand-data-processing): auxiliarly explains the gloves' [hands pose data coordinates](#•-hand-pose-data-coordinate-frame) and how to [reconstruct](#•-motion-reconstruction) hands' motion. 
 
 ## The Workspace
 ### Used Devices
@@ -233,13 +233,13 @@ As shown below, the pose motions of both hands are collected by StretchSense MoC
 <!-- You can check [data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data) to get each term's meaning.  -->
 
 ### &#x2022; Hand Pose Data Coordinate 
-[tbd: double-check again!!]
+[tbd: double-check the frame again!!]
 
 The left (L) and right (R) hand coordinates are shown below. 
-Please note that **the left hand uses a right-handed coordinate frame**, while **the right hand uses a left-handed coordinate frame**. 
+Please note that **the left hand and the right hand use different coordinate frames**. 
 Each joint in the hands has its own frame. 
-* For the left hand, the X-axis is along the bone, the Y-axis is perpendicular to the palm, and the Z-axis is perpendicular to the XY plane. The enlarged frame at the bottom is for coordinate clarification and easier understanding.
-* For the right hand, the X-axis is along the bone, the Y-axis is perpendicular up towards the back of the hand, and the Z-axis is perpendicular to the XY plane. The enlarged frame at the bottom is also for coordinate clarification. 
+* For the left hand, the X-axis is along the bone, the Y-axis is perpendicular to the palm, and the Z-axis is perpendicular to the XY plane. 
+* For the right hand, the X-axis is against along the bone, the Y-axis is perpendicular up towards the back of the hand, and the Z-axis is perpendicular to the XY plane. 
 
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_frame_lx.png" width = "800" alt="hand_frame" style="display: flex; justify-content: center;">
@@ -250,23 +250,32 @@ The figure below shows the coordinate frame of the OptiTrack captured hand motio
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_motion_frame.png" width = "700" alt="hand_in_catch_throw_frame" style="display: flex; justify-content: center;">
 
-### &#x2022; Align Hand Pose Coordinate with the 3D Global Hand Motion Coordinate
+### &#x2022; Motion Reconstruction
+The motion reconstruction results are stored in folder `{take_id}/processed/hand_motion/`. 
 
-As introduced above, the coordinate frames of the hand pose data differs from that of the 3D global motion coordinate. We use several rotations to align the hand pose data to the catch-throw coordinate. Specifically, 
+#### 1. Align hand pose coordinate with the 3D global hand motion coordinate
+As introduced above, the coordinate frames of the hand pose data differs from that of the 3D global motion. Before reconstruction, we first use several rotations to align the hand pose data to the 3D global coordinate. 
+* For the left hand, we first rotate the pose data -180 degrees along the X-axis, and then rotate it -90 degrees along the Y-axis. As shown in the `plot_left_hand ` function in [`plot_motion.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/plot_motion.py), the rotation matrices are:
+```
+rotX = np.array([[1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,0,1]])    # x -180
+rotY = np.array([[0,0,-1,0],[0,1,0,0],[1,0,0,0],[0,0,0,1]])     # y -90
+```
+* For the right hand, we rotate the pose data 90 degrees along the Y-axis.  As shown in the `plot_right_hand ` function in [`plot_motion.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/plot_motion.py), the rotation matrix is:
+```
+rotY = np.array([[0,0,1,0],[0,1,0,0],[-1,0,0,0],[0,0,0,1]])     # y 90
+```
 
-* For the left hand, we first rotate the hand coordinate system -180 degrees along the X-axis, and then rotate it -90 degrees along the Y-axis. 
-* For the right hand, we first inverse the Y-axis, and then rotate the hand coordinate system -90 degrees along the Y-axis. 
+#### 2. Reconstruction
+For hands' global locations, we use the translations from the OptiTrack transformation matrices as the metacarpal locations. 
+For hands' entire poses, we reconstruct the entire hand pose starting from the metacarpal joint with the aligned hand joints poses and the defined [hand bone length](#hand-bone-length) using forward kinematics. 
 
-
-### &#x2022; Motion Visualization
-For each hand pose, we use the translation, i.e., x, y, z positions in its associated 4 x 4 transformation matrix that has been converted to the catch-throw coordinate system as the metacarpal joint. We then reconstruct the entire hand pose starting from the metacarpal joint with the captured hand joint angles (XYZ euler angles) and the defined [hand bone length](#hand-size) using forward kinematics. 
 
 ### &#x2022; Note
 
-1. Metacarlpal joint offset. 
-Note that, as a common practice, we did not attach the markers directly to the hand, but fixed markers on a rigid object, and then attached the rigid object to the back of the hand. As the geometric center of the rigid object does not exactly align with the metacarpal joint of a hand, there is an offset between the reconstructed hand and the actual hand in terms of their spatial positions in the The throw-catch zone. However, this offset is minor, and does not change the motion of the hand.
+1. Metacarpal joint offset. 
+Note that, as a common practice, we did not attach the markers directly to the hand, but fixed markers on a rigid object, and then attached the rigid object to the back of the hand. As the geometric center of the rigid object does not exactly align with the metacarpal joint of a hand, there is an offset between the reconstructed hand and the actual hand in terms of their spatial positions. However, this offset is minor, and does not change the motion of the hand.
 
-### Hand size
+### Hand bone length
 
 Note that the finger bone length we used for visualization purpose in `plot_motion.py` is enlarged. 
 We use the following set of bone lengths to reconstruct and visualize the hands in `plot_motion.py`:
