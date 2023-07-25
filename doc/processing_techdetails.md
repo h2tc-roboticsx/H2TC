@@ -5,15 +5,15 @@ To make the dataset easier to use, we have developed the [processor source code]
 
 Here is an overview of this document:
 
-* [**Workspace**](#our-workspace): introduces The [used multi-modal devices](#used-devices) and [the coordinate setting](#our-coordinate-setting). 
+* [**Workspace**](#our-workspace): introduces the [used multi-modal devices](#used-devices) and [the throw-catch zone coordinate setting](#the-coordinate-setting). 
 * [**Timestamping and Data Alignment**](#timestamping-and-data-alignment): introduce how [ZED RGBD](#zed-rgbd), [Event](#event), [Optitrack](#optitrack) and [Gloves Hands Pose](#gloves-hands-pose) data streams are timestamped and [aligned](#alignment) in recording and processing. 
     <!-- * [Clock Synchronization](#clock-synchronization) -->
-* [**OptiTrack Data Processing**](#optitrack-data-processing): auxiliarly explains the original optitrack coordinate and how to transfer it to The coordinate. 
+* [**OptiTrack Data Processing**](#optitrack-data-processing): auxiliarly explains the original optitrack coordinate and how to transfer it to the throw-catch zone coordinate. 
 * [**Hand Data Processing**](#hand-data-processing): auxiliarly explains the gloves' [hands pose data coordinates](#•-hand-pose-data-coordinate-frame) and how to [reconstruct](#•-motion-reconstruction) hands' motion. 
 
 ## The Workspace
 ### Used Devices
-We use a variety of specialized motion tracking and visual streaming devices to capture The dataset as illustrated below. 
+We use a variety of specialized motion tracking and visual streaming devices to capture the dataset as illustrated below. 
 <!-- The details about The recording framework are introduced in [Sec. 4 Recording Framework in The paper]().  -->
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hardware.png" width = "1000" alt="hardware" />
@@ -23,7 +23,7 @@ We use a variety of specialized motion tracking and visual streaming devices to 
 | ① Gloves | [StretchSense MoCap Pro](https://stretchsense.com/) | Hand Pose | 120 | - |
 | ②⑤ Tracker | [OptiTrack](https://optitrack.com/) |  Human Motion | 240 | - |
 | ③ Event Camera | [Prophesee](https://www.prophesee.ai/) | Event | - | 1280x720 |
-| ④ ZED Camera | [Stereolabs](https://www.stereolabs.com/zed-2/) |  RGB-D | - | 1280x720 |
+| ④ ZED Camera | [Stereolabs](https://www.stereolabs.com/zed-2/) |  RGB-D | 60 | 1280x720 |
 
 
 ### The Coordinate Setting 
