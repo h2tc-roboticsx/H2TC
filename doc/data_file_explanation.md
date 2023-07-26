@@ -55,7 +55,7 @@ Before reading the file details below, please check the [data processing documen
       * bias_pr: photoreceptor bandwidth controls the frond-end part of the pixel. 
       * bias_refr: deadtime sets the “refractory period” during which the Change Detector is switched off after generating an event. This parameter controls the sampling rate of the pixels and hence the output data rate of the sensor. -->
     * **optitrack.csv**: object tracking information recorded by [OptiTrack](https://optitrack.com/).
-      * object id: the id of the tracked object. 115 is the helmet. 116 is the right hand tracking plate. 117 is the left hand tracking plate. 118 is the headband. [tbd]
+      * object id: the id of the tracked object. Check [OptiTrack object ID](#reference) for each id's representation. [tbd: refer to ids]
       * <u>frame</u>: the frame index maintained by the OptiTrack server.
       * <u>mean error</u>: mean error of localization.
       * timestamp: timestamp of the optitrack cameras capturing the frames. 
@@ -94,7 +94,7 @@ Before reading the file details below, please check the [data processing documen
     * **right_hand_pose.csv**: similar pose data as `left_hand_pose.csv` but for right hand produced based on `/raw/hand/P1R.csv`.
     * **sub1_head_motion.csv**: the position and orientation of the subject1's helmet corresponding to the OptiTrack object 115 in `/raw/optitrack.csv`.
       * timestamp: the same timestamp as in raw data file `/raw/optitrack.csv`.
-      * x, y, z: [tbd: frame]the position of the object in the coordinate system (introduced [here](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/processing_techdetails.md#the-coordinate-setting)). Note that The coordinate is Y-up, and the origin point is at the bottom left (see Figure 3 in [the paper]()).
+      * x, y, z: the position of the object in the throw-catch coordinate system (introduced [here](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/processing_techdetails.md#the-coordinate-setting)). Note that the coordinate is Y-up, and the origin point is at the bottom left. [tbd: frame]
       * qx, qy, qz, qw: the quaternion orientation of the object in The coordinate system. 
     * **sub1_left_hand_motion.csv**: the subject1's  left hand motion (OptiTrack object id is 117 in `/raw/optitrack.csv`). Similar data structure as `sub1_head_motion.csv`. 
     * **sub1_right_hand_motion.csv**: the subject1's  right hand motion (OptiTrack object id is 116 in `/raw/optitrack.csv`). Similar data structure as `sub1_head_motion.csv`. 
