@@ -10,13 +10,13 @@ Path
 
 '''
 
-# path to the current source code file
-curr_path = "/media/ur-5/golden_t/data/throw"
-# path to the data directory
-data_path = os.path.join(curr_path, "data")
-# create data directory if not exists
-if not os.path.isdir(data_path):
-    os.mkdir(data_path)
+# # path to the current source code file
+# curr_path = "/media/ur-5/golden_t/data/throw"
+# # path to the data directory
+# data_path = os.path.join(curr_path, "data")
+# # create data directory if not exists
+# if not os.path.isdir(data_path):
+#     os.mkdir(data_path)
     
 # path to the code repository root
 root_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
