@@ -1,11 +1,11 @@
-# Advancing Robots with Greater Dynamic Dexterity: A Large-Scale Multi-View and Multi-Modal Dataset of Human-Human Throw&Catch of Arbitrary Objects
+# H<sup>2</sup>TC: A Large-Scale Multi-View and Multi-Modal Dataset of Human-Human Throw&Catch of Arbitrary Objects
 
 [[Project Page]](https://lipengroboticsx.github.io/) [[Paper]]() [[Data]](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0) [[Sample Cases]](https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0) 
 
-This repository provides the tools for the dataset H^2TC. 
-For a quick overview of our work, we refer readers to [project website](https://lipengroboticsx.github.io/). 
+This repository provides tools for the dataset **H<sup>2</sup>TC**. 
+For a quick overview of the dataset, we refer readers to the [project website](https://lipengroboticsx.github.io/). 
 
-In our work, we have developed three tools to [record](#recorder), [process](#data-processing) the raw data, and [annotate](#annotator) a throw-catch activity. All source codes are available in the folder `src`. 
+Briefly, we have introduced three tools to [record](#recorder), [process](#data-processing), and [annotate](#annotator) a throw-catch activity. All source codes are available in the folder `src`. 
 
 <!-- ## Bibtex -->
 
