@@ -153,12 +153,11 @@ Now you should be able to see the prompt indicating that two machines have succe
 <!-- <details>
 <summary>Details</summary> -->
 
-Our [processor tool](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) converts the raw data into commonly used formats. With the tool, one can easily
-* process all raw data into the formats as detailed in the table below, or,
+Our data [processor](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py) converts the raw data into commonly used formats. With the tool, one can easily
+* process raw data into the formats as detailed in the table below, or,
 * process raw data into one's preferred formats for customized needs by modifying the provided tool. 
 
-
-We refer readers to [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md) for technical details on how we process the multi-modal and cross-device raw data.
+We refer readers to [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md) for full technical details on how we process the multi-modal and cross-device raw data.
 
 <table <table border="1" cellspacing="0">
     <caption style="text-align:centering">Table 1. Data modalities and formats</caption>
