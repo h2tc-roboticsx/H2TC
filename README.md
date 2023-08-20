@@ -360,8 +360,7 @@ The subjects' behaviors are manually checked and annotated with symbolic labels 
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/subject_anno.png" width=400>
 
-
-
+The full segmentation and annotations is list in the table below:
 <table width=1000 style="text-align: left;">
     <tr>
         <td>Name</td>
@@ -473,12 +472,12 @@ The subjects' behaviors are manually checked and annotated with symbolic labels 
     </tr>
 </table>
 
-
-
+### Annotator
 
 In case you want to annotate your custom-captured data, 
-we provide an annotation tool to label catch&throw activities with an interactive interface based on the processed data. 
-To annotate, please:  
+we provide a [`annotator`](https://github.com/lipengroboticsx/H2TC_code/blob/dev-refine/src/annotate.py), with which one can easily annotate catch&throw activities via an interactive interface. 
+
+To use tool, please:  
 - Step 1: Have all processed data under the directory `YOUR_PATH/data/take_id/processed`. The processed data can be obtained by processing the raw data as suggested in [Data Processing](#data-processing). 
 - Step 2: Run the following command to launch the annotation tool.  
 
@@ -499,40 +498,39 @@ python src/annotate.py --review
 ``` -->
 
 
-### &#x2022; Interface
+### Interface
 
-After running the command, you can see the following interface excluding the orange bars (they are figure annotation). 
-The interface consists of multi-view RGB streams (left column), multi-view depth streams (middle column), an egocentric event stream (top right sub-window), two-hand motion (middle right sub-window) and an information panel (bottom right sub-window).
+After running the above command, you will see the following prompt interface excluding the orange bars (they are figure annotations). 
+The interface displays multi-view RGB (left column), depth (middle column), egocentric event (top right sub-window), and hand motion (middle right sub-window) streams, with an information panel (bottom right sub-window).
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/annotation_tool.png" alt="interface">
 
 Inside the information panel, the annotation result is displayed in real-time. 
-The representation of each text entry and the corresponding annotation name (as described [above](#segmentation-and-annotation))  are: 
-[tbd: check paper for consistance]
+
 <!-- ![](https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/info_panel_explanation.png) -->
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/info_panel_explanation.png" width = "400" alt="info_panel">
 
-
+Each entry in the information pannel corresponds to an annotation (as described [above](#segmentation-and-annotation)):
 
 | Number |   Representation |  Annotation Name |
 |  :----:     | :----  | :----  |
-|   1    |    the status of the annotation: `finished`, `unfinished` or `problematic`   |    \   |
-|   2    |    which hand used to throw at the moment *throw*   |    Grasp mode  |
-|   3    |    the location of the thrower at the moment *throw*   |    Throw location  |
-|   4    |    the location of the catcher at the moment *throw*   | Catch location |
-|   5    |    the average flying speed of the the thrown object   | Object speed|
-|   6    |    the vertical hand location of the thrower at the moment *throw*   | Vertical location |
-|   7    |    the horizontal hand location of the thrower at the moment *throw*   | Horizontal location |
-|   8    |    the vertical hand location of the catcher at the moment *throw*   |Catch vertical location |
-|   9    |    the horizontal hand location of the catcher at the moment *throw*   | Catch horizontal location |
-|   10    |    the frame number and the timestamp of the moment *throw*   | \ |
+|   1    |    The status of the annotation: `finished`, `unfinished` or `problematic`   |    \   |
+|   2    |    The hand used to throw at the moment *throw*   |    Grasp mode  |
+|   3    |    The location of the thrower at the moment *throw*   |    Throw location  |
+|   4    |    The location of the catcher at the moment *throw*   | Catch location |
+|   5    |    The average flying speed of the the thrown object   | Object speed|
+|   6    |    The vertical hand location of the thrower at the moment *throw*   | Vertical location |
+|   7    |    The horizontal hand location of the thrower at the moment *throw*   | Horizontal location |
+|   8    |    The vertical hand location of the catcher at the moment *throw*   |Catch vertical location |
+|   9    |    The horizontal hand location of the catcher at the moment *throw*   | Catch horizontal location |
+|   10    |    The frame number and the timestamp of the moment *throw*   | \ |
 |   11    |    which hand used to catch at the moment *catch (stable)*   | Grasp mode |
-|   12    |    the location of the catcher at the moment *catch (touch)*   | Catch location |
-|   13    |    the vertical hand location of the catcher at the moment *catch (stable)*   | Vertical location |
-|   14    |    the horizontal hand location of the catcher at the moment *catch (stable)*   | Horizontal location |
-|   15    |    the frame number and the timestamp of the moment *catch (touch)*  | \ |
-|   16    |    the frame number and the timestamp of the moment *catch (stable)*  | \ |
+|   12    |    The location of the catcher at the moment *catch (touch)*   | Catch location |
+|   13    |    The vertical hand location of the catcher at the moment *catch (stable)*   | Vertical location |
+|   14    |    The horizontal hand location of the catcher at the moment *catch (stable)*   | Horizontal location |
+|   15    |    The frame number and the timestamp of the moment *catch (touch)*  | \ |
+|   16    |    The frame number and the timestamp of the moment *catch (stable)*  | \ |
 
 <!-- 1. the status of the annotation: `finished`, `unfinished` or `problematic`
 2. "grasp mode" to throw at the moment "throw"
@@ -553,28 +551,28 @@ The representation of each text entry and the corresponding annotation name (as 
 
 ### &#x2022; Interaction Operations
 
-You can interact with the interface to annotate labels by the keyboard as defined below:
+You can interact with the interface to select semantic labels with the keyboard as defined below:
 
 | Key value  |     Operation |
 |:----------|:-------------|
-|"right arrow"| next frame|
-|"left arrow"| last frame|
-|"down arrow"| next recording|
-|"up arrow"| last recording|
-|"return"| take the current frame as a moment of throw, catch (touch), and catch (stable) in order|
-|"del"| remove the last annotated moment|
-|"Q"| switch the values of info panel 2 among left, right, and both |
-|"A"| switch the values of info panel 6 among overhead, overhand, chest, and underhand|
-|"S"| switch the values of info panel 7 among left, middle, and right|
-|"D"| switch the values of info panel 8 among overhead, overhand, chest, and underhand|
-|"F"| switch the values of info panel 9 among left, middle, and right|
-|"Z"| switch the values of info panel 11 among left, right, and both|
-|"C"| switch the values of info panel 2 among overhead, overhand, chest, and underhand|
-|"V"| switch the values of info panel 2 among left, middle, and right|
-|"space"| switch the values of info panel 1 between "finished" and "unfinished"|
-|"backspace"| switch the values of info panel 1 between "problematic" and "unfinished"|
+|"right arrow"| Next frame|
+|"left arrow"| Last frame|
+|"down arrow"| Next recording|
+|"up arrow"| Last recording|
+|"return"| Take the current frame as a moment of throw, catch (touch), and catch (stable) in order|
+|"del"| Remove the last annotated moment|
+|"Q"| Switch the values of panel 2 among left, right, and both |
+|"A"| switch the values of  panel 6 among overhead, overhand, chest, and underhand|
+|"S"| switch the values of  panel 7 among left, middle, and right|
+|"D"| switch the values of  panel 8 among overhead, overhand, chest, and underhand|
+|"F"| switch the values of  panel 9 among left, middle, and right|
+|"Z"| switch the values of  panel 11 among left, right, and both|
+|"C"| switch the values of  panel 2 among overhead, overhand, chest, and underhand|
+|"V"| switch the values of  panel 2 among left, middle, and right|
+|"space"| switch the values of  panel 1 between "finished" and "unfinished"|
+|"backspace"| switch the values of  panel 1 between "problematic" and "unfinished"|
 
-<b>Any modification</b> to the annotation result will be immediately saved in the corresponding annotation file under the directory `YOUR_PATH/annotations/take_id.json`.
+Any modification to the annotation result will be immediately saved in the corresponding annotation file under the directory `YOUR_PATH/annotations/take_id.json`.
 
 ### &#x2022; Note ❗
 <!-- [tbd: move to seg and anno] -->
@@ -596,10 +594,10 @@ For example, a catcher may stand before catching and squat to catch so that the 
 
 #### 1. Main annotation camera
 
-We suggest that users rely mainly on <b>the third-person (side)</b> and <b>egocentric views</b> to annotate, while the third-person back view is used as an auxiliary when significant occlusion is observed in the former two views. 
+We suggest that users rely mainly on the third-person (side)  and egocentric views  to annotate, while the third-person back view is used as an auxiliary when significant occlusion is observed in the former two views. 
 
-The viewing angle of cameras of egocentric are all higher than the normal height of human eyes resulting in a top-down viewing angle. This may lead to a biased observation of the vertical hand position. You can use the third-person back view to provide additional information. 
-<!-- One should also pay attention to the viewing angle of cameras particularly the third-person (back) and egocentric. They are all higher than the normal height of human eyes resulting in a top-down viewing angle. This may lead to a biased observation of the vertical hand position. The same situation also applies to observing horizontal hand position since the cameras may not face to the object and the subject straight. -->
+The viewing angle of cameras of egocentric are all higher than the normal height of human eyes,resulting in a top-down viewing angle. This may lead to a biased observation of the vertical hand position. You can use the third-person back view to provide additional information. 
+
 
 #### 2. Handling missing frames or data
 
