@@ -126,7 +126,6 @@ make
 ```bash
 python src/recorder.py --addr IP:PORT --he_addr IP:PORT     
 ```
-<br>
 There are also some other arguments allowed to configure the script optionally:
 
 |  Arguments   | Meanings  | Defaults |
