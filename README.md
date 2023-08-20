@@ -4,16 +4,16 @@
 
 This repository provides details and tools for the dataset **H<sup>2</sup>TC**. 
 For a quick overview of the dataset, we refer readers to the [project website](https://lipengroboticsx.github.io/). 
-Briefly, we have introduced tools to [record](#recorder), [process](#data-processing), and [annotate](#annotator) a human-human throw-catch activity. All source codes are available in the folder `./src`. 
+Briefly, we have introduced tools to [record](#recorder), [**process**](#data-processing), and [annotate](#annotator) a human-human throw-catch activity. All source codes are available in the folder [`./src`](https://github.com/lipengroboticsx/H2TC_code/tree/main/src). 
 
 <!-- ## Bibtex -->
 
 ## Run from scratch
-You can follow the steps to run from scratch:
+You can follow the steps below to run from scratch:
 1. Install the [dependencies](#dependencies). 
 2. Fetch the raw data. You have two options to fetch raw data:
     - Download our captured data [here](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0). 
-    - Capture your own data with our provided [recorder](#recorder). It helps build your own data collecting system. 
+    - Capture your own data with our provided [recorder](#recorder). It helps build your own data recording system. 
 3. [Process](#data-processing) the raw data. 
 4. (Optional) Annotate the processed data with our provided [annotator](#annotator).
 
@@ -21,7 +21,7 @@ You can follow the steps to run from scratch:
 ## Dependencies
 <!-- <details> -->
 <!-- <summary>Details</summary> -->
-To run the tools, some dependencies have to be installed. 
+To run the tools, some dependencies have to be installed first. 
 
  ### System environment
 
@@ -32,17 +32,16 @@ First, the default and well-tested system environment is
 * CUDA: 11.6
 * Nvidia driver: 510
 
-We have not tested our codes on other environments, so it is recommended to configure the same, or at least a similar environment for the best experience.
+We have not tested our codes on other environments yet, so it is recommended to configure the same, or at least a similar environment for the best experience.
 
 ### Softwares
 
-<!-- Apart from them, there are two more applications you have to check if you have in order to run the **processing** script: -->
-The data [processor ](#data-processing) depends on
+To run the data [processor ](#data-processing), you have to install two more applcaitons
 
 * spd-say: text-to-voice convertor.
 * ffmpeg: video decoder
 
-They can be installed, if not have, using the package management tool APT:
+They can be installed, if not have, using apt:
 
 ```bash
 sudo apt update
@@ -54,11 +53,11 @@ sudo apt install ffmpeg
 
 ### ZED and Metavision (Event camera) SDK
 
-Next, you need to install [ZED SDK](https://www.stereolabs.com/docs/installation/) (3.7.6) and [Metavision SDK](https://docs.prophesee.ai/2.3.0/installation/linux.html) (2.3.0) following the official guidance, so as to use ZED stereo camemra and Prophesee event camera to record and process the data respectively. 
+Next, you need to install [ZED SDK](https://www.stereolabs.com/docs/installation/) (3.7.6) and [Metavision SDK](https://docs.prophesee.ai/2.3.0/installation/linux.html) (2.3.0) following the official guidance, so as to use the ZED stereo camemra and Prophesee event camera to record and process the data respectively. 
 
-For your convenience of installing the older version (3.7.6) of ZED SDK, we copied one from the official source in the ***/dev*** directory. All you need is to download the SDK installer, run it and select the modules you want following the [guide](https://www.stereolabs.com/docs/installation/).
+For user's convenience of installing the older version (3.7.6) of ZED SDK, we copied one from the official repository and saved it in [`./dev/ZED_SDK_Installer`](https://github.com/lipengroboticsx/H2TC_code). All you need is to download the SDK installer, run it and select the modules you want following the [guide](https://www.stereolabs.com/docs/installation/).
 
-Metavision SDK is not packaged in an installer way, so you will have to follow the official [guide](https://docs.prophesee.ai/2.3.0/installation/linux.html) to install it. Particularly, Metavision SDK provides several optional modules. Our code uses only the functionality from the `metavision-essentials`, but you are free to install other optional modules or not.
+Metavision SDK is not packaged in an installer way, so you will have to follow the official [guide](https://docs.prophesee.ai/2.3.0/installation/linux.html) to install it. Particularly, Metavision SDK provides multiple optional  modules. Our code uses only the functionality from the `metavision-essentials`, but you are free to install other optional modules or not.
 
 ### Python Dependencies
 
@@ -90,9 +89,11 @@ Now you should be able to run the following command to launch the event recorder
 metavision_viewer
 ```
 
-You should also be able to record using ZED by running the official [sample](https://github.com/stereolabs/zed-examples/tree/master/svo%20recording/recording/python). If you don't have a camera or don't intend to record, you could just check if `pyzed` and `metavision_core` modules can be successfully imported in your python program. If it fails, you should inspect if your installation is done properly. Unfortunately, troubleshooting on installation is beyond the scope of this instruction.
-<!-- </details> -->
+You should also be able to record using ZED by running the official [sample](https://github.com/stereolabs/zed-examples/tree/master/svo%20recording/recording/python). 
 
+If you don't have a camera or don't intend to record, you can just check if `pyzed` and `metavision_core` modules can be successfully imported in your python program.  They will only be used to process the raw data by the provided data [**processor**](#data-processing),
+<!-- If it fails, you should inspect if your installation is done. Unfortunately, troubleshooting on installation is beyond the scope of this instruction. -->
+<!-- </details> -->
 
 
 ## Recorder
@@ -101,15 +102,16 @@ You should also be able to record using ZED by running the official [sample](htt
 
 <!-- Our recorder integrates the functionality of recording with multiple devices and organizing the recorded contents. -->
 
-Our recording system consists of 3 [Stereolabs ZED RGBD cameras](https://www.stereolabs.com/zed-2/), 1 [Prophesee event camera](https://www.prophesee.ai/), 1 [StretchSense MoCap gloves](https://stretchsense.com/), and 1 [OptiTrack motion capture system](https://optitrack.com/). 
-To collect data with our provided recorder, please follow the steps below: 
+Our recording system consists of 3 [Stereolabs ZED RGBD cameras](https://www.stereolabs.com/zed-2/), 1 [Prophesee event camera](https://www.prophesee.ai/), 1 [StretchSense MoCap Pro gloves](https://stretchsense.com/), and 1 [OptiTrack motion capture system](https://optitrack.com/). 
+To collect data with our provided recorder, you can follow the steps below: 
 
 **Step 1**: Enable all recording devices.
-* Three ZED cameras and one Prophesee event camera should be wired to the host where the recorder program is supposed to run. 
-* StretchSense MoCap Pro gloves should be connected to a Windows machine via bluetooth with its official client software [Hand Engine](https://stretchsense.com/solution/hand-engine/) running. 
-* OptiTrack server can be either operated on a separate host,  or on the same host as any of the two aforementioned ones. You may need to configure the firewall on each machine to enable the user datagram protocol (UDP) communication among them.
+* The ZED and Prophesee event cameras should be wired to a host Ubuntu machine where the recorder program is supposed to run. 
+* StretchSense MoCap Pro gloves should be connected to a sperate Windows machine with its official client software [Hand Engine (HE)](https://stretchsense.com/solution/hand-engine/) running. 
+* The optiTrack server can be either launched on a separate host, or on the same host as any of the two aforementioned ones. You may need to configure the firewall on each machine to enable the user datagram protocol (UDP) communication among them.
 
-**Step 2**: Update the configuration in our OptiTrack NatNet client code and rebuild the NatNet client by following [our NatNet document](https://github.com/lipengroboticsx/H2TC_code/tree/main/src/natnet_client). Briefly, you need to set the values of OptiTrack server IP address (`char* ip_address`), recorder IP address (`servaddr.sin_addr`), and recorder port (`PORT`) according to your network setting in the file [`/src/natnet_client/src/example_main.cpp`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/natnet_client/src/example_main.cpp). 
+**Step 2**: Update the configuration of the OptiTrack NatNet client and rebuild it by following [our NatNet document](https://github.com/lipengroboticsx/H2TC_code/tree/main/src/natnet_client). Briefly, you need to configure the OptiTrack server IP address (`char* ip_address`), recorder IP address (`servaddr.sin_addr`), and recorder port (`PORT`) according to your own network setting in the file [`./src/natnet_client/src/example_main.cpp`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/natnet_client/src/example_main.cpp). 
+
 ```bash
 cd src/natnet_client
 mkdir build
@@ -120,32 +122,32 @@ make
 
 **Step 3**: Initialize your lists of subjects and objects in the corresponding files `/register/subjects.csv` and `/register/objects.csv` respectively. Each subject and object should lie in a sperate line. Please check the sample lists in our repository for a detailed format.
 
-**Step 4**: Launch the main recorder application with the IP and Port of the local machine and of the HE application:
-```
+**Step 4**: Launch the main recorder [`src/recorder.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/recorder.py) with the IP and Port of the local machine and of the HE application:
+```bash
 python src/recorder.py --addr IP:PORT --he_addr IP:PORT     
 ```
 <br>
-There are also some other arguments allowed to configure the script:
+There are also some other arguments allowed to configure the script optionally:
 
 |  Arguments   | Meanings  | Defaults |
 |  :----     | :----  | :----  |
 | addr  | ip address and port of the current machine for UDP | 10.41.206.138:3003 |
 | he_addr  | ip address and port of the Hand Engine machine for UDP | 10.41.206.141:30039 |
-| length  | the length of recording | 5 |
-| nposition  | num of position squares to locate subjects | 16 |
-| clients  | clients allowed to communicateP | ['optitrack'] |
-| zed_num  | number of ZED cams for recording | 3 |
-| fps  | FPS for ZED recording | 60 |
-| resolution  | resolution for ZED recording | 720p |
+| length  | the time length of recording | 5 |
+| nposition  | the number of locations for subjects | 16 |
+| clients  | clients allowed to communicate | ['optitrack'] |
+| zed_num  | number of ZED cameras for recording | 3 |
+| fps  | FPS of ZED recording | 60 |
+| resolution  | resolution of ZED | 720p |
 | tolerance  | frame drop tolerance | 0.1 |
 
 And then run the NatNet client in another terminal:
 ```bash
 ./src/natnet_client/build/natnet_client                   
 ```
-Now you should be able to see the prompt indicating that these two systems have successfully communicated with each other, if everything goes well.
+Now you should be able to see the prompt indicating that two machines have successfully communicated with each other, if everything goes well.
 
-**Step 5**: Operate the main recorder to record following the interactive instruction. The main recorder will automatically communicate with and command Hand Engine and NatNet client to record. Nevertheless, we do recommend you regularly check Hand Engine and the NatNet client to see if it bugs.
+**Step 5**: Follow the prompt interactive instructions to complete a record. The main recorder [`src/recorder.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/recorder.py) will automatically communicate with and command Hand Engine and NatNet client to record. Nevertheless, we do recommend you regularly check Hand Engine and the NatNet client to see if it bugs.
 <!-- </details> -->
 
 ## Data Processing
