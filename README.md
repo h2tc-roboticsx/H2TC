@@ -2,10 +2,10 @@
 
 [[Project Page]](https://lipengroboticsx.github.io/) [[Paper]]() [[Data]](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0) [[Sample Cases]](https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0) 
 
-This repository provides tools for the dataset **H<sup>2</sup>TC**. 
+This repository provides details and tools for the dataset **H<sup>2</sup>TC**. 
 For a quick overview of the dataset, we refer readers to the [project website](https://lipengroboticsx.github.io/). 
 
-Briefly, we have introduced three tools to [record](#recorder), [process](#data-processing), and [annotate](#annotator) a throw-catch activity. All source codes are available in the folder `src`. 
+Briefly, we have introduced tools to [record](#recorder), [process](#data-processing), and [annotate](#annotator) a human-human throw-catch activity. All source codes are available in the folder `src`. 
 
 <!-- ## Bibtex -->
 
