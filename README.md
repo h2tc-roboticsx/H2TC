@@ -3,7 +3,7 @@
 [[Project Page]](https://lipengroboticsx.github.io/) [[Paper]]() [[Data]](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0) [[Sample Cases]](https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0) 
 
 This repository provides details and tools for the dataset **H<sup>2</sup>TC**. 
-For a quick overview of the dataset, we refer readers to the [project website](https://lipengroboticsx.github.io/). 
+For a quick overview of the dataset, we refer users to the [project website](https://lipengroboticsx.github.io/). 
 Briefly, we have introduced tools to [record](#recorder), [**process**](#data-processing), and [annotate](#annotator) a human-human throw-catch activity. All source codes are available in the folder [`./src`](https://github.com/lipengroboticsx/H2TC_code/tree/main/src). 
 
 <!-- ## Bibtex -->
@@ -157,7 +157,7 @@ Our data [processor](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/
 * process raw data into the formats as detailed in the table below, or,
 * process raw data into one's preferred formats for customized needs by modifying the provided tool. 
 
-We refer readers to [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md) for full technical details on how we process the multi-modal and cross-device raw data.
+We refer users to [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md) for full technical details on how we process the multi-modal and cross-device raw data.
 
 <table <table border="1" cellspacing="0">
     <caption style="text-align:centering">Table 1. Data modalities and formats</caption>
@@ -231,11 +231,11 @@ We refer readers to [`/doc/processing_techdetails.md`](https://github.com/lipeng
 
 ### &#x2022; How to Process
 
-#### Step 1: Get the raw data
-Download the <a href="https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0"> raw data</a> to your own folder `RAWDATA_PATH`. Each recording of our raw data is packed in a .zip file.
+#### Step 1: Fetch the raw data
+Download the <a href="https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0"> raw data</a> to your own folder `RAWDATA_PATH`. Each recording of our raw data is packed in a zip file.
 ```
 RAWDATA_PATH
-└──011998.zip           - 011998 is the take number
+└──011998.zip           // 011998 is the take number
 ```
 
 #### Step 2: Extract the packed raw data 
@@ -275,17 +275,17 @@ YOUR_PATH
         └──optitrack.csv
 ```
 
-`{ZED-ID}` indicates three ZED devices, `17471`, `24483054` and `28280967`, which are the fixed third-person (side) view, the dynamic egocentric view and the fixed third-person (back) view respectively.
+`{ZED-ID}` indicates three ZED devices, including `17471`, `24483054` and `28280967`, which are the fixed third-person (side) view, the dynamic egocentric view and the fixed third-person (back) view respectively.
 `{timestamp}` is the initial timestamp of the event camera in a UNIX format. 
 A detailed explanation of each raw data file is provided in [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data). 
 
 #### Step 3: Process the extracted data
-Once the raw data is extracted and organized properly as in step 2), then run the following command:
+Once the raw data is extracted and organized properly as in step 2, run the following command:
 
 ```python
 python src/process.py --datapath YOUR_PATH/data
 ```
-`--datapath` is where your extracted data locate. Several arguments are allowed to configure the processing when running the script [src/process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py). The available arguments are: [tbd: add arguments ]
+`--datapath` is where your extracted data locate. Several arguments are allowed to configure the processing when running the script [src/process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py) optionally:
 
 |  Arguments   | Meanings  | Defaults |
 |  :----     | :----  | :----  |
@@ -320,8 +320,8 @@ Once the process is done, the raw data files will be moved into a new directory 
 YOUR_PATH
 └──data
     └──011998
-        ├──raw              - all raw data
-        └──processed        - all processed data
+        ├──raw              // all raw data
+        └──processed        // all processed data
 ```
 
 
@@ -329,18 +329,18 @@ YOUR_PATH
 
 ### &#x2022; Customized Processing 
 If you want to customize the processing, please: 
-  * first follow the step 1 and 2 in [How to Process](#•-how-to-process) to get the organized raw data. 
-  * then in step 3, design your own processing by diving into the processing technical details in [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md). This document explains how we process the multi-modal, cross-device data. 
+  * First follow the step 1 and 2 in [How to Process](#•-how-to-process) to get the organized raw data. 
+  * Then in step 3, design your own processing by diving into the full technical details in [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md). This document explains how we process the multi-modal, cross-device data. 
 
 ### &#x2022; Trouble Shooting ❗
 
 #### 1. Reprocess the processed take
 
-If you want so, you have to manually remove the existing, processed, data. If you only want to reprocess the part of the whole take e.g. ZED, you don't need to remove the remaining data.
+If you want so, you have to manually remove the existing processed data. If you only want to reprocess the part of the whole take e.g. ZED, you don't need to remove the remaining data.
 
 #### 2. ZED decoding frames failed
 
-The current mechanism allows for maximally 10 failed attempts to decode (or grab in ZED term) a frame. After failed more 10 times, the decoding will abort and the processing will continue to the next part e.g. next ZED device or next stream. The frames have been decoded will be stored, while the rest frames will be ignored. This issue usually happens when decoding the last frame.
+The current mechanism allows for maximally 10 failed attempts to decode (or grab in ZED term) a frame. Once failed more 10 times, the decoding process will abort and the processing will continue to the next part e.g. next ZED device or next stream. The frames have been decoded will be stored, while the rest frames will be ignored. This issue usually happens when decoding the last frame.
 
 To fix this bug, one can simply reprocess the problematic takes [reprocess the processed take](#1-reprocess-the-processed-take). 
 <!-- </details> -->
@@ -349,33 +349,19 @@ To fix this bug, one can simply reprocess the problematic takes [reprocess the p
 <!-- <details> -->
 <!-- <summary>Details</summary> -->
 
-In case you want to annotate your custom-captured data with annotations, 
-we provide an annotation tool to label catch&throw activities with an interactive interface based on the processed data. 
-To annotate, please:  
-- **First** have the processed data under the directory `YOUR_PATH/data/take_id/processed`. The processed data can be obtained by processing the raw data as suggested in [Data Processing](#data-processing). 
-- **Next** run the following command to launch the annotation application.  
-
-```p
-python src/annotate.py --datapath YOUR_PATH/data
-```
-[tbd: add arguments]
-Several arguments are allowed to configure the annotation when running the script. The available arguments are:
-|  Arguments   | Meanings  | Defaults |
-|  :----     | :----  | :----  |
-| takes     | ID of takes to be annotated. Set None to annotate all takes in the 'data' directory. This can be given with a single integer number for one take or a range linked by '-', e.g., '10-12' for takes [000010, 000011, 000012]. | None |
-| review | Set true to review the takes have been already annotated before. By default (False), the annotated takes will not be displayed for annotation again. | False |
-| datapath | The processed data directory of recordings. Users need to specify it.  | None |
-
-<!-- By default, the takes that are "failed" or have been already annotated (either "finished" or "problematic") are ignored by the program so that they will not present in the annotator.  To review the annotated takes, you should run the program with the option `--review` like:
-
-```
-python src/annotate.py --review
-``` -->
-
 ### Segmentation and Annotation
-[tbd: add table 6 and fig 9] <br>
-The annotator tool supports annotating a hierarchy of segmentation and
-annotations, both semantic and dense, as detailed below: 
+Our dataset is provided with a hierarchy of segmentation and annotations, both semantic and dense. 
+
+Specifically, each recorded  throw&catch activity is segmented into four phases, including *pre-throwing*, *object flying*, *catching* and *post-catching*, with three manually annotated timestamps including <u>throw</u>, <u>catch touch</u> and <u>catch stable</u>. 
+
+<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/seg_00.png" width=800>
+
+The subjects' behaviors are manually checked and annotated with symbolic labels in terms of <u>grasp mode</u> and <u>hand locations</u>. The subjects' <u>initial locations</u> and the <u>average flying speed of the object</u> are also automatically annotated as quantitative labels. 
+
+<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/subject_anno.png" width=400>
+
+
+
 <table width=1000 style="text-align: left;">
     <tr>
         <td>Name</td>
@@ -487,21 +473,30 @@ annotations, both semantic and dense, as detailed below:
     </tr>
 </table>
 
-Briefly, the annotations offer: 
-<p style="margin-left: 2em; ">
-<small>
-<b>1) Interaction States for Segmentation</b>. A throw&catch activity is segmented into four phases, including pre-throwing, object flying, catching and post-catching, with three manually annotated timestamps including <u>throw</u>, <u>catch touch</u> and <u>catch stable</u>. 
-</small>
-</p>
-<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/seg_00.png" width=800>
 
-<p style="margin-left: 2em;">
-<small >
-<b>2) Subjects Properties for Semantic and Dense Annotations</b>. The subjects' behaviors are manually checked and annotated with
-symbolic labels in terms of <u>grasp mode</u> and <u>hand locations</u>. The subjects' <u>initial locations</u> and the <u>average flying speed of the object</u> are also automatically annotated as quantitative labels. 
-</small>
-</p>
-<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/subject_anno.png" width=400>
+
+
+In case you want to annotate your custom-captured data, 
+we provide an annotation tool to label catch&throw activities with an interactive interface based on the processed data. 
+To annotate, please:  
+- Step 1: Have all processed data under the directory `YOUR_PATH/data/take_id/processed`. The processed data can be obtained by processing the raw data as suggested in [Data Processing](#data-processing). 
+- Step 2: Run the following command to launch the annotation tool.  
+
+```python
+python src/annotate.py --datapath YOUR_PATH/data
+```
+There are some other arguments allowed to configure the annotation optionally:
+|  Arguments   | Meanings  | Defaults |
+|  :----     | :----  | :----  |
+| takes     | ID of takes to be annotated. Set None to annotate all takes in the 'data' directory. This can be given with a single integer number for one take or a range linked by '-', e.g., '10-12' for takes [000010, 000011, 000012]. | None |
+| review | Set true to review the takes have been already annotated before. By default (False), the annotated takes will not be displayed for annotation again. | False |
+| datapath | The processed data directory of recordings. Users need to specify it.  | None |
+
+<!-- By default, the takes that are "failed" or have been already annotated (either "finished" or "problematic") are ignored by the program so that they will not present in the annotator.  To review the annotated takes, you should run the program with the option `--review` like:
+
+```
+python src/annotate.py --review
+``` -->
 
 
 ### &#x2022; Interface
