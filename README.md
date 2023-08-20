@@ -130,15 +130,15 @@ There are also some other arguments allowed to configure the script optionally:
 
 |  Arguments   | Meanings  | Defaults |
 |  :----     | :----  | :----  |
-| addr  | ip address and port of the current machine for UDP | 10.41.206.138:3003 |
-| he_addr  | ip address and port of the Hand Engine machine for UDP | 10.41.206.141:30039 |
-| length  | the time length of recording | 5 |
-| nposition  | the number of locations for subjects | 16 |
-| clients  | clients allowed to communicate | ['optitrack'] |
-| zed_num  | number of ZED cameras for recording | 3 |
+| addr  | IP address and port of the current machine for UDP | 10.41.206.138:3003 |
+| he_addr  | IP address and port of the Hand Engine machine for UDP | 10.41.206.141:30039 |
+| length  | Time length of recording | 5 |
+| nposition  | Number of locations for subjects | 16 |
+| clients  | Clients allowed to communicate | ['optitrack'] |
+| zed_num  | Number of ZED cameras for recording | 3 |
 | fps  | FPS of ZED recording | 60 |
-| resolution  | resolution of ZED | 720p |
-| tolerance  | frame drop tolerance | 0.1 |
+| resolution  | Resolution of ZED | 720p |
+| tolerance  | Frame drop tolerance | 0.1 |
 
 And then run the NatNet client in another terminal:
 ```bash
@@ -146,7 +146,7 @@ And then run the NatNet client in another terminal:
 ```
 Now you should be able to see the prompt indicating that two machines have successfully communicated with each other, if everything goes well.
 
-**Step 5**: Follow the prompt interactive instructions to complete a record. The main recorder [`src/recorder.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/recorder.py) will automatically communicate with and command Hand Engine and NatNet client to record. Nevertheless, we do recommend you regularly check Hand Engine and the NatNet client to see if it bugs.
+**Step 5**: Follow the interactive instructions prompted by the main recorder [`src/recorder.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/recorder.py) to complete a record. The main recorder  will automatically communicate with and command Hand Engine and NatNet client to record in a synchronous manner. Nevertheless, we do recommend you regularly check Hand Engine and the NatNet client to see if it bugs.
 <!-- </details> -->
 
 ## Data Processing
