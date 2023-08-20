@@ -4,7 +4,6 @@
 
 This repository provides details and tools for the dataset **H<sup>2</sup>TC**. 
 For a quick overview of the dataset, we refer readers to the [project website](https://lipengroboticsx.github.io/). 
-
 Briefly, we have introduced tools to [record](#recorder), [process](#data-processing), and [annotate](#annotator) a human-human throw-catch activity. All source codes are available in the folder `src`. 
 
 <!-- ## Bibtex -->
@@ -12,28 +11,28 @@ Briefly, we have introduced tools to [record](#recorder), [process](#data-proces
 ## Run from scratch
 You can follow the steps to run from scratch:
 1. Install the [dependencies](#dependencies). 
-2. Get the raw data. You have two options to get raw data.
+2. Fetch the raw data. You have two options to fetch raw data:
     - Download our captured data [here](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0). 
-    - Capture your own data via our [recorder](#recorder). It will help you build the capturing system. 
+    - Capture your own data with our provided [recorder](#recorder). It helps build your own data collecting system. 
 3. [Process](#data-processing) the raw data. 
-4. (Optional) [Annotate](#annotator) the processed data. You can use the annotator to label your own captured data. 
+4. (Optional) Annotate the processed data with our provided [annotator](#annotator).
 
 
 ## Dependencies
 <!-- <details> -->
 <!-- <summary>Details</summary> -->
-To run our code, some dependencies have to be installed. 
+To run the tools, some dependencies have to be installed. 
 
  ### System environment
 
-First, the default, and well-tested, system environment is
+First, the default and well-tested system environment is
 
 * Ubuntu: 20.04
 * Python: 3.8.13
 * CUDA: 11.6
 * Nvidia driver: 510
 
-We have not tested our code on other development environments, so you are recommended to configure the same, or at least a similar, environment for the best experience.
+We have not tested our codes on other environments, so it is recommended to configure the same, or at least a similar environment for the best experience.
 
 ### Softwares
 
