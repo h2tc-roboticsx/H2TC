@@ -74,7 +74,7 @@ Last, the remaining Python dependencies include
 
 and can be automatically installed via pip:
 
-```p
+```bash
 pip install -r requirements.txt
 ```
 
