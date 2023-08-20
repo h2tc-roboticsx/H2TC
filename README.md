@@ -84,15 +84,13 @@ Alternatively, we also provide a ready-to-use [Docker](https://www.docker.com/) 
 
 ### Test ZED and Event Cameras
 
-now you should be able to run the following command to launch the event recorder with your Prophesee event camera connected to the computer:
+Now you should be able to run the following command to launch the event recorder with your Prophesee event camera connected to the computer:
 
-```p
+```bash
 metavision_viewer
 ```
 
-<!-- <u>***TODO: picture of running successfully***</u> -->
-
-You should also be able to record using ZED by running the official [sample](https://github.com/stereolabs/zed-examples/tree/master/svo%20recording/recording/python). If you don't have a camera or don't intend to record, you could just check if `pyzed` and `metavision_core` modules can be successfully imported in your python program. If any failure, you should inspect your installation if done manually and, unfortunately, troubleshooting this is beyond the scope of this instruction.
+You should also be able to record using ZED by running the official [sample](https://github.com/stereolabs/zed-examples/tree/master/svo%20recording/recording/python). If you don't have a camera or don't intend to record, you could just check if `pyzed` and `metavision_core` modules can be successfully imported in your python program. If it fails, you should inspect if your installation is done properly. Unfortunately, troubleshooting on installation is beyond the scope of this instruction.
 <!-- </details> -->
 
 
