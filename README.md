@@ -37,7 +37,7 @@ We have not tested our codes on other environments, so it is recommended to conf
 ### Softwares
 
 <!-- Apart from them, there are two more applications you have to check if you have in order to run the **processing** script: -->
-The data [processor ](#data-processing) depends on:
+The data [processor ](#data-processing) depends on
 
 * spd-say: text-to-voice convertor.
 * ffmpeg: video decoder
