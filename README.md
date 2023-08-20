@@ -4,7 +4,7 @@
 
 This repository provides details and tools for the dataset **H<sup>2</sup>TC**. 
 For a quick overview of the dataset, we refer readers to the [project website](https://lipengroboticsx.github.io/). 
-Briefly, we have introduced tools to [record](#recorder), [process](#data-processing), and [annotate](#annotator) a human-human throw-catch activity. All source codes are available in the folder `src`. 
+Briefly, we have introduced tools to [record](#recorder), [process](#data-processing), and [annotate](#annotator) a human-human throw-catch activity. All source codes are available in the folder `./src`. 
 
 <!-- ## Bibtex -->
 
@@ -54,11 +54,11 @@ sudo apt install ffmpeg
 
 ### ZED and Metavision (Event camera) SDK
 
-Next, you need to install [ZED SDK](https://www.stereolabs.com/docs/installation/) (3.7.6) and [Metavision SDK](https://docs.prophesee.ai/2.3.0/installation/linux.html) (2.3.0) following the official guidance in the links in order to record and process the data of ZED and Prophesee Event cameras respectively. 
+Next, you need to install [ZED SDK](https://www.stereolabs.com/docs/installation/) (3.7.6) and [Metavision SDK](https://docs.prophesee.ai/2.3.0/installation/linux.html) (2.3.0) following the official guidance, so as to use ZED stereo camemra and Prophesee event camera to record and process the data respectively. 
 
-For your convenience of installing the older version (3.7.6) of ZED SDK, we copied one from the official source in the ***/dev*** directory. All you need to do is downloading the SDK installer, running it and selecting the modules you want following the [guide](https://www.stereolabs.com/docs/installation/).
+For your convenience of installing the older version (3.7.6) of ZED SDK, we copied one from the official source in the ***/dev*** directory. All you need is to download the SDK installer, run it and select the modules you want following the [guide](https://www.stereolabs.com/docs/installation/).
 
-Metavision SDK is not packaged in an installer way so we can't share the SDK like above. You will have to follow the [guide](https://docs.prophesee.ai/2.3.0/installation/linux.html) to install. Particularly, Metavision SDK provides several optional modules, in additional to the "essential" modules, like machine learning modules for installation. Our code only uses the functionality from the `metavision-essentails `, so you are free to install those optional modules or not.
+Metavision SDK is not packaged in an installer way, so you will have to follow the official [guide](https://docs.prophesee.ai/2.3.0/installation/linux.html) to install it. Particularly, Metavision SDK provides several optional modules. Our code uses only the functionality from the `metavision-essentials`, but you are free to install other optional modules or not.
 
 ### Python Dependencies
 
