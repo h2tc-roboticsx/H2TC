@@ -1,6 +1,6 @@
 # **H<sup>2</sup>TC**: A Large-Scale Multi-View and Multi-Modal Dataset of Human-Human Throw&Catch of Arbitrary Objects
 
-[Project Page](https://lipengroboticsx.github.io/) [Technical Paper]() [Dataset](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0) [Sample Cases](https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0) 
+[[Project Page]](https://lipengroboticsx.github.io/) [[Technical Paper]]() [[Dataset]](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0) [[Sample Cases]](https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0) 
 ***
 
 This repository provides tools, tutorials,  source codes and supporting documents for the dataset **H<sup>2</sup>TC**. 
@@ -83,22 +83,22 @@ Our recording framework employs three [ZED](https://www.stereolabs.com/zed-2/) s
 
 You need to install [ZED SDK](https://www.stereolabs.com/docs/installation/) (3.7.6) and [Metavision SDK](https://docs.prophesee.ai/2.3.0/installation/linux.html) (2.3.0) following the official guidance, so as to use the ZED stereo camera and the Prophesee event camera to record and process the data respectively. 
 
-For user convenience of installing the specific version (3.7.6) of ZED SDK, we fetch the installer from the official repository and save it in [`./dev/ZED_SDK_Installer`](https://github.com/lipengroboticsx/H2TC_code). All you need is to download the SDK installer, run it and select the modules you prefer following the official [guides](https://www.stereolabs.com/docs/installation/).
+For user's convenience of installing the specific version (3.7.6) of ZED SDK, we fetch the installer from the official repository and save it in [`./dev/ZED_SDK_Installer`](https://github.com/lipengroboticsx/H2TC_code). All you need is to download the SDK installer, run it and select the modules you prefer following the official [guides](https://www.stereolabs.com/docs/installation/).
 
-Metavision SDK is not packaged in an installer way, so you will have to follow the official [guide](https://docs.prophesee.ai/2.3.0/installation/linux.html) to install it. Particularly, Metavision SDK provides multiple optional  modules. Our code uses only the functionality from the `metavision-essentials`, but you are free to install other optional modules or not.
+Metavision SDK is not packaged in an installer way, so you will have to follow the official [guides](https://docs.prophesee.ai/2.3.0/installation/linux.html) to install it. Particularly, Metavision SDK provides multiple optional  modules. Our tool uses only the functionality from the `metavision-essentials`, but you are free to install other  modules or not.
 
 
-### Test ZED and Event Cameras
+#### Test Event and ZED Cameras
 
-Now you should be able to run the following command to launch the event recorder with your Prophesee event camera connected to the computer:
+Now you should be able to launch the event recorder with the following command if your Prophesee event camera is well connected to the computer:
 
 ```bash
 metavision_viewer
 ```
 
-You should also be able to record using ZED by running the official [sample](https://github.com/stereolabs/zed-examples/tree/master/svo%20recording/recording/python). 
+You should also be able to test the connection of  ZED  cameras by running the official [samples](https://github.com/stereolabs/zed-examples/tree/master/svo%20recording/recording/python). 
 
-If you don't have a camera or don't intend to record, you can just check if `pyzed` and `metavision_core` modules can be successfully imported in your python program.  They will only be used to process the raw data by the provided data [**processor**](#data-processing),
+If you do not have a camera or do not intend to record your own dataset, you can simply check if `pyzed` and `metavision_core` modules can be successfully imported by your python program.  They will be used only for post [processing](#data-processing) of the raw data by our dataset.
 <!-- If it fails, you should inspect if your installation is done. Unfortunately, troubleshooting on installation is beyond the scope of this instruction. -->
 <!-- </details> -->
 
