@@ -112,14 +112,15 @@ If you do not have a camera or do not intend to record your own dataset, you can
 <!-- Our recording system consists of 3 [Stereolabs ZED RGBD cameras](https://www.stereolabs.com/zed-2/), 1 [Prophesee event camera](https://www.prophesee.ai/), 1 [StretchSense MoCap Pro gloves](https://stretchsense.com/), and 1 [OptiTrack motion capture system](https://optitrack.com/).  -->
 
 Our recorder integrates the functionality of recording with multiple devices and organizing the recorded contents in a hierarchical manner. 
-To collect data with our provided recorder, simply follow the steps below: 
+To collect data with our provided recorder, simply run the following steps: 
 
 **Step 1**: Enable all recording devices.
-* The ZED and Prophesee event cameras should be wired to a host Ubuntu machine where the recorder program is supposed to run. 
-* StretchSense MoCap Pro gloves should be connected to a sperate Windows machine with its official client software [Hand Engine (HE)](https://stretchsense.com/solution/hand-engine/) running. 
-* The optiTrack server can be either launched on a separate host, or on the same host as any of the two aforementioned ones. You may need to configure the firewall on each machine to enable the user datagram protocol (UDP) communication among them.
+* The ZED and Prophesee event cameras should be wired to a host Ubuntu (20.04) machine, where the recorder program is supposed to run. 
+* StretchSense MoCap Pro gloves should be connected to a separate Windows machine with its official client software [Hand Engine (HE)](https://stretchsense.com/solution/hand-engine/) running on the same machine. 
+* The OptiTrack server can be  launched  either on a separate host, or on any  of the two aforementioned ones. You may need to configure the firewall on each machine to enable the User Datagram Protocol (UDP) communication.
 
-**Step 2**: Update the configuration of the OptiTrack NatNet client and rebuild it by following [our NatNet document](https://github.com/lipengroboticsx/H2TC_code/tree/main/src/natnet_client). Briefly, you need to configure the OptiTrack server IP address (`char* ip_address`), recorder IP address (`servaddr.sin_addr`), and recorder port (`PORT`) according to your own network setting in the file [`./src/natnet_client/src/example_main.cpp`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/natnet_client/src/example_main.cpp). 
+**Step 2**: Update the configuration of OptiTrack NatNet client in [`./src/natnet_client/src/example_main.cpp`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/natnet_client/src/example_main.cpp), 
+and then rebuild it by following  our [tutorial](https://github.com/lipengroboticsx/H2TC_code/tree/main/src/natnet_client). Briefly, you need to configure the OptiTrack server IP address (`char* ip_address`), the recorder IP address (`servaddr.sin_addr`), and the recorder port (`PORT`) according to your own network setting. 
 
 ```bash
 cd src/natnet_client
@@ -129,9 +130,9 @@ cmake ..
 make
 ```
 
-**Step 3**: Initialize your lists of subjects and objects in the corresponding files `/register/subjects.csv` and `/register/objects.csv` respectively. Each subject and object should lie in a sperate line. Please check the sample lists in our repository for a detailed format.
+**Step 3**: Initialize your lists of human subjects and objects in `/register/subjects.csv` and `/register/objects.csv` respectively. Each subject and object should lie in a sperate line. Please refer to the sample lists in our repository for a detailed format.
 
-**Step 4**: Launch the main recorder [`src/recorder.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/recorder.py) with the IP and Port of the local machine and of the HE application:
+**Step 4**: Launch the main [recorder](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/recorder.py) with the IP and Port of the local machine and of the HE application:
 ```bash
 python src/recorder.py --addr IP:PORT --he_addr IP:PORT     
 ```
