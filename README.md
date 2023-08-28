@@ -136,14 +136,14 @@ make
 ```bash
 python src/recorder.py --addr IP:PORT --he_addr IP:PORT     
 ```
-There are also some other arguments allowed to configure the script optionally:
+There are also some other arguments to configure the recorder optionally:
 
 |  Arguments   | Meanings  | Defaults |
 |  :----     | :----  | :----  |
 | addr  | IP address and port of the current machine for UDP | 10.41.206.138:3003 |
 | he_addr  | IP address and port of the Hand Engine machine for UDP | 10.41.206.141:30039 |
-| length  | Time length of recording | 5 |
-| nposition  | Number of locations for subjects | 16 |
+| length  | Time duration (s) of each recording | 5 |
+| nposition  | Number of standing locations for subjects | 16 |
 | clients  | Clients allowed to communicate | ['optitrack'] |
 | zed_num  | Number of ZED cameras for recording | 3 |
 | fps  | FPS of ZED recording | 60 |
@@ -154,9 +154,9 @@ And then run the NatNet client in another terminal:
 ```bash
 ./src/natnet_client/build/natnet_client                   
 ```
-Now you should be able to see the prompt indicating that two machines have successfully communicated with each other, if everything goes well.
+Now you should be able to see a prompt indicating that two machines have successfully communicated with each other, if everything goes well.
 
-**Step 5**: Follow the interactive instructions prompted by the main recorder [`src/recorder.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/recorder.py) to complete a record. The main recorder  will automatically communicate with and command Hand Engine and NatNet client to record in a synchronous manner. Nevertheless, we do recommend you regularly check Hand Engine and the NatNet client to see if it bugs.
+**Step 5**: : Follow the interactive instructions prompted in the terminal  by the main recorder to perform a recording. The main recorder  will automatically communicate with and command Hand Engine and NatNet client to record multiple data modalities in a synchronous manner. Nevertheless, we do recommend you to regularly check Hand Engine and the NatNet client to see if they break.
 <!-- </details> -->
 
 ## Data Processing
