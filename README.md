@@ -1,10 +1,13 @@
-# H<sup>2</sup>TC: A Large-Scale Multi-View and Multi-Modal Dataset of Human-Human Throw&Catch of Arbitrary Objects
+# **H<sup>2</sup>TC**: A Large-Scale Multi-View and Multi-Modal Dataset of Human-Human Throw&Catch of Arbitrary Objects
 
-[[Project Page]](https://lipengroboticsx.github.io/) [[Paper]]() [[Data]](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0) [[Sample Cases]](https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0) 
+[Project Page](https://lipengroboticsx.github.io/) [Technical Paper]() [Dataset](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0) [Sample Cases](https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0) 
+***
 
-This repository provides details and tools for the dataset **H<sup>2</sup>TC**. 
-For a quick overview of the dataset, we refer users to the [project website](https://lipengroboticsx.github.io/). 
-Briefly, we have introduced tools to [record](#recorder), [**process**](#data-processing), and [annotate](#annotator) a human-human throw-catch activity. All source codes are available in the folder [`./src`](https://github.com/lipengroboticsx/H2TC_code/tree/main/src). 
+This repository provides tools, tutorials,  source codes and supporting documents for the dataset **H<sup>2</sup>TC**. 
+For a quick glance at the dataset, we refer users to the [project website](https://lipengroboticsx.github.io/) and our technical [paper](toadd).
+Briefly, it has introduced tools to [record](#recorder), [process](#data-processing), and [annotate](#annotator) the dataset. All source codes are available in the folder [`./src`](https://github.com/lipengroboticsx/H2TC_code/tree/main/src). It also provides detailed documents in  [`./doc`](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc) that explain in detail the data processing,  data hierarchy, and the content of each data file in the dataset.
+
+
 
 <!-- ## Bibtex -->
 

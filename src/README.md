@@ -1,15 +1,13 @@
-# Source code
-This folder contains the source codes of our tools to record, process and annotate our dataset. 
-If you want to utilize the tools, please follow the [guideline](https://github.com/lipengroboticsx/H2TC_code/tree/main#run-from-scratch). 
+This folder contains the source codes of our tools to record, process and annotate the dataset. 
+If you want to employ the tools, please simply follow the [tutorials](https://github.com/lipengroboticsx/H2TC_code/tree/main#run-from-scratch) in detail.<br>
 
-Briefly, here is an overview of our tools:
-
+Briefly, below is an overview of the provided tools and their corresponding tutorials.<br>
 
 |  Scripts   | Features | Documents | 
 |  :----  | :----  | :---- |
-| **recorder.py**  | &#x2022; provides a framework that supports high-quality synchronized streaming, saving and visualization of human activities from multi-modality sensors |    [recoder document](https://github.com/lipengroboticsx/H2TC_code/tree/main#recorder)        |
-| **process.py**  | &#x2022; processes the collected raw data into the commonly used formats <br> &#x2022; synchronizes processed data |  [processer document](https://github.com/lipengroboticsx/H2TC_code/tree/main#data-processing)         |
-| **annotate.py** | &#x2022; provides an interactive interface that supports users to easily annotate the dataset with a variety of [dense and symbolic lables](https://github.com/lipengroboticsx/H2TC_code/tree/main#-interface).  |   [annotator document](https://github.com/lipengroboticsx/H2TC_code/tree/main#annotator)          |
-
-
+| **recorder.py**  | supports high-quality synchronized streaming, saving and visualization of human-human throw&catch activities from multi-modality sensors. |    [Recoder](https://github.com/lipengroboticsx/H2TC_code/tree/main#recorder)        |
+| **process.py**  | synchronizes and processes the collected raw data into the processed data of commonly used [formats](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md). |  [Processer](https://github.com/lipengroboticsx/H2TC_code/tree/main#data-processing)         |
+| **annotate.py** | provides an interactive interface that supports users to visually validate and annotate the dataset with a variety of dense and symbolic [lables](https://github.com/lipengroboticsx/H2TC_code/tree/main#-interface).  |   [Annotator](https://github.com/lipengroboticsx/H2TC_code/tree/main#annotator)    |
+| **extract.py** | unzips all raw data and organizes them in a hierarchical manner that is acceptable by the processor.  |  n.a.     |
+| **log.py** |  coming soon. |  n.a.     |
 
