@@ -132,7 +132,7 @@ make
 
 **Step 3**: Initialize your lists of human subjects and objects in `/register/subjects.csv` and `/register/objects.csv` respectively. Each subject and object should lie in a sperate line. Please refer to the sample lists in our repository for a detailed format.
 
-**Step 4**: Launch the main [recorder](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/recorder.py) with the IP and Port of the local machine and of the HE application:
+**Step 4**: Launch the main [recorder](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/recorder.py) with the IP and Port of the local machine and of the HE application
 ```bash
 python src/recorder.py --addr IP:PORT --he_addr IP:PORT     
 ```
@@ -160,24 +160,20 @@ Now you should be able to see a prompt indicating that two machines have success
 <!-- </details> -->
 
 ## Data Processing
-<!-- <details>
-<summary>Details</summary> -->
 
-Our data [processor](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py) converts the raw data into commonly used formats. With the tool, one can easily
-* process raw data into the formats as detailed in the table below, or,
-* process raw data into one's preferred formats for customized needs by modifying the provided tool. 
-
-We refer users to [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md) for full technical details on how we process the multi-modal and cross-device raw data.
+Our data [processor](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py) synchronizes and converts the raw data into the processed data of commonly used formats, and organizes them in a hierarchical manner.
+With the tool, one can easily
+* Process raw data into the formats as detailed in the table below, or,
+* Process raw data into preferred formats for customized needs by modifying the provided tool. 
 
 <table <table border="1" cellspacing="0">
     <caption style="text-align:centering">Table 1. Data modalities and formats</caption>
     <tr>
         <td rowspan="2" ><b>Device</b></td>
-        <td colspan="2" bgcolor="#eeeeee"><b>Raw</b></td>
-        <td colspan="2" bgcolor="#eeeeee"><b>Processed</b></td>
+        <td colspan="2" ><b>Raw</b></td>
+        <td colspan="2"><b>Processed</b></td>
     </tr>
     <tr >
-        <!-- <td>\multicolumn{1}{c}{}</td> -->
         <td style="text-align: left;"><b>Data</b></td>
         <td style="text-align: left;"><b>File</b></td>
         <td style="text-align: left;"><b>Data</b></td>
@@ -239,38 +235,30 @@ We refer users to [`/doc/processing_techdetails.md`](https://github.com/lipengro
     </tr>
 </table>
 
-### &#x2022; How to Process
+We refer users to [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md) for full technical details on how we process the multi-modal and cross-device raw data, and to [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md) and our [paper]() for a detailed explanation of the data hierarchy and the content of each data file.
+
+
+### How to Process
 
 #### Step 1: Fetch the raw data
-Download the <a href="https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0"> raw data</a> to your own folder `RAWDATA_PATH`. Each recording of our raw data is packed in a zip file.
+Download the <a href="https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0"> raw data</a> to your own folder `rawdata_path`. Each recording of our raw data is packed in a `zip` file.
 ```
-RAWDATA_PATH
+rawdata_path
 └──011998.zip           // 011998 is the take number
 ```
 
 #### Step 2: Extract the packed raw data 
-Run the following command to extract (unzip) the packed raw data to your target path `YOUR_PATH`: 
+Run the following command to extract (unzip) the packed raw data to your target path `target_path`: 
 ```
-python src/extract.py --srcpath RAWDATA_PATH --tarpath YOUR_PATH
+python src/extract.py --srcpath rawdata_path --tarpath target_path
 ```
-<small>`--srcpath` is where you downloaded the packed raw data. `--tarpath` is the target path where you want to extract the packed data.</small>
+<small>`--srcpath` is where you download and save the packed raw data. `--tarpath` is the target path where you extract the packed raw data.</small>
 
-Each extracted recording should be organized under the folder `YOUR_PATH/data`. 
+Each extracted recording should be organized  in a hierarchical structure under the folder `target_path/data`. 
+For example, the raw data of the recording "011998" should be organized as below
 
-<small>For example, the raw data of the recording "011998" should be organized in a way as below, </small>
-
-<!-- * ***YOUR_PATH/***
-  * ***data/***
-    * ***011998/***
-      * **{ZED-ID}.svo**  (<em>raw data of ZED camera with the ID</em>)
-      * **{ZED-ID}.csv** (<em>timestamps of the raw data of ZED camera with the ID</em>)
-      * **event_{timestamp}.raw** (<em>raw data of Event camera</em>)
-      * **optitrack.csv** (<em>raw data of optitrack</em>)
-      * ***hand/***
-        * **P1L.csv / P1R.csv** (<em>raw data of left / right hand pose for Hand Engine</em>)
-        * **P1LMeta.json / P1RMeta.json** (<em>metadata of recording for Hand Engine</em>) -->
 ```
-YOUR_PATH
+target_path
 └──data
     └──011998
         ├──hand
@@ -286,33 +274,33 @@ YOUR_PATH
 ```
 
 `{ZED-ID}` indicates three ZED devices, including `17471`, `24483054` and `28280967`, which are the fixed third-person (side) view, the dynamic egocentric view and the fixed third-person (back) view respectively.
-`{timestamp}` is the initial timestamp of the event camera in a UNIX format. 
-A detailed explanation of each raw data file is provided in [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data). 
+`{timestamp}` is the initial timestamp of the event camera in a UNIX format.  A detailed explanation of the data hierarchy and the content of each raw data file is provided in [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data). 
 
 #### Step 3: Process the extracted data
-Once the raw data is extracted and organized properly as in step 2, run the following command:
+Once the raw data is extracted and organized properly, run the following command
 
-```python
-python src/process.py --datapath YOUR_PATH/data
+```bash
+python src/process.py --datapath target_path/data
 ```
-`--datapath` is where your extracted data locate. Several arguments are allowed to configure the processing when running the script [src/process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py) optionally:
+<small>`--datapath` is where your extracted data locates. Several arguments are allowed to configure the processing optionally</small>
 
 |  Arguments   | Meanings  | Defaults |
 |  :----     | :----  | :----  |
 | takes     | ID of recordings to be processed. Set 'None' to process all recordings in the 'data' directory. This can be given with a single integer number for one take or a range linked by '-', e.g., '10-12' for recordings [000010, 000011, 000012]. | None |
 | fps_event | FPS for decoding event data into frames. | 60 |
-| fps_zed   | FPS for decoding ZED RGBD frames. This should equal to the value used for recording. | 60 |
+| fps_zed   | FPS for decoding ZED RGB-D frames. This should be equal to the value used for recording. | 60 |
 | duration   | The duration of recording in seconds. | 5 |
-| tolerance   | The tolerance of frame dropping in the percentage for all devices. | 0.1 |
+| tolerance   | The tolerance of frame dropping in percentage for all devices. | 0.1 |
 | depth_img_format   | Image format of the exported RGB-D frames for ZED data. Either 'png' or 'jpg'.  | png |
 | xypt   | Set true to export event stream in `.xypt` format which is the raw format of the events. | False |
 | npy   | Set true to export depth stream in `.npy` format which is 3-dimensional numpy arrary holding the unnormalized depth estimation of each frame.  | False |
-| depth_accuracy   | Float precision forThis document explains how we coordinate those multi-modal, cross-device data and how we do time alignment among them. the unnormalized depth maps. The unnormalized depth maps are not exported by default until the 'npy' are set to true. Either 'float32' or 'float64'. | float32 |
+| depth_accuracy   | Float precision for the unnormalized depth maps. The unnormalized depth maps are not exported by default until the 'npy' are set to true. Either 'float32' or 'float64'. | float32 |
 | datapath   | The raw data directory of recordings. Users need to specify it.   | None |
 
-You can change the default setting by adding specific arguments into your command. For example, we don't export depth.npy and event xypt.csv by default (`xypt` and `npy` are `False` by default), as they are very time/space-consuming. If you need them, you can add '--npy' and '--xypt' to the command: 
-```python
-python src/process.py --datapath YOUR_PATH/data --npy --xypt
+You can change the default settings by adding more arguments into your command. For example, we don't export `depth.npy` and event `xypt.csv` by default (i.e. `xypt` and `npy` are `False` by default), as they are time/space-consuming. If you need them, you can attach `--npy` and `--xypt` to the command: 
+
+```bash
+python src/process.py --datapath target_path/data --npy --xypt
 ```
  <!-- `--npy` enables the output of 3-dimensional numpy arrary holding the unnormalized depth estimation of each frame, `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events. For more customized usage, please check [Customized Processing](#•-customized-processing).  -->
 
@@ -323,11 +311,10 @@ python src/process.py --datapath YOUR_PATH/data --npy --xypt
 python src/process.py
 ``` -->
 
-<!-- It will process all available raw data in `YOUR_PATH/data`.  -->
-Once the process is done, the raw data files will be moved into a new directory `YOUR_PATH/data/raw/`, while processed data files will be stored in another new directory `YOUR_PATH/data/processed/`. The complete data hierarchy and a detailed explanation of each file are provided in [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data). 
+Once the process is done, as shown below, the raw data files will be moved into a new directory `target_path/data/raw/`,  while the processed data files will be stored in another new directory `target_path/data/processed/`. The data hierarchy and a detailed explanation of each file are provided in [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data) and our [paper](toadd).
 
 ```
-YOUR_PATH
+target_path
 └──data
     └──011998
         ├──raw              // all raw data
@@ -337,22 +324,22 @@ YOUR_PATH
 
 
 
-### &#x2022; Customized Processing 
-If you want to customize the processing, please: 
-  * First follow the step 1 and 2 in [How to Process](#•-how-to-process) to get the organized raw data. 
-  * Then in step 3, design your own processing by diving into the full technical details in [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md). This document explains how we process the multi-modal, cross-device data. 
+### Customized Processing 
+If you want to customize the processing process, please: 
+  * First follow the Steps 1 and 2 in [How to Process](#how-to-process) to fetch the organized raw data. 
+  * Then in Step 3, customize your own processing by diving into the full technical details in [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md). This document explains how we process the multi-modal, cross-device data. 
 
-### &#x2022; Trouble Shooting ❗
+### Trouble Shooting ❗
 
-#### 1. Reprocess the processed take
+#### 1. Reprocess the processed takes
 
-If you want so, you have to manually remove the existing processed data. If you only want to reprocess the part of the whole take e.g. ZED, you don't need to remove the remaining data.
+If you want to reprocess the processed takes, you will have to manually remove the folders of existing processed takes. If you only want to reprocess parts of a take, e.g. RGB and depth streams, you don't need to remove the already-processed parts.
 
 #### 2. ZED decoding frames failed
 
-The current mechanism allows for maximally 10 failed attempts to decode (or grab in ZED term) a frame. Once failed more 10 times, the decoding process will abort and the processing will continue to the next part e.g. next ZED device or next stream. The frames have been decoded will be stored, while the rest frames will be ignored. This issue usually happens when decoding the last frame.
+The current mechanism allows for maximally 10 failed attempts to decode (or grab in ZED term) a frame. Once failed for more 10 times, the decoding process will abort and the processing will continue to the next part, e.g. the next ZED device or next stream. The frames that have already been decoded will be stored, while the rest frames will be ignored. This issue usually happens when decoding the last frame.
 
-To fix this bug, one can simply reprocess the problematic takes [reprocess the processed take](#1-reprocess-the-processed-take). 
+To fix this issue, one can simply reprocess the problematic takes [reprocess the processed take](#1-reprocess-the-processed-take) as above. 
 <!-- </details> -->
 
 ## Annotator
