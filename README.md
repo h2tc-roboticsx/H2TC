@@ -321,9 +321,6 @@ target_path
         └──processed        // all processed data
 ```
 
-
-
-
 ### Customized Processing 
 If you want to customize the processing process, please: 
   * First follow the Steps 1 and 2 in [How to Process](#how-to-process) to fetch the organized raw data. 
