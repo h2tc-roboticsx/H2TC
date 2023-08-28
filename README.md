@@ -5,18 +5,18 @@
 
 This repository provides tools, tutorials,  source codes and supporting documents for the dataset **H<sup>2</sup>TC**. 
 For a quick glance at the dataset, we refer users to the [project website](https://lipengroboticsx.github.io/) and our technical [paper](toadd).
-Briefly, it has introduced tools to [record](#recorder), [process](#data-processing), and [annotate](#annotator) the dataset. All source codes are available in the folder [`./src`](https://github.com/lipengroboticsx/H2TC_code/tree/main/src). It also provides detailed documents in  [`./doc`](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc) that explain in detail the data processing,  data hierarchy, and the content of each data file in the dataset.
+Briefly, it has introduced tools to [record](#recorder), [process](#data-processing), and [annotate](#annotator) the dataset. All source codes are available in [`./src`](https://github.com/lipengroboticsx/H2TC_code/tree/main/src). It also provides detailed documents in  [`./doc`](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc) that explain in detail the data processing,  data hierarchy, and the content of each data file in the dataset.
 
 
 
 <!-- ## Bibtex -->
 
 ## Run from scratch
-You can follow the steps below to run from scratch:
+Simply follow the following steps to run the provided tools from scratch:
 1. Install the [dependencies](#dependencies). 
-2. Fetch the raw data. You have two options to fetch raw data:
-    - Download our captured data [here](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0). 
-    - Capture your own data with our provided [recorder](#recorder). It helps build your own data recording system. 
+2. Fetch the raw data. You have two options to fetch the raw data:
+    - Download our captured dataset from [Dropbox](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0). 
+    - Capture your data with our provided [recorder](#recorder) and suggested [sensors](https://lipengroboticsx.github.io/recorder/). It helps build your data recording system and then collect more in-distribution data.
 3. [Process](#data-processing) the raw data. 
 4. (Optional) Annotate the processed data with our provided [annotator](#annotator).
 
@@ -39,12 +39,11 @@ We have not tested our codes on other environments yet, so it is recommended to 
 
 ### Softwares
 
-To run the data [processor ](#data-processing), you have to install two more applcaitons
-
-* spd-say: text-to-voice convertor.
+To run the data [processor](#data-processing), you need to install two more applications
+* spd-say: text-to-voice converter.
 * ffmpeg: video decoder
 
-They can be installed, if not have, using apt:
+They can be installed, if not have, using `apt`:
 
 ```bash
 sudo apt update
@@ -54,17 +53,9 @@ sudo apt install speech-dispatcher
 sudo apt install ffmpeg
 ```
 
-### ZED and Metavision (Event camera) SDK
-
-Next, you need to install [ZED SDK](https://www.stereolabs.com/docs/installation/) (3.7.6) and [Metavision SDK](https://docs.prophesee.ai/2.3.0/installation/linux.html) (2.3.0) following the official guidance, so as to use the ZED stereo camemra and Prophesee event camera to record and process the data respectively. 
-
-For user's convenience of installing the older version (3.7.6) of ZED SDK, we copied one from the official repository and saved it in [`./dev/ZED_SDK_Installer`](https://github.com/lipengroboticsx/H2TC_code). All you need is to download the SDK installer, run it and select the modules you want following the [guide](https://www.stereolabs.com/docs/installation/).
-
-Metavision SDK is not packaged in an installer way, so you will have to follow the official [guide](https://docs.prophesee.ai/2.3.0/installation/linux.html) to install it. Particularly, Metavision SDK provides multiple optional  modules. Our code uses only the functionality from the `metavision-essentials`, but you are free to install other optional modules or not.
-
 ### Python Dependencies
 
-Last, the remaining Python dependencies include
+The Python dependencies include
 
 * addict
 * mttkinter
@@ -74,7 +65,7 @@ Last, the remaining Python dependencies include
 * numpy
 * opencv-python
 
-and can be automatically installed via pip:
+and can be  installed automatically via `pip`:
 
 ```bash
 pip install -r requirements.txt
@@ -83,6 +74,19 @@ pip install -r requirements.txt
 <!-- ### Docker
 
 Alternatively, we also provide a ready-to-use [Docker](https://www.docker.com/) with all dependencies installed in our git repository ***<u>TODO link</u>***. To use it, Docker should have been already successfully installed. -->
+
+### Sensors
+
+Our recording framework employs three [ZED](https://www.stereolabs.com/zed-2/) stereo cameras, one [Prophesee](https://www.prophesee.ai/) event camera, [StretchSense](https://stretchsense.com/) MoCap Pro (SMP) Gloves, Optitrack(https://optitrack.com/) and other streaming sensors. Therefore, their SDK tools need to be installed to record and process the dataset.
+
+#### ZED and Metavision (Event camera) SDK
+
+Next, you need to install [ZED SDK](https://www.stereolabs.com/docs/installation/) (3.7.6) and [Metavision SDK](https://docs.prophesee.ai/2.3.0/installation/linux.html) (2.3.0) following the official guidance, so as to use the ZED stereo camemra and Prophesee event camera to record and process the data respectively. 
+
+For user's convenience of installing the older version (3.7.6) of ZED SDK, we copied one from the official repository and saved it in [`./dev/ZED_SDK_Installer`](https://github.com/lipengroboticsx/H2TC_code). All you need is to download the SDK installer, run it and select the modules you want following the [guide](https://www.stereolabs.com/docs/installation/).
+
+Metavision SDK is not packaged in an installer way, so you will have to follow the official [guide](https://docs.prophesee.ai/2.3.0/installation/linux.html) to install it. Particularly, Metavision SDK provides multiple optional  modules. Our code uses only the functionality from the `metavision-essentials`, but you are free to install other optional modules or not.
+
 
 ### Test ZED and Event Cameras
 
