@@ -79,11 +79,11 @@ Alternatively, we also provide a ready-to-use [Docker](https://www.docker.com/) 
 
 Our recording framework employs three [ZED](https://www.stereolabs.com/zed-2/) stereo cameras, one [Prophesee](https://www.prophesee.ai/) event camera, [StretchSense](https://stretchsense.com/) MoCap Pro (SMP) Gloves, Optitrack(https://optitrack.com/) and other streaming sensors. Therefore, their SDK tools need to be installed to record and process the dataset.
 
-#### ZED and Metavision (Event camera) SDK
+#### ZED and Metavision SDK
 
-Next, you need to install [ZED SDK](https://www.stereolabs.com/docs/installation/) (3.7.6) and [Metavision SDK](https://docs.prophesee.ai/2.3.0/installation/linux.html) (2.3.0) following the official guidance, so as to use the ZED stereo camemra and Prophesee event camera to record and process the data respectively. 
+You need to install [ZED SDK](https://www.stereolabs.com/docs/installation/) (3.7.6) and [Metavision SDK](https://docs.prophesee.ai/2.3.0/installation/linux.html) (2.3.0) following the official guidance, so as to use the ZED stereo camera and the Prophesee event camera to record and process the data respectively. 
 
-For user's convenience of installing the older version (3.7.6) of ZED SDK, we copied one from the official repository and saved it in [`./dev/ZED_SDK_Installer`](https://github.com/lipengroboticsx/H2TC_code). All you need is to download the SDK installer, run it and select the modules you want following the [guide](https://www.stereolabs.com/docs/installation/).
+For user convenience of installing the specific version (3.7.6) of ZED SDK, we fetch the installer from the official repository and save it in [`./dev/ZED_SDK_Installer`](https://github.com/lipengroboticsx/H2TC_code). All you need is to download the SDK installer, run it and select the modules you prefer following the official [guides](https://www.stereolabs.com/docs/installation/).
 
 Metavision SDK is not packaged in an installer way, so you will have to follow the official [guide](https://docs.prophesee.ai/2.3.0/installation/linux.html) to install it. Particularly, Metavision SDK provides multiple optional  modules. Our code uses only the functionality from the `metavision-essentials`, but you are free to install other optional modules or not.
 
