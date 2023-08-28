@@ -98,8 +98,8 @@ metavision_viewer
 
 You should also be able to test the connection of  ZED  cameras by running the official [samples](https://github.com/stereolabs/zed-examples/tree/master/svo%20recording/recording/python). 
 
-If you do not have a camera or do not intend to record your own dataset, you can simply check if `pyzed` and `metavision_core` modules can be successfully imported by your python program.  They will be used only for post [processing](#data-processing) of the raw data by our dataset.
-<!-- If it fails, you should inspect if your installation is done. Unfortunately, troubleshooting on installation is beyond the scope of this instruction. -->
+If you do not have a camera or do not intend to record your own dataset, you can simply check if the modules `pyzed` and `metavision_core` can be successfully imported by your python program.  They will be used only for post [processing](#data-processing) of the raw data by our dataset.
+
 <!-- </details> -->
 
 
@@ -109,8 +109,10 @@ If you do not have a camera or do not intend to record your own dataset, you can
 
 <!-- Our recorder integrates the functionality of recording with multiple devices and organizing the recorded contents. -->
 
-Our recording system consists of 3 [Stereolabs ZED RGBD cameras](https://www.stereolabs.com/zed-2/), 1 [Prophesee event camera](https://www.prophesee.ai/), 1 [StretchSense MoCap Pro gloves](https://stretchsense.com/), and 1 [OptiTrack motion capture system](https://optitrack.com/). 
-To collect data with our provided recorder, you can follow the steps below: 
+<!-- Our recording system consists of 3 [Stereolabs ZED RGBD cameras](https://www.stereolabs.com/zed-2/), 1 [Prophesee event camera](https://www.prophesee.ai/), 1 [StretchSense MoCap Pro gloves](https://stretchsense.com/), and 1 [OptiTrack motion capture system](https://optitrack.com/).  -->
+
+Our recorder integrates the functionality of recording with multiple devices and organizing the recorded contents in a hierarchical manner. 
+To collect data with our provided recorder, simply follow the steps below: 
 
 **Step 1**: Enable all recording devices.
 * The ZED and Prophesee event cameras should be wired to a host Ubuntu machine where the recorder program is supposed to run. 
