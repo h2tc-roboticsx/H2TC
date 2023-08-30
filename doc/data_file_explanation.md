@@ -165,45 +165,45 @@ Before reading the file details below, please check the [annotation tutorial](ht
 
 ## Supporting Files
 <!-- <details><summary>Exlanation about subjects/objects.csv and log.xlsx </summary> -->
-* **subjects.csv**: the list of the subjects participating in the experiments
-  * subject ID
-* **objects.csv**: the list of used objects
+* **subjects.csv**: The list of the subjects participating in the dataset
+  * subject id
+* **objects.csv**: The list of used objects
   * object name
   * characteristic: `rigid`, `soft` or `printed`
-  * attached with optitrack markers: 
+  * attached with ptitrack markers: 
     * 1: yes
     * 0: no
-* **log.xlsx**: logbook with the recording parameters of all takes. 
-  * **{subject ID} sheet**: each sheet maintains all instructions received by a subject during recording and is named by the id of the subject. Each entry in the sheet describes one recording setting.
-    * no: the index of the entry in the spreadsheet 
-    * object: the name of the object
-    * equipped: if the subject is equipped with the helmet and the gloves to record data or not
+* **log.xlsx**: The logbook with the recording parameters of all takes. 
+  * **{subject ID} sheet**: Each sheet maintains all instructions received by a subject during recording and is named by the id of the subject. Each entry in the sheet describes one recording setting.
+    * no: The index of the entry in the spreadsheet 
+    * object: The name of the object
+    * equipped: The subject is the primary subject, i.e. the subject is equipped with the helmet and the motion capture gloves to record data
       * 1: equipped
       * 0: not equipped
-    * action: the action that the subject is supposed to perform when recording
+    * action: The action that the subject is supposed to perform during recording
       * `throw` or `catch`
-    * hand: the instruction for using either single or both hands to perform the action
+    * hand: The instruction for using either single or both hands to perform the action
       * `single`, `both` or `void` (no constraint)
-    * position: the initial location where the subject shall stand at the start of each recording
+    * position: The discrete initial standing location where the subject shall stand at the start of each recording
       * x: in range [0, 1, 2, 3]
       * y: in range [0, 1, 2, 3]
-    * height: the relative vertical location for the subject hand
+    * height: The relative vertical location of the subject hand(s)
       * `overhead`, `overhand`, `chest`, `underhand` or `void` (no constraint)
-    * horizon: the relative horizontal location of the subject hand
+    * horizon: The relative horizontal location of the subject hand(s)
       * `left`, `middle`, `right` or `void` (no constraint)
-    * speed: the relative velocity at which the object is supposed to be tossed out 
+    * speed: The relative velocity at which the object is supposed to be tossed out 
       * `fast`, `normal`, `slow` or `void` (no constraint)
     * take_id: the id of the take
-    * success: the result of catching. 
+    * success: The catching result of the recorded activity. 
       * 1: success
       * 0: failed
-    * verified: if the recording has been verified. 
-      * 1: verified and no problem detected
-      * 0: verification not finished
-      * -1: problem detected
-    * annotated: if the annotation has been finished. 
-      * 1: finished
-      * 0: not finished
+    * verified: The recording has been verified. 
+      * 1: Verified and no problem detected
+      * 0: Not verified yet
+      * -1: Problematic
+    * annotated: The annotation has been finished. 
+      * 1: Finished
+      * 0: Not finished yet
 
 <!-- </details> -->
 
@@ -215,13 +215,13 @@ A quick reference to the terms used above.
 <!-- ## Terms We Created -->
 
 * subject 1 and 2
-  * subject 1: the subject who is equipped with the helmet and the gloves. The left person in Figure 4 of [the paper]().
-  * subject 2: the subject who is equipped with only the head band. The right person in Figure 4 of [the paper]().
-* OptiTrack object ID 
-  * 115: the helmet
-  * 116: the right hand tracking plate
-  * 117: the left hand tracking plate
-  * 118: the headband
+  * subject 1: the primary subject who is equipped with a helmet and gloves. 
+  * subject 2: the auxiliary subject who is equipped with only the headband. 
+* OptiTrack object id 
+  * 115: helmet
+  * 116: the marker set attached to the right hand
+  * 117: the marker set  attached to the Left hand
+  * 118: headband
   * 101: airplane
   * 102: round_plate
   * 103: apple
@@ -236,22 +236,22 @@ A quick reference to the terms used above.
   * 112: torus
   * 113: wrench
   * 114: leopard
-  * 119: toothbrus
+  * 119: toothbrush
 * ZED device SN
-  * 17471: the fixed third-person (side) view ZED RGBD sensor
-  * 24483054: the dynamic egocentric view ZED RGBD sensor
-  * 28280967:the fixed third-person (back) view ZED RGBD sensor 
+  * 17471: the fixed third-person (side)  ZED 
+  * 24483054: the dynamic egocentric  ZED 
+  * 28280967: the fixed third-person (back)  ZED  
 * Stream ID
-  * rgbd0: the fixed third person (side) view ZED RGBD sensor
-  * rgbd1: the dynamic egocentric view ZED RGBD sensor
-  * rgbd2: the fixed third-person (back) view ZED RGBD sensor 
-  * event: event camera
-  * left_hand_pose: left hand pose recorded by stretchsense gloves
-  * right_hand_pose: right hand pose recorded by stretchsense gloves
-  * sub1_head_motion: the motion of the subject 1's head (helmet) recorded by OptiTrack
-  * sub1_left_hand_motion: the motion of the subject 1's left hand (left hand glove) recorded by OptiTrack
-  * sub1_right_hand_motion: the motion of the subject 1's right hand (right hand glove) recorded by OptiTrack
-  * sub2_head_motion: the motion of the subject 2's head (headband) recorded by OptiTrack
+  * rgbd0: the fixed third-person (side)  ZED 
+  * rgbd1: the dynamic egocentric  ZED 
+  * rgbd2: the fixed third-person (back)  ZED 
+  * event: the event camera
+  * left_hand_pose: the left hand pose recorded by Stretchsense gloves
+  * right_hand_pose: the right hand pose recorded by Stretchsense gloves
+  * sub1_head_motion: the motion of the primary subject's head (helmet) recorded by OptiTrack
+  * sub1_left_hand_motion: the motion of the primary  subject's left hand  recorded by OptiTrack
+  * sub1_right_hand_motion: the motion of the primary subject's right hand  recorded by OptiTrack
+  * sub2_head_motion: the motion of the auxiliary subject 2's head (headband) recorded by OptiTrack
 
 <!-- 5. pose coordinates: there are three coordinates involved for positioning 
 

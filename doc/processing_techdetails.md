@@ -1,22 +1,24 @@
 # Data Processing Technical Details
-[The dataset H<sup>2</sup>TC](https://lipengroboticsx.github.io/) contains multi-modal cross-device raw data streams. 
+<!-- The dataset [H<sup>2</sup>TC](https://lipengroboticsx.github.io/) contains multi-modal cross-device raw data streams. 
 To make the dataset easier to use, we have developed the [processor source code](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) and provided the [data processing document](https://github.com/lipengroboticsx/H2TC_code/tree/main#data-processing) to help readers get aligned and common-format data. 
-[tbd: polishing]Considering readers may want to know the processing technical details, we introduce them in this document to auxiliarly explain the [source code](https://github.com/lipengroboticsx/H2TC_code/tree/main/src). For a more thorough explanation of the raw/processed files mentioned on this page, see [/doc/data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/data_file_explanation.md). 
+[tbd: polishing]Considering readers may want to know the processing technical details, we introduce them in 
+this document to explain the [source code](https://github.com/lipengroboticsx/H2TC_code/tree/main/src). 
+ -->
+This introduce details on how we process [H<sup>2</sup>TC](https://lipengroboticsx.github.io/). For a thorough explanation of the data hierarchy and contents in the dataset, please see [/doc/data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/data_file_explanation.md). 
 
 Here is an overview of this document:
 
-* [**Workspace**](#our-workspace): introduces the [used multi-modal devices](#used-devices) and [the throw-catch coordinate setting](#the-throw-catch-coordinate-frame). 
-* [**Timestamping and Data Alignment**](#timestamping-and-data-alignment): introduce how [ZED RGBD](#zed-rgbd), [Event](#event), [Optitrack](#optitrack) and [Gloves Hands Pose](#gloves-hands-pose) data streams are timestamped and [aligned](#alignment) in recording and processing. 
-    <!-- * [Clock Synchronization](#clock-synchronization) -->
+* [**Workspace**](#our-workspace): introduces the used multi-modal [devices](#used-devices) and the throw-catch [coordinate](#the-throw-catch-coordinate-frame) setting. 
+* [**Timestamping and Data Alignment**](#timestamping-and-data-alignment): introduces how [ZED RGBD](#zed-rgbd), [Event](#event), [Optitrack](#optitrack) and [Gloves Hands Pose](#gloves-hands-pose) data streams are timestamped and [synchronized](#alignment) in recording and processing. 
 * [**OptiTrack Data Processing**](#optitrack-data-processing): auxiliarly explains the original optitrack coordinate and how to transfer it to the throw-catch coordinate. 
-* [**Hand Data Processing**](#hand-data-processing): auxiliarly explains the gloves' [hands pose data coordinates](#•-hand-pose-data-coordinate-frame) and how to [reconstruct](#•-motion-reconstruction) hands' motion. 
+* [**Hand Data Processing**](#hand-data-processing): explains the used [hand model](#•-hand-pose-data-coordinate-frame) and how to [reconstruct](#•-motion-reconstruction) the hand motion. 
 
 ## The Workspace
 ### Used Devices
-We use a variety of specialized motion tracking and visual streaming devices to capture the dataset as illustrated below. 
-<!-- The details about The recording framework are introduced in [Sec. 4 Recording Framework in The paper]().  -->
+We use a variety of high-precision motion capture and visual streaming devices to capture the dataset as illustrated below. 
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hardware.png" width = "1000" alt="hardware" />
+
 
 | Device | Manufacturer | Recording Content |FPS |Resolution  |
 |:-----|:-----:|:-----:|:-----:|:-----:|
@@ -26,29 +28,24 @@ We use a variety of specialized motion tracking and visual streaming devices to 
 | ④ ZED Camera | [Stereolabs](https://www.stereolabs.com/zed-2/) |  RGB-D | 60 | 1280x720 |
 
 
-
 ### The Throw-Catch Coordinate Frame
-[tbd: introduce systematically]
 
-In the dataset, we set the throw-catch frame as the global coordinate frame. We have transfered all OptiTrack captured data (headband, helmet, gloves, objects) to the throw-catch coordinate via `process` function in script [process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py). You can check [OptiTrack data processing](#optitrack-data-processing) for details.  
-As shown below, the **origin** of the throw-catch frame refers to the bottom-left corner of the entire throw-catch zone. The coordinate **axes** are set up as follows: XZ plane is parallel to the ground with Z-axis along the longer side and X-axis along the shorter side. Y-axis is perpendicular up to the XZ plane. 
+We set the throw&catch frame as the global coordinate frame.  As shown below, the **origin** of the throw-catch frame lies at the bottom-left corner of the throw&catch workspace. The coordinate  axes  are set up as follows: XZ plane is parallel to the ground with Z-axis along the longer side and X-axis along the shorter side. Y-axis is perpendicular up to the XZ plane. 
 
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/workspace_lx.png" width = "600" alt="workspace" />
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/workspace_lx.png" width = "800" alt="workspace" />
 
-
+We have transformed all data streams captured with OptiTrack (i.e. the pose streams of the headband, helmet, gloves, and all 3d-printed objects) to the common throw&catch frame via the `process` function in [src/process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py).  Please check [OptiTrack data processing](#optitrack-data-processing) for more details.  
 
 <br>
 
 ## Timestamping and Data Alignment
 
-The recording system consists of  3 ZED RGBD cameras, 1 Prophesee event camera, 1 StretchSense data gloves, and 1 OptiTrack motion capture system. We describe below how each data stream is timestamped and alignd in recording and processing. 
+The recording system consists of  3 [ZED](#zed-rgbd) RGB-D cameras, 1 Prophesee event camera, 1 StretchSense data gloves, and 1 OptiTrack motion capture system. We describe below how each data stream is timestamped and alignd in recording and processing. 
 
-[tbd: timestamps in xxx to subsection]
-
-### &#x2022; ZED RGBD
+### ZED RGBD
 
 #### **Timestamps in recording.** 
-In The recording, each ZED RGBD camera timestamp is retrieved by calling the [ZED API method](https://www.stereolabs.com/docs/api/python/classpyzed_1_1sl_1_1Camera.html#af18a2528093f7d4e5515b96e6be989d0) `get_timestamp(sl.TIME_REFERENCE.IMAGE)`. The returned value corresponds to the time, in UNIX nanosecond, at which the entire image was stored in `/data/{take_id}/raw/{zed_id}.svo`. For each RGBD stream, we record the timestamp of each frame and the beginning of the recording, resulting in N+1 timestamps in total. The timestamps are initially stored in a separate file `/data/{take_id}/raw/{zed_id}.csv` with a structure as
+In recording, the timestamp of each ZED camera  is retrieved using the [ZED API method](https://www.stereolabs.com/docs/api/python/classpyzed_1_1sl_1_1Camera.html#af18a2528093f7d4e5515b96e6be989d0) `get_timestamp(sl.TIME_REFERENCE.IMAGE)`. The returned value corresponds to the time, in UNIX nanosecond, at which the image is stored in `/data/{take_id}/raw/{zed_id}.svo`. For each RGB-D stream, we record the timestamps of all frames and the beginning of the recording, resulting in N+1 timestamps in total. The timestamps are initially stored in a separate file `/data/{take_id}/raw/{zed_id}.csv` with a structure as
 * nanoseconds: header of the unit
 * the timestamp of the beginning of recording
 * the timestamp of the 1st frame 
@@ -57,27 +54,29 @@ In The recording, each ZED RGBD camera timestamp is retrieved by calling the [ZE
 * the timestamp of the N-th frame 
 
 #### **Timestamps in processing.** 
- We observed that the timestamp retrieved by previously mentioned ZED API ignores the communication time resulting in the value of timestamps earlier (smaller) than the real frame time.
+ We observed that the timestamp retrieved by the ZED API above ignores the communication latency, which leads to that the value of timestamps are earlier (smaller) than the real frame time.
 
-To fix this issue, we compensate the timestamp of each frame by adding a positive constant of (addressed in the script [zed.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/zed.py) ): 
+To fix this issue, we compensate the timestamp of each frame, addressed via the function in [src/utils/zed.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/zed.py),  by adding a positive constant of
 
 ```
-T(1stframe) = T(startrecording) + 1/FPS * 1e9
+T(1stframe) = T(start_recording) + 1/FPS * 1e9
 ```
-T(startrecording) is the timestamp of start recording, and T(1stframe) is the timestamp of the real 1st frame. 
-This is equivalent to set the timestamp of 1st frame to the timestamp of start recording plus the theoretical frame time (1/FPS), and keep the offset between every two consecutive frames unchanged. 
+where T(start_recording) is the timestamp of recording start, and T(1st_frame) is the timestamp of the real first frame.  
+This is equivalent to set the timestamp of 1st frame to the timestamp of start recording plus the theoretical frame time (1/FPS), and keep the offset between every two consecutive frames unchanged. `* 1e9` converts the time offset to nanoseconds. 
 <br>
-We also notice that the last timestamp in the raw timestamp file doesn't correspond to any decoded frame image, in other words, the total amount of frames is one less than the total amount of timestamps. Therefore, the last timestamp is ignored and not saved in the processed timestamp file. 
+We also noticed that the last timestamp in the raw timestamp file doesn't correspond to any decoded frame image, in other words, the total amount of frames is one less than the total amount of timestamps. Therefore, the last timestamp is ignored and not saved in the processed timestamp file. 
 <br>
 After processing, the calibrated timestamps will be saved into a separate file `/data/{take_id}/processed/{stream_id}.csv`.  
 
-### &#x2022; Event
+### Event
 #### **Timestamps in recording.** 
-Event raw data can be exported into two alternative formats: **event streams (xypt) and event frames (RGB images)**. Each has a slightly different timestamp result, but they are essentially based on the same timestamps. 
+The raw recoded event date can be exported into two alternative formats, including **event streams (xypt)** and **event frames (RGB images)**. Each has a slightly different timestamping result, but they are essentially based on the same timestamps. 
 <br>
-The Event raw data file timestamps each [Contrast Detector (CD) event](https://docs.prophesee.ai/stable/concepts.html#event-generation) with an offset, in microseconds, to the timepoint of recording started. Unfortunately, the raw file only includes the timestamp of recording started in seconds, so we manually took one in UNIX nanoseconds in The recording script [`/src/utils/event.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/event.py) and attached it in the name of the raw data file, e.g., `event_1662023682456716448.raw`, where the 19-digit number is the timestamp of recording started.
+
+The raw data timestamps each [Contrast Detector (CD) event](https://docs.prophesee.ai/stable/concepts.html#event-generation) with a releative offset, in microseconds, to the timepoint of recording start. Unfortunately, the raw file only includes the timestamp of recording start in seconds, so we manually convert it into the UNIX nanosecond in [`/src/utils/event.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/event.py), and attach it to the name of the raw data file, e.g.`event_1662023682456716448.raw`, where the 19-digit number is the timestamp of the recording start.
 <br>
-For xypt format, the timestamp of each event is calculated by adding its time offset (t) to the timestamp of recording started (initial timestamp). Note that the time offset in xypt is in microseconds, so it has to be converted to nanoseconds first before adding. 
+
+For the xypt stream, the timestamp of each event is calculated by adding its time offset to the timestamp of recording start(initial timestamp). Note that the time offset in xypt is in microseconds, so it has to be converted to nanoseconds first before adding. 
 
 #### **Timestamps in processing.** 
 The calculated timestamps are stored directly with the decoded event streams in the file `/data/{take_id}/processed/event_xypt.csv`.
@@ -95,25 +94,26 @@ timestamp = initial timestamp + 1/FPS * 1e9 * frame number
 `* 1e9` converts the time offset to nanoseconds. The processed timestamps are stored in the file `/data/{take_id}/processed/event_frames_ts.csv`.
 
 
-### &#x2022; OptiTrack
+### OptiTrack
 
 #### **Timestamps in recording.** 
-The [OptiTrack](https://optitrack.com/) motion capture system has recorded helmet (equiped by primary subject), the right hand, the left hand and headband (equiped by auxiliary subject) motions as shown in [used devices](#used-devices). The recorded timestamps, motion data and object IDs are stored in `/data/{take_id}/raw/optitrack.csv`.  You can check the OptiTrack IDs and their corresponding objects [here](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/data_file_explanation.md#reference). 
+The [OptiTrack](https://optitrack.com/) motion capture system has recorded helmet (equiped by primary subject), the right hand, the left hand and the headband (equiped by auxiliary subject) motions as shown in [used devices](#used-devices). The recorded timestamps, motion data streams and object ids are stored in `/data/{take_id}/raw/optitrack.csv`.  You can check the OptiTrack ids and their corresponding objects [here](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/data_file_explanation.md#reference). 
 
-Note there exists the latency from camera exposure to the reception. We then calculate the timestamp of camera exposure as the timestamp of the frame by the current timestamp minus the above latency.
+Note there exists the latency from the camera exposure to the data reception. We therefore use the timestamp of camera exposure as the timestamp of the frames by subtracting the latency from the original timestamps.
 ```
 timestamp = timestamp of reception - latency
 ```
 
 #### **Timestamps in processing.** 
-In processing, we save the tracked motion data of the objects described above into separate .csv files via `convert` function in script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py). 
-<!-- Each .csv file contains the frame timestamps and the corresponding trajectory data in [tum pose format](https://cvg.cit.tum.de/data/datasets/rgbd-dataset/file_formats) (tx, ty, tz, qx, qy, qz, qw).  -->
+In processing, we save the tracked motion data of the objects described above into separate .csv files via the  `convert` function in [src/utils/optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py). 
+Each .csv file contains the frame timestamps and the corresponding trajectory data in the  format `(x, y, z, qx, qy, qz, qw)`. 
 
-### &#x2022; Gloves Hands Pose
+### Gloves Hands Pose
 
 #### **Timestamps in recording.** 
-There are two different schemes of timestamps, device and master, in the output files, `/data/{take_id}/raw/hand/P1L.csv(P1R.csv)`, generated by gloves' software [Hand Engine (HE)](https://stretchsense.com/solution/hand-engine/). The device timecode is read from the internal clock of the gloves, while the master timecode is generated according to the host PC (where Hand Engine runs) clock as the frame data received by Hand Engine from the gloves. The internal clock of gloves will be periodically calibrated to the host PC clock during connected. Therefore, these two different timestamps inevitably differ for the same frame, since they are recording different timepoints using slightly different clocks. Nevertheless, we observed that the difference between them is negligible, i.e., normally no greater than 1 frame time (120 FPS by default). In practice, we adopt the device timecode as the timestamp of each frame, because the master timecode has the catastrophic issue of freezing in the first dozens of frames.
+There are two different scheme of timestamps, device and master, in the output files, `/data/{take_id}/raw/hand/P1L.csv(P1R.csv)`, generated by the glove software [Hand Engine (HE)](https://stretchsense.com/solution/hand-engine/). The device timecode is read from the internal clock of the gloves, while the master timecode is generated according to the host machine (where Hand Engine runs) clock as the frame data received by Hand Engine from the gloves. The internal clock of gloves will be periodically calibrated to the host PC clock during connected. Therefore, these two different timestamps inevitably differ for the same frame, since they are recording different timepoints using slightly different clocks. Nevertheless, we observed that the difference between them is negligible, i.e. normally no greater than 1 frame time (120 FPS by default). In practice, we adopt the device timecode as the timestamp of each frame, because the master timecode has the catastrophic issue of freezing in the first dozens of frames.
 <br>
+
 Raw timecode exported by Hand Engine is not a real timestamp, since it uses a base of 120 (same as FPS), instead of the conventional decimal system, to represent the time below a second. A typical HE timecode looks like, e.g., 171442052 is equivalent to 17 (hour), 14 (minute), 42 (second) and 052 (frame time). 052 is converted to the decimal seconds by `52 * 1/120`. To retrieve the timestamp in UNIX time, we also need the information of date, which is stored under the key `startDate` in another file `/data/{take_id}/raw/hand/P1LMeta.json`. 
 
 #### **Timestamps in processing.** 
@@ -129,21 +129,20 @@ Only Hand Engine is hosted on a Windows machine, while the other devices are con
 
 We currently align the streams directly with their timestamps without any further processing. This means that we didn't calibrate the timestamp to the same event, e.g., camera exposure, of each stream, because timestamping the recording in this low-level, fine-grained, way is beyond the capacity of the API we used. Nevertheless, the empirical maximum offset among all data streams is **no more than 1 frames at 60 FPS**, as manually evaluated during annotation. -->
 
-### &#x2022; Alignment
+### Alignment
 
-Although all data streams have been timestamped in recording, it is impossible for their timestamps to be exactly the same. There exists time drift in millisecond-level between data streams. Therefore, during processing, we use the timestamp of **rgbd0 camera**, the fixed third-person (side) view camera, serial number: 17471, as the reference, and align the timestamps of the rest data streams to it. The resulting timestamp alignment is saved in a file called `alignment.json`. 
+Although all data streams have been timestamped in recording, it is impossible for their timestamps to be exactly the same. There exists time drift in millisecond-level between data streams. Therefore, during processing, we use the timestamp of **rgbd0 camera**, the fixed third-person (side) camera, serial number: 17471, as the reference, and align the timestamps of the rest data streams to it. The resulting timestamp alignment is saved in a file named `alignment.json`. 
 
 #### How to create an alignment.json file
-We use the timestamps of **rgbd0 camera** as the reference. Therefore, the total number of frames saved in the `alignment.json` is equal to the number of timestamps recorded by rgbd0 camera. 
+We use the timestamps of  **rgbd0 camera** as the reference. Therefore, the total number of frames saved in the `alignment.json` is equal to the number of timestamps recorded by rgbd0 camera. 
 <br>
 Given a timestamp of rgbd0 camera and its associated frame number, for each of other data streams, we use the binary search alogrithm to find their **nearest** timestamp to the timestamp of rgbd0 camera. This nearest timestamp is then used as the timestamp of that frame of the other data stream. Note that the difference between the nearest timestamp and its query rgbd0 camera's timestamp has to be within a threshold, which is currently set to 1/60 * 10e9 nanosecond.
 
 #### The alignment.json file
-[tbd: rewrite same as file_explanation]
-`Alignment.json` file essentially saves a dictionary whose keys represent the frame indices. Inside each frame (key), there is another dictionary which indicates the multi-modal streams and their corresponding timestamps. These streams are aligned by finding the closest timestamp to the reference timestamp (`rgbd0`). 
-* frame index: starting from 0
-	* key: stream id
-	* value: timestamp
+The file `alignment.json` essentially saves a dictionary whose keys represent the frame indices. Inside each frame (key), there is another dictionary which indicates the multi-modal streams and their corresponding timestamps. These streams are aligned by finding the closest timestamp to the reference timestamp (`rgbd0`). 
+* frame index: Starting from 0
+	* key: Stream id
+	* value: Timestamp
 	
 The following is a snapshot of an example alignment.json file:
 ```
@@ -165,7 +164,8 @@ The following is a snapshot of an example alignment.json file:
 ```
 
 #### Data Missing
-If the timestamp of a data stream is missing in certain frames, its value will be `null` as shown in the above example. Such situation is rare, and it is mainly caused by 1) the Optitrack when the tracked object is occluded; or 2) by StretchSense gloves when the data transmission is congested; or 3) the open of the event camera lags slightly behind the rgbd0 camera. Therefore, the corresponding timestamp is missing.
+If the timestamp of a data stream is missing in certain frames, its value will be `null` as shown in the above example. Such situation is rare, and it is mainly caused by 1) the Optitrack when the tracked object is occluded, 2) by StretchSense gloves when the data transmission is congested, or 3) the event camera when its open lags slightly behind the rgbd0 camera. 
+<!-- Therefore, the corresponding timestamp is missing. -->
 
 
 
