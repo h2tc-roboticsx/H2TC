@@ -162,14 +162,14 @@ Now you should be able to see a prompt indicating that two machines have success
 ## Data Processing
 
 Our data [processor](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py) synchronizes and converts the raw data into the processed data of commonly used formats, and organizes them in a hierarchical manner.
-With the tool, one can easily
+Using the tool, users can easily
 
-* Process the raw data into the formats as detailed in the table below, or,
-* Process the raw data into preferred formats for customized needs by modifying the provided tool. 
+* Process the raw data into the formats as detailed in the table below, or
+* Process the raw data into other preferred formats by modifying the provided tool. 
 
 <table <table border="1" cellspacing="0">
-    <caption style="text-align:centering">Table 1. Data modalities and their saving formats in H<sup>2</sup>TH</caption>
-    <tr>
+    <caption style="text-align:centering">Table 1. Data modalities and their saving formats in H<sup>2</sup>TC </caption>
+    <tr >
         <td rowspan="2" ><b>Device</b></td>
         <td colspan="2" ><b>Raw</b></td>
         <td colspan="2"><b>Processed</b></td>
