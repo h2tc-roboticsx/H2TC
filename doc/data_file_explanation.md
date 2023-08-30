@@ -244,8 +244,7 @@ A quick reference to the terms used above.
 * Stream ID
   * rgbd0: the fixed third-person (side)  ZED 
   * rgbd1: the dynamic egocentric  ZED 
-  * rgbd2: the fixed third-person (back)  ZED 
-  * event: the event camera
+  * rgbd2: the fixed third-person (back)  ZED event: The event camera
   * left_hand_pose: the left hand pose recorded by Stretchsense gloves
   * right_hand_pose: the right hand pose recorded by Stretchsense gloves
   * sub1_head_motion: the motion of the primary subject's head (helmet) recorded by OptiTrack
