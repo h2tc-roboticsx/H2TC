@@ -166,6 +166,7 @@ Using the tool, users can easily
 
 * Process the raw data into the formats as detailed in the table below, or
 * Process the raw data into other preferred formats by modifying the provided tool. 
+<br>
 
 <table <table border="1" cellspacing="0">
     <caption style="text-align:centering">Table 1. Data modalities and their saving formats in H<sup>2</sup>TC </caption>
@@ -212,7 +213,7 @@ Using the tool, users can easily
         <td style="text-align: left;" rowspan="4">MoCap Pro</td>
         <td style="text-align: left;">Sensor&#39; reading and hand joint angles</td>
         <td style="text-align: left;">.CSV</td>
-        <td style="text-align: left;" rowspan="1">Hand joint values</td>
+        <td style="text-align: left;" rowspan="1">Hand joint motion</td>
         <td style="text-align: left;" rowspan="1">.CSV</td>
     </tr>
     <tr bgcolor="#eeeeee">
@@ -231,34 +232,37 @@ Using the tool, users can easily
         <td style="text-align: left;">OptiTrack</td>
         <td style="text-align: left;">Local and global transformatiom matrices</td>
         <td style="text-align: left;">.CSV</td>
-        <td style="text-align: left;">6D global pose in the throw&catch frame</td>
+        <td style="text-align: left;">6D global motion in the throw&catch frame</td>
         <td style="text-align: left;">.CSV</td>
     </tr>
 </table>
+<br>
 
-We refer users to [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md) for full technical details on how we process the multi-modal and cross-device raw data, and to [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md) and our [paper]() for a detailed explanation of the data hierarchy and the content of each data file.
-
+We refer users to the [data processing](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md) for full technical details on how we process the multi-modal and cross-device raw data, and to the [data file explanation](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md) and our technical [paper]() for a detailed introduction of the data hierarchy and the content of each involved data file.
+<br>
 
 ### How to Process
 
 #### Step 1: Fetch the raw data
-Download the <a href="https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0"> raw data</a> to your own folder `rawdata_path`. Each recording of our raw data is packed in a `zip` file.
+
+You can access all raw data from <a href="https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0">Dropbox</a> . The raw data of each recorded throw&catch activity is packed in a `.zip` file. First download the raw data to your own folder `raw_data_path`
 ```
-rawdata_path
+raw_data_path
 └──011998.zip           // 011998 is the take number
 ```
+<br>
 
-#### Step 2: Extract the packed raw data 
-Run the following command to extract (unzip) the packed raw data to your target path `target_path`: 
-```
-python src/extract.py --srcpath rawdata_path --tarpath target_path
-```
-<small>`--srcpath` is where you download and save the packed raw data. `--tarpath` is the target path where you extract the packed raw data.</small>
+#### Step 2: Extract the raw data 
 
-Each extracted recording should be organized  in a hierarchical structure under the folder `target_path/data`. 
-For example, the raw data of the recording "011998" should be organized as below
-
+We provide a scripted [extrator](https://github.com/lipengroboticsx/H2TC_code/blob/dev-refine/src/extract.py) to unzip packed raw data and also to organize all raw files in a suitable data hierarchy, as mentioned before. Run the following command below to extract  raw data to your target path `target_path`: 
 ```
+python src/extract.py --srcpath raw_data_path --tarpath target_path
+```
+<small>`--srcpath` is where you download and save the packed raw files. `--tarpath` is the target path where you expect to save the extracted raw files.</small>
+
+Each extracted zip file will be organized in a hierarchical structure under the folder `target_path/data`. For example, the raw data files of the recording "011998" will be organized as below
+
+```bash
 target_path
 └──data
     └──011998
@@ -267,50 +271,41 @@ target_path
         │   ├──P1LMeta.json / P1RMeta.json
         │   ├──P1L.cal/P1R.cal
         │   └──P1L.fbx/P1R.fbx
-        ├──{ZED-ID}.svo
-        ├──{ZED-ID}.csv 
+        ├──{zed-id}.svo
+        ├──{zed-id}.csv 
         ├──event_{timestamp}.raw
         ├──event.bias
         └──optitrack.csv
 ```
 
-`{ZED-ID}` indicates three ZED devices, including `17471`, `24483054` and `28280967`, which are the fixed third-person (side) view, the dynamic egocentric view and the fixed third-person (back) view respectively.
-`{timestamp}` is the initial timestamp of the event camera in a UNIX format.  A detailed explanation of the data hierarchy and the content of each raw data file is provided in [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data). 
+`{zed-id}` indicates three involved ZED devices, including `17471`, `24483054` and `28280967`, which are the fixed third-person (side), the dynamic egocentric and the fixed third-person (back)respectively. `{timestamp}` is the initial timestamp of the event camera in the UNIX format.  A detailed explanation of the data hierarchy and the content of each raw data file is provided in [data file explanation](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data). 
 
 #### Step 3: Process the extracted data
-Once the raw data is extracted and organized properly, run the following command
+Once the raw data is extracted and organized appropriately, run the following command
 
 ```bash
 python src/process.py --datapath target_path/data
 ```
-<small>`--datapath` is where your extracted data locates. Several arguments are allowed to configure the processing optionally</small>
+<small>`--datapath` is where the extracted raw data files are saved. There are also some other arguments that are allowed to configure the processor optionally</small>
 
 |  Arguments   | Meanings  | Defaults |
 |  :----     | :----  | :----  |
-| takes     | ID of recordings to be processed. Set 'None' to process all recordings in the 'data' directory. This can be given with a single integer number for one take or a range linked by '-', e.g., '10-12' for recordings [000010, 000011, 000012]. | None |
-| fps_event | FPS for decoding event data into frames. | 60 |
-| fps_zed   | FPS for decoding ZED RGB-D frames. This should be equal to the value used for recording. | 60 |
+| takes     | The ID(s) of recording(s) to be processed. Set 'None' to process all recordings in the `data` directory. This can be given with a single integer for one take, or with a range linked by '-' for a  sequence of consecutive recordings,  e.g. '10-12' for the recordings {000010, 000011, 000012}. | None |
+| fps_event | FPS for decoding event stream into image frames. | 60 |
+| fps_zed   | FPS for decoding ZED RGB-D frames. This should be equal to the value used in recording. | 60 |
 | duration   | The duration of recording in seconds. | 5 |
-| tolerance   | The tolerance of frame dropping in percentage for all devices. | 0.1 |
-| depth_img_format   | Image format of the exported RGB-D frames for ZED data. Either 'png' or 'jpg'.  | png |
-| xypt   | Set true to export event stream in `.xypt` format which is the raw format of the events. | False |
-| npy   | Set true to export depth stream in `.npy` format which is 3-dimensional numpy arrary holding the unnormalized depth estimation of each frame.  | False |
-| depth_accuracy   | Float precision for the unnormalized depth maps. The unnormalized depth maps are not exported by default until the 'npy' are set to true. Either 'float32' or 'float64'. | float32 |
-| datapath   | The raw data directory of recordings. Users need to specify it.   | None |
+| tolerance   | The tolerance of frame drop in percentage for all devices. | 0.1 |
+| depth_img_format   | The image format of the exported RGB-D frames for ZED cameras. Either 'png' or 'jpg'.  | png |
+| xypt   | Set `True` to export event stream in the `.xypt` format, which is the raw format of  events. | False |
+| npy   | Set `True` to export depth stream in the `.npy` format, which is 3-dimensional numpy arrary holding the unnormalized depth estimation of each frame.  | False |
+| depth_accuracy   | The float precision for the unnormalized depth maps. The  depth maps are not exported by default until the flag 'npy' is set to `True`. Either 'float32' or 'float64'. | float32 |
+| datapath   | The directory of raw data files that needs to specify.   | None |
 
-You can change the default settings by adding more arguments into your command. For example, we don't export `depth.npy` and event `xypt.csv` by default (i.e. `xypt` and `npy` are `False` by default), as they are time/space-consuming. If you need them, you can attach `--npy` and `--xypt` to the command: 
+You can change the default settings by adding more arguments into your command. For example, we do not export the depth `depth.npy` and event `xypt.csv` by default (i.e. `xypt` and `npy` are set `False` by default), as they are time/space-consuming. If you need them, simply attach `--npy` and `--xypt` to the command: 
 
 ```bash
 python src/process.py --datapath target_path/data --npy --xypt
 ```
- <!-- `--npy` enables the output of 3-dimensional numpy arrary holding the unnormalized depth estimation of each frame, `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events. For more customized usage, please check [Customized Processing](#•-customized-processing).  -->
-
-<!-- This will produce all data specified in <u>TODO (link to file)</u> including particularly the events in the format of (x, y, p, t) and the real (unnormalized) depth maps. `--xypt` enables the output of event streams in the format of (x, y, p, t), which is the raw format of Contrast Detector events.`--depth_accuracy` specifies the float precision for the unnormalized depth maps. By specifying this parameter, the output of unnormalized depth maps is enabled, otherwise, disabled. In general, these two formats are used as the **input data for learning**. For the detailed explanation about these formats, please check the `/doc/data_file_explanation.md`. There are other parameters available to configure the processing. Please check the code or running the command `python src/process.py -h` for more detail.  -->
-<!-- (<small>Note that the generation of unnormalized depth maps and the event streams in xypt format can be very time/space-consuming. Therefore, you could streamline the processing by disabling the output of the above two.</small> ) -->
- <!-- to produce only a minimum set of data required for annotation. By default, event streams are integrated over a fixed span of time into RGB frames, and depth maps are normalized over the pixels, for **visualization**. The command for this is 
-```python
-python src/process.py
-``` -->
 
 Once the process is done, as shown below, the raw data files will be moved into a new directory `target_path/data/raw/`,  while the processed data files will be stored in another new directory `target_path/data/processed/`. The data hierarchy and a detailed explanation of each file are provided in [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data) and our [paper](toadd).
 
