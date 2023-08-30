@@ -170,10 +170,9 @@ If the timestamp of a data stream is missing in certain frames, its value will b
 
 
 ## OptiTrack Data Processing
-### &#x2022; The Coordinate System ID
-[tbd: polishing + code ]
 
-As the data collection spans more than three months, during which, the OptiTrack capturing system in the lab was moved twice. Therefore, there are **THREE different coordinates** in the raw recordings. We label them as: 
+### The Coordinate System ID
+As the data collection spans more than three months, during which, the OptiTrack motion capture system in the lab was moved twice. Therefore, there are three different transformations from the throw&catch coordinate frame to the global OptiTrack frame in the raw recordings. We label them as: 
 
 |  Take   | Coordinate System ID| 
 |  :----:  | :----:  | 
@@ -181,20 +180,23 @@ As the data collection spans more than three months, during which, the OptiTrack
 | 2889-9788  | \#1 |         
 | 9789-12905 |\#2   |         
 
-To transfer these different OptiTrack coordinates to [the throw-catch coordinate](#the-throw-catch-coordinate-frame), we apply coordinate transformation via the 4 x 4 transformation matrices [`origin_transformation_matrix`](#system-id-and-transformation-matrix) captured in the original optitrack system (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)):
+To transfer all captured object motions from different OptiTrack frames to the common [throw&catch coordinate frame](#the-throw-catch-coordinate-frame), we apply coordinate transformation via the 4 x 4 transformation matrices [`origin_transformation_matrix`](#system-id-and-transformation-matrix)  via [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py):
+
 ```
 object_tc_transformation_matrix = np.matmul(origin_transformation_matrix_inverse, object_optitrack_raw_transformation_matrix)
 ```
-`origin_transformation_matrix_inverse` is the inverse matrix of the `origin_transformation_matrix`, `object_optitrack_raw_transformation_matrix` is the tracked object's 4 x 4 transformation matrix expressed in the Optitrack system, and `object_tc_transformation_matrix` is the converted 4 x 4 transformation matrix expressed in the throw-catch frame.
+
+`origin_transformation_matrix_inverse` is the inverse matrix of the `origin_transformation_matrix`, which is the transformation matrix of the throw&catch frame w.r.t. the OptiTrack frame.
+`object_optitrack_raw_transformation_matrix` is the tracked object's 4 x 4 transformation matrix expressed in the Optitrack frame, and `object_tc_transformation_matrix` is the converted 4 x 4 transformation matrix expressed in the throw&catch frame.
 
 <!-- 
 ```
 object_tc_transformation_matrix = np.matmul(origin_transformation_matrix, object_optitrack_raw_transformation_matrix)
 ``` -->
-### &#x2022; Extra Rotation
+### Extra Rotation
 
 Since takes 1700 onwards, the orientations of gloves, helmet, and headband were checked everytime before the start of recording. Therefore, no extra rotation is needed for takes from 1700 onwards.<br>
-For takes from 520-1559, right hand needs to rotate 90 degrees along the Y axis (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)) For takes from 1560-1699, right hand needs to rotate 180 degrees along the Y axis (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)) For takes from 1040-1559, left hand needs to rotate 45 degrees along the Y axis (addressed in the script [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)) For takes from 0-1699, the orientation of the helmet and headband needs to be corrected if using their orientation (rotate along Y axis with extra 45 degrees for the headband, and -180 degrees for the helmet see the function `get_t_matrix` in [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py)): 
+However, for takes 520-1559, the right hand needs to rotate 90 degrees along the Y axis. For takes 1560-1699, the right hand needs to rotate 180 degrees along the Y axis. For takes 1040-1559, the left hand needs to rotate 45 degrees along the Y axis. For takes from 0-1699, the orientation of the helmet and headband needs to be corrected if using their orientation (rotate along Y axis with extra 45 degrees for the headband, and -180 degrees for the helmet). Please see the function `get_t_matrix` in [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py).
 |  Take   | Devices | Rotation | 
 |  :----:  | :----:  |:----:  |
 | 520-1559  | right hand |  90 degrees along the Y axis |          
@@ -206,11 +208,11 @@ For takes from 520-1559, right hand needs to rotate 90 degrees along the Y axis 
 ```
 object_transformation_matrix = np.matmul(object_tc_transformation_matrix, rotY)
 ```
-`object_tc_transformation_matrix` is the converted matrix introduced above, `rotY` is the extra transformation for rotating along the Y axis, and `object_transformation_matrix` is the result transformation matrix in throw-catch frame.  
+`object_tc_transformation_matrix` is the converted matrix introduced above, `rotY` is the extra transformation for rotating along the Y axis, and `object_transformation_matrix` is the resulted transformation matrix in the throw&catch frame.  
 
 ### &#x2022; Note
 1. Difference between local and global transformation matrices in `optitrack.csv`. 
-The raw `optitrack.csv` file contains `local` (from column 5 to 20) and `global` (from column 21 to 36) transformation matrices of the optitrack system. The `local` transformation matrix is expressed relative to the start pose of a recorded sequence. The `global` transformation matrix is with reference to Optitrack world coordinate (Y-Up). In The codebase, we only used the `global` transformation matrix for matrix manipulation. 
+The raw `optitrack.csv` file contains `local` (from column 5 to 20) and `global` (from column 21 to 36) transformation matrices. The `local` transformation matrix is expressed relative to the start pose of a recorded sequence. The `global` transformation matrix is with reference to the Optitrack coordinate frame (Y-Up). In the codebase, we only used the `global` transformation matrix for matrix manipulation. 
 
 
 <!-- 
@@ -231,50 +233,49 @@ For each frame (e.g., if 60 fps, then 300 frames in total for a 5s long motion s
 Note that the left hand uses a right-handed coordinate system and the right hand uses a left-handed coordinate system. -->
 
 ## Hand Data Processing
-As shown below, the pose motions of both hands are collected by StretchSense MoCap Pro gloves, and their 3D global motions are captured by OptiTrack as well. 
+
+As shown below,  we employ the StretchSense MoCap Pro gloves to collect the human poses during throw&catcht, and also  the OptiTrack to capture their 3D global motions.
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_devices.png" width = "400" alt="right_hand" style="display: flex; justify-content: center;">
 <!-- You can check [data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data) to get each term's meaning.  -->
 
-### &#x2022; Hand Pose Data Coordinate 
-[tbd: double-check the frame again!!]
-
-The left (L) and right (R) hand coordinates are shown below. 
-Please note that **the left hand and the right hand use different coordinate frames**. 
-Each joint in the hands has its own frame. 
-* For the left hand, the X-axis is along the bone, the Y-axis is perpendicular to the palm, and the Z-axis is perpendicular to the XY plane. 
-* For the right hand, the X-axis is against along the bone, the Y-axis is perpendicular up towards the back of the hand, and the Z-axis is perpendicular to the XY plane. 
+### &#x2022; Hand Modeling
+The coordinate frames for the left (L) and right (R) hands in our hand model are shown below.  Please note that the left hand and the right hand use different coordinate frames. 
+<!-- Each joint in the hands has its own frame.  -->
+* For the left hand, the X-axis is along the bone link, the Y-axis is perpendicular to the palm, and the Z-axis is perpendicular to the XY plane. 
+* For the right hand, the X-axis is against along the bone link, the Y-axis is perpendicular up towards the back of the hand, and the Z-axis is perpendicular to the XY plane. 
 
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_frame_lx.png" width = "800" alt="hand_frame" style="display: flex; justify-content: center;">
 
-### &#x2022; 3D Global Hand Motion Data Coordinate 
+### 3D Global Hand Motion Data Coordinate 
 
-The figure below shows the coordinate frame of the OptiTrack captured hand motion. The origin of the frame is roughly located at the center of the back of the palm. Y-axis is perpendicular up to the back of the  hand, Z-axis is parallel to the finger tip direction, and X-axis is perpendicular to the YZ plane. 
+The figure below shows the coordinate frame of each hand in OptiTrack. The origin of the frame is roughly located at the center of the back of the palm. The Y-axis is perpendicular up to the back of the  hand, the Z-axis is parallel to the middle finger, and the X-axis is perpendicular to the YZ plane. 
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_motion_frame.png" width = "700" alt="hand_in_catch_throw_frame" style="display: flex; justify-content: center;">
 
-### &#x2022; Motion Reconstruction
-The motion reconstruction results are stored in folder `{take_id}/processed/hand_motion/`. 
+### Motion Reconstruction
+The motion reconstruction results are stored in `{take_id}/processed/hand_motion/`. 
 
 #### 1. Align hand pose coordinate with the 3D global hand motion coordinate
-As introduced above, the coordinate frames of the hand pose data differs from that of the 3D global motion. Before reconstruction, we first use several rotations to align the hand pose data to the 3D global coordinate. 
-* For the left hand, we first rotate the pose data -180 degrees along the X-axis, and then rotate it -90 degrees along the Y-axis. As shown in the `plot_left_hand ` function in [`plot_motion.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/plot_motion.py), the rotation matrices are:
+As introduced above, the coordinate frames of the hand pose data differs from that of the 3D global motion. Before reconstruction, we first apply rotations to align the hand pose data to the 3D global coordinate. 
+* For the left hand, we first rotate the pose data -180 degrees along the X-axis, and then rotate it -90 degrees along the Y-axis. As shown in the function `plot_left_hand `  in [`plot_motion.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/plot_motion.py), the rotation matrices are:
+
 ```
 rotX = np.array([[1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,0,1]])    # x -180
 rotY = np.array([[0,0,-1,0],[0,1,0,0],[1,0,0,0],[0,0,0,1]])     # y -90
 ```
-* For the right hand, we rotate the pose data 90 degrees along the Y-axis.  As shown in the `plot_right_hand ` function in [`plot_motion.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/plot_motion.py), the rotation matrix is:
+* For the right hand, we rotate the pose data 90 degrees along the Y-axis.  As shown in the function `plot_right_hand `  in [`plot_motion.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/plot_motion.py), the rotation matrix is:
+
 ```
 rotY = np.array([[0,0,1,0],[0,1,0,0],[-1,0,0,0],[0,0,0,1]])     # y 90
 ```
 
 #### 2. Reconstruction
 For hands' global locations, we use the translations from the OptiTrack transformation matrices as the metacarpal locations. 
-For hands' entire poses, we reconstruct the entire hand pose starting from the metacarpal joint with the aligned hand joints poses and the defined [hand bone length](#hand-bone-length) using forward kinematics. 
+For hands' entire poses, we reconstruct the entire hand pose starting from the metacarpal joint with the aligned hand joints poses and the defined [hand bone length](#hand-bone-length) using forward kinematics.  The details of how to reconstruct the entire hand motion are provided in the functions  `plot_left_hand` and `plot_right_hand` of `plot_motion.py`.
 
-
-### &#x2022; Note
+###   Note
 
 1. Metacarpal joint offset. 
 Note that, as a common practice, we did not attach the markers directly to the hand, but fixed markers on a rigid object, and then attached the rigid object to the back of the hand. As the geometric center of the rigid object does not exactly align with the metacarpal joint of a hand, there is an offset between the reconstructed hand and the actual hand in terms of their spatial positions. However, this offset is minor, and does not change the motion of the hand.
@@ -284,32 +285,19 @@ Note that, as a common practice, we did not attach the markers directly to the h
 Note that the finger bone length we used for visualization purpose in `plot_motion.py` is enlarged. 
 We use the following set of bone lengths to reconstruct and visualize the hands in `plot_motion.py`:
 ```
-         Metacarpal Proximal Middle Distal
-thumb =  [0.25,     0.11,           0.06]
-index =  [0.34,     0.15,    0.08,  0.06]
-middle = [0.33,     0.15,    0.10,  0.07]
-ring =   [0.31,     0.13,    0.10,  0.06]
-pinky =  [0.3,      0.08,    0.06,  0.06]
+                     Metacarpal   Proximal   Middle    Distal
+thumb  =  [0.25,                  0.11,                           0.06]
+index     =  [0.34,                  0.15,          0.08,       0.06]
+middle  = [0.33,                   0.15,         0.10,        0.07]
+ring        =  [0.31,                   0.13,         0.10,        0.06]
+pinky     =  [0.3,                     0.08,         0.06,       0.06]
 ```
-
-<!-- #### Paper
-The bone lengths in the paper are measured from an actual hand (TODO, better to provide an average bone length model)
-```
-         Metacarpal Proximal Middle Distal
-thumb =  [6.0,      4.0,            3.5]
-index =  [8.0,      5.5,     3.0,   2.5]
-middle = [8.0,      6.0,     3.5,   2.7]
-ring =   [7.5,      5.5,     3.3,   2.5]
-pinky =  [6.5,      4.5,     2.5,   2.5]
-``` -->
-
-
-
-
+ 
 ## Reference
+
 ### System ID and Transformation Matrix
 
-Specifically, takes 0-2888 use system ID \#0; takes 2889-9788 use system ID \#1; and takes 9789-12905 use system ID \#2.
+Specifically, the takes 0-2888 use system ID \#0. The takes 2889-9788 use system ID \#1. The takes 9789-12905 use system ID \#2.
 
 The 4 x 4 transformation matrix of system ID \#0 is:
 ```
@@ -326,6 +314,7 @@ The 4 x 4 transformation matrix of system ID \#1 is:
  [-2.10037766e-03, 4.26893351e-03, -9.99988700e-01, 2.17126483e+00],
  [ 0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 1.00000000e+00]]
 ```
+
 The 4 x 4 transformation matrix of system ID \#2 is:
 ```
 [[-0.99997146, 0.00456379, 0.00601402, 0.19729361],
