@@ -163,11 +163,12 @@ Now you should be able to see a prompt indicating that two machines have success
 
 Our data [processor](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py) synchronizes and converts the raw data into the processed data of commonly used formats, and organizes them in a hierarchical manner.
 With the tool, one can easily
-* Process raw data into the formats as detailed in the table below, or,
-* Process raw data into preferred formats for customized needs by modifying the provided tool. 
+
+* Process the raw data into the formats as detailed in the table below, or,
+* Process the raw data into preferred formats for customized needs by modifying the provided tool. 
 
 <table <table border="1" cellspacing="0">
-    <caption style="text-align:centering">Table 1. Data modalities and formats</caption>
+    <caption style="text-align:centering">Table 1. Data modalities and their saving formats in H<sup>2</sup>TH</caption>
     <tr>
         <td rowspan="2" ><b>Device</b></td>
         <td colspan="2" ><b>Raw</b></td>
@@ -209,10 +210,10 @@ With the tool, one can easily
     </tr>
     <tr bgcolor="#eeeeee">
         <td style="text-align: left;" rowspan="4">MoCap Pro</td>
-        <td style="text-align: left;">Sensors&#39; reading and hand joint angles</td>
+        <td style="text-align: left;">Sensor&#39; reading and hand joint angles</td>
         <td style="text-align: left;">.CSV</td>
-        <td style="text-align: left;" rowspan="4">Hand joint values</td>
-        <td style="text-align: left;" rowspan="4">.CSV</td>
+        <td style="text-align: left;" rowspan="1">Hand joint values</td>
+        <td style="text-align: left;" rowspan="1">.CSV</td>
     </tr>
     <tr bgcolor="#eeeeee">
         <td style="text-align: left;" >Hand calibration parameters</td>
@@ -230,7 +231,7 @@ With the tool, one can easily
         <td style="text-align: left;">OptiTrack</td>
         <td style="text-align: left;">Local and global transformatiom matrices</td>
         <td style="text-align: left;">.CSV</td>
-        <td style="text-align: left;">6D pose in throw-catch coordinate</td>
+        <td style="text-align: left;">6D global pose in the throw&catch frame</td>
         <td style="text-align: left;">.CSV</td>
     </tr>
 </table>
