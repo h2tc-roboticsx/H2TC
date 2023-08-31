@@ -307,32 +307,51 @@ You can change the default settings by adding more arguments into your command. 
 python src/process.py --datapath target_path/data --npy --xypt
 ```
 
-Once the process is done, as shown below, the raw data files will be moved into a new directory `target_path/data/raw/`,  while the processed data files will be stored in another new directory `target_path/data/processed/`. The data hierarchy and a detailed explanation of each file are provided in [`/doc/data_file_explanation.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data) and our [paper](toadd).
+Once the data processing is done, as shown below, the raw data files will be moved into a new directory `target_path/data/raw/`,  and the processed data files will be stored in the  directory `target_path/data/processed/`. 
 
-```
+```bash
 target_path
 └──data
     └──011998
-        ├──raw              // all raw data
+        ├──raw              // all raw data as above
+            └──......
         └──processed        // all processed data
+            ├──rgbd1/rgb2/rgb3
+                ├──left_frame_id.png
+                ├──depth_frame_id.png
+                └──depth.npy
+            ├──event
+                └──frame_id.png
+            ├──rgb1_ts/rgb2_ts/rgb3_ts.csv
+            ├──event_xypt.csv
+            ├──event_frame_ts.csv
+            ├──left_hand_pose.csv
+            ├──right_hand_pose.csv
+            ├──sub1_head_motion.csv
+            ├──sub1_left_hand_motion.csv
+            ├──sub2_head_motion.csv
+            └──alignment.json
 ```
+The data hierarchy and the content of each processed data file are explained in detail in [data file explanation](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data) and our technical [paper](toadd).
+
+
 
 ### Customized Processing 
 If you want to customize the processing process, please: 
   * First follow the Steps 1 and 2 in [How to Process](#how-to-process) to fetch the organized raw data. 
-  * Then in Step 3, customize your own processing by diving into the full technical details in [`/doc/processing_techdetails.md`](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md). This document explains how we process the multi-modal, cross-device data. 
+  * Then in Step 3, customize your own processing process by diving into the full technical details in the [data processing](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md). This document explains how we process the multi-modal, cross-device data streams.
 
 ### Trouble Shooting ❗
 
 #### 1. Reprocess the processed takes
 
-If you want to reprocess the processed takes, you will have to manually remove the folders of existing processed takes. If you only want to reprocess parts of a take, e.g. RGB and depth streams, you don't need to remove the already-processed parts.
+If you want to reprocess the processed takes, you will have to manually remove their entir folders first. If you only want to reprocess part(s) of a take, e.g. RGB and depth streams, you just need to remove their corresponding files (folders).
 
 #### 2. ZED decoding frames failed
 
-The current mechanism allows for maximally 10 failed attempts to decode (or grab in ZED term) a frame. Once failed for more 10 times, the decoding process will abort and the processing will continue to the next part, e.g. the next ZED device or next stream. The frames that have already been decoded will be stored, while the rest frames will be ignored. This issue usually happens when decoding the last frame.
+The current mechanism allows for maximally 10 failed attempts to decode (or grab in ZED term) a ZED RGB-D frame. Once the decoding process fails  for more 10 times, it will abort and the data processing will continue to the next part, e.g. the next ZED device or the next stream modality. Those frames that have already been decoded will be stored, while the rest frames will be ignored. This issue usually happens to decode the last frame.
 
-To fix this issue, one can simply reprocess the problematic takes [reprocess the processed take](#1-reprocess-the-processed-take) as above. 
+To fix this issue, one can simply reprocess the problematic takes by the [reprocess the processed take](#1-reprocess-the-processed-take) as above. 
 <!-- </details> -->
 
 ## Annotator

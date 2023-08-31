@@ -1,17 +1,23 @@
 # Data Processing Technical Details
 
-This introduce details on how we process [H<sup>2</sup>TC](https://lipengroboticsx.github.io/). For a thorough explanation of the data hierarchy and contents in the dataset, please see [/doc/data_file_explanation.md](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/data_file_explanation.md). 
+This introduce details on how we process [H<sup>2</sup>TC](https://lipengroboticsx.github.io/). For a detailed explanation of the data hierarchy and contents in the dataset, please see  [data file explanation](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/data_file_explanation.md). 
 
 Here is an overview of this document:
 
-* [**Workspace**](#our-workspace): introduces the used multi-modal [devices](#used-devices) and the throw-catch [coordinate](#the-throw-catch-coordinate-frame) setting. 
-* [**Timestamping and Data Alignment**](#timestamping-and-data-alignment): introduces how [ZED RGBD](#zed-rgbd), [Event](#event), [Optitrack](#optitrack) and [Gloves Hands Pose](#gloves-hands-pose) data streams are timestamped and [synchronized](#alignment) in recording and processing. 
-* [**OptiTrack Data Processing**](#optitrack-data-processing): auxiliarly explains the original optitrack coordinate and how to transfer it to the throw-catch coordinate. 
-* [**Hand Data Processing**](#hand-data-processing): explains the used [hand model](#•-hand-pose-data-coordinate-frame) and how to [reconstruct](#•-motion-reconstruction) the hand motion. 
+* [**Workspace**](#our-workspace): introduces the multi-modal [sensors](#used-devices) and the throw&catch [coordinate frame](#the-throw-catch-coordinate-frame) for building the dataset. 
+* [**Timing and Data Alignment**](#timestamping-and-data-alignment): introduces how [rgb, depth](#zed-rgbd), [event](#event), [optitrack](#optitrack) and [hand joint motion](#gloves-hands-pose) streams are timestamped and [synchronized](#alignment) in recording and processing. 
+* [**OptiTrack Data Processing**](#optitrack-data-processing): explains how the object motions captured by OptiTrack are processd.
+* [**Hand Data Processing**](#hand-data-processing): explains the [hand model](#•-hand-pose-data-coordinate-frame) used in the dataset and how to [reconstruct](#•-motion-reconstruction) the hand motion, both joint and 6D global, from the data streams captured with OptiTrack and MoCap gloves.
 
 ## The Workspace
-### Used Devices
-We use a variety of high-precision motion capture and visual streaming devices to capture the dataset as illustrated below. 
+
+
+A throw\&catch  activity in our dataset refers to a dyadic collaborative process where two human subjects observe, move and coordinate to throw/catch an object from one to the other.
+Each activity was recorded in a flat lab area, which resembles the real throw&catch scenes characterized by unstructured, cluttered and dynamic surroundings. 
+We refer interested users to our technical [paper](add) for a more detailed introduction of the throw&catch workspace.
+
+### Hardware and Sensors
+We employ multiple high-precision motion capture and visual streaming systems to capture the dataset. We refer interested users to our technical [paper](add) for a detailed introduction of involved hardwares. Briefly, we use 3 [ZED]((https://www.stereolabs.com/zed-2/)) stereo cameras to capture RGB and depth streams, [Prophesee](https://www.prophesee.ai/) event camera to capture event streams, [StretchSense MoCap Pro](https://stretchsense.com/) (SMP) gloves to capture hand joint motions, and [OptiTrack](https://optitrack.com/) to capture the global object and human body motions.
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hardware.png" width = "1000" alt="hardware" />
 
@@ -24,26 +30,28 @@ We use a variety of high-precision motion capture and visual streaming devices t
 | ④ ZED Camera | [Stereolabs](https://www.stereolabs.com/zed-2/) |  RGB-D | 60 | 1280x720 |
 
 
-### The Throw-Catch Coordinate Frame
+### The Throw&Catch Coordinate Frame
 
-We set the throw&catch frame as the global coordinate frame.  As shown below, the **origin** of the throw-catch frame lies at the bottom-left corner of the throw&catch workspace. The coordinate  axes  are set up as follows: XZ plane is parallel to the ground with Z-axis along the longer side and X-axis along the shorter side. Y-axis is perpendicular up to the XZ plane. 
+We set the throw&catch frame at the throw&catch workspace as the global coordinate frame.  As shown below, the **origin** of the throw-catch frame lies at the bottom-left corner of the workspace. The coordinate  axes are set up as follows: XZ plane is parallel to the ground plane with Z-axis along the longer side and X-axis along the shorter side. Y-axis is perpendicular up to the XZ plane. 
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/workspace_lx.png" width = "800" alt="workspace" />
 
-We have transformed all data streams captured with OptiTrack (i.e. the pose streams of the headband, helmet, gloves, and all 3d-printed objects) to the common throw&catch frame via the `process` function in [src/process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py).  Please check [OptiTrack data processing](#optitrack-data-processing) for more details.  
+We have transformed all data streams captured with OptiTrack (i.e. the global motion streams of the headband, helmet, gloves, and all 3d-printed objects) to the common throw&catch frame via the `process` function in [src/process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py).  Please check [OptiTrack data processing](#optitrack-data-processing) for more details.  
 
 <br>
 
-## Timestamping and Data Alignment
+## Timing and Data Alignment
 
-The recording system consists of  3 [ZED](#zed-rgbd) RGB-D cameras, 1 Prophesee event camera, 1 StretchSense data gloves, and 1 OptiTrack motion capture system. We describe below how each data stream is timestamped and alignd in recording and processing. 
+Our recording system consists of  3 [ZED](#zed) stereo cameras, 1 Prophesee event camera, a pair of StretchSense MoCap Pro  gloves, and the OptiTrack motion capture system. We describe below how each data stream is timestamped and alignd during recording and processing. 
 
-### ZED RGBD
+
+### ZED
 
 #### **Timestamps in recording.** 
-In recording, the timestamp of each ZED camera  is retrieved using the [ZED API method](https://www.stereolabs.com/docs/api/python/classpyzed_1_1sl_1_1Camera.html#af18a2528093f7d4e5515b96e6be989d0) `get_timestamp(sl.TIME_REFERENCE.IMAGE)`. The returned value corresponds to the time, in UNIX nanosecond, at which the image is stored in `/data/{take_id}/raw/{zed_id}.svo`. For each RGB-D stream, we record the timestamps of all frames and the beginning of the recording, resulting in N+1 timestamps in total. The timestamps are initially stored in a separate file `/data/{take_id}/raw/{zed_id}.csv` with a structure as
+During recording, the timestamps of each ZED stream are retrieved using the [ZED API](https://www.stereolabs.com/docs/api/python/classpyzed_1_1sl_1_1Camera.html#af18a2528093f7d4e5515b96e6be989d0) method `get_timestamp(sl.TIME_REFERENCE.IMAGE)`. The returned value corresponds to the timestamp, in UNIX nanosecond, at which the image is stored in `/data/{take_id}/raw/{zed_id}.svo`. For each ZED stream, we save the timestamps of all recorded frames and the record beginning, resulting in N+1 timestamps in total. The timestamps are initially saved in a separate file `/data/{take_id}/raw/{zed_id}.csv` with a structure follows 
+
 * nanoseconds: header of the unit
-* the timestamp of the beginning of recording
+* the timestamp of the record beginning
 * the timestamp of the 1st frame 
 * the timestamp of the 2nd frame
 * ... 
