@@ -36,9 +36,9 @@ Note that the raw data files and their contents that are **not** used in the dat
       * **P1LMeta.json** / **P1RMeta.json**: The metadata about the hardware and recording setting. 
       * <u>**P1L.cal** / **P1R.cal**</u>: The calibration data. 
       * <u>**P1L.fbx** / **P1R.fbx**</u>: The hand model saved in the .fbx file format.  
-    * **17471.svo / 24483054.svo / 28280967.svo**: The recording files of ZED RGB-D cameras with videos of the left and right views and metadata. Check [ZED document](https://www.stereolabs.com/docs/video/recording/) for more information. The digits denote the serial number (SN) of the recording devices. Specifically, 17471 is the fixed camera of the third-person side view, 24483054 is the dynamic camera of the egocentric view, and 28280967 is the fixed camera of the egocentric view  (or equivalently the third-person back view).
-    * **17471.csv / 24483054.csv / 28280967.csv**: The timestamps of the frames in captured RGB-D streams. The digits, similarly as above, refer to the SN of the recording devices. Note that the timestamps start from the beginning of a recording, so the second timestamp is the actual timestamp of the first frame. Therefore, the first timestamp in this file is always discarded when processing or aligning the streams. Specifically, each file contains by row
-      * nanoseconds: The header of the unit
+    * **17471.svo / 24483054.svo / 28280967.svo**: Each corresponds to the raw file of a ZED  camera which packs the left- and right-eye videos and the metadata. Check [ZED document](https://www.stereolabs.com/docs/video/recording/) for more information. The digits denote the serial number (SN) of the ZED cameras. Specifically, 17471 is the fixed third-person (side) camera, 24483054 is the dynamic egocentric camera, and 28280967 is another fixed third-person (back) camera.
+    * **17471.csv / 24483054.csv / 28280967.csv**: The timestamps of the captured RGB-D  frames. The digits, similarly as mentioned above, refer to the SN of the ZED cameras. Note that the timestamps start from the record beginning, so the second timestamp is the actual timestamp of the first frame. Therefore, the first timestamp in this file is always discarded during processing or aligning the streams. Specifically, each file contains by row [lipeng1]
+      * nanoseconds: the header of the unit
       * the timestamp of the beginning of the recording
       * the timestamp of the 1st frame 
       * the timestamp of the 2nd frame

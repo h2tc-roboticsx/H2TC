@@ -48,36 +48,34 @@ Our recording system consists of  3 [ZED](#zed) stereo cameras, 1 Prophesee even
 ### ZED
 
 #### **Timestamps in recording.** 
-During recording, the timestamps of each ZED stream are retrieved using the [ZED API](https://www.stereolabs.com/docs/api/python/classpyzed_1_1sl_1_1Camera.html#af18a2528093f7d4e5515b96e6be989d0) method `get_timestamp(sl.TIME_REFERENCE.IMAGE)`. The returned value corresponds to the timestamp, in UNIX nanosecond, at which the image is stored in `/data/{take_id}/raw/{zed_id}.svo`. For each ZED stream, we save the timestamps of all recorded frames and the record beginning, resulting in N+1 timestamps in total. The timestamps are initially saved in a separate file `/data/{take_id}/raw/{zed_id}.csv` with a structure follows 
+During recording, the timestamps of each ZED stream are retrieved using the [ZED API](https://www.stereolabs.com/docs/api/python/classpyzed_1_1sl_1_1Camera.html#af18a2528093f7d4e5515b96e6be989d0) method `get_timestamp(sl.TIME_REFERENCE.IMAGE)`. The returned value corresponds to the timestamp, in UNIX nanosecond, at which the image is stored in `/data/{take_id}/raw/{zed_id}.svo`. For each ZED stream, we save the timestamps of all recorded frames and the record start, resulting in N+1 timestamps in total. The timestamps are initially saved in a separate file `/data/{take_id}/raw/{zed_id}.csv` with a structure follows 
 
-* nanoseconds: header of the unit
-* the timestamp of the record beginning
+* nanoseconds: the header of the unit
+* the timestamp of the record start
 * the timestamp of the 1st frame 
 * the timestamp of the 2nd frame
 * ... 
 * the timestamp of the N-th frame 
 
 #### **Timestamps in processing.** 
- We observed that the timestamp retrieved by the ZED API above ignores the communication latency, which leads to that the value of timestamps are earlier (smaller) than the real frame time.
+ We observe that the timestamps retrieved by the ZED API as above ignore the communication latency, which leads to that the value of timestamps are earlier (smaller) than the real frame times.
 
-To fix this issue, we compensate the timestamp of each frame, addressed via the function in [src/utils/zed.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/zed.py),  by adding a positive constant of
+To fix this issue, we modify the timestamp of each frame,  via the function in [src/utils/zed.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/zed.py),  by adding a positive constant/offset as
 
 ```
-T(1stframe) = T(start_recording) + 1/FPS * 1e9
+T(1stframe) = T(start_record) + 1/FPS * 1e9
 ```
-where T(start_recording) is the timestamp of recording start, and T(1st_frame) is the timestamp of the real first frame.  
-This is equivalent to set the timestamp of 1st frame to the timestamp of start recording plus the theoretical frame time (1/FPS), and keep the offset between every two consecutive frames unchanged. `* 1e9` converts the time offset to nanoseconds. 
-<br>
-We also noticed that the last timestamp in the raw timestamp file doesn't correspond to any decoded frame image, in other words, the total amount of frames is one less than the total amount of timestamps. Therefore, the last timestamp is ignored and not saved in the processed timestamp file. 
-<br>
-After processing, the calibrated timestamps will be saved into a separate file `/data/{take_id}/processed/{stream_id}.csv`.  
+where T(start_record) is the timestamp of  the record start, and T(1st_frame) is the compensated timestamp of the first frame.  This is equivalent to set the timestamp of the 1st frame to the timestamp of the record start, plus the theoretical frame time (1/FPS), and keep the offset between every two consecutive frames unchanged. `* 1e9` converts the time offset to nanoseconds. 
+
+[lipeng1]
+We also noticed that the last timestamp in the raw timestamp file doesn't correspond to any decoded image frame, in other words, the total amount of frames is one less than the total amount of timestamps. Therefore, the last timestamp is ignored and not saved in the processed timestamp file.  The calibrated timestamps are saved into a separate file `/data/{take_id}/processed/{stream_id}.csv`.  
 
 ### Event
 #### **Timestamps in recording.** 
-The raw recoded event date can be exported into two alternative formats, including **event streams (xypt)** and **event frames (RGB images)**. Each has a slightly different timestamping result, but they are essentially based on the same timestamps. 
-<br>
+The raw event date can be decoded into two alternative formats, including **Contrast Detector (CD) event streams (xypt)** and **event frames (RGB images)**. Each has a slightly different timestamping result, but they are essentially based on the same timestamps. 
 
-The raw data timestamps each [Contrast Detector (CD) event](https://docs.prophesee.ai/stable/concepts.html#event-generation) with a releative offset, in microseconds, to the timepoint of recording start. Unfortunately, the raw file only includes the timestamp of recording start in seconds, so we manually convert it into the UNIX nanosecond in [`/src/utils/event.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/event.py), and attach it to the name of the raw data file, e.g.`event_1662023682456716448.raw`, where the 19-digit number is the timestamp of the recording start.
+
+The captured raw data times each [Contrast Detector (CD)](https://docs.prophesee.ai/stable/concepts.html#event-generation) event with a releative offset, in microseconds, to the timepoint of the record start. Unfortunately, the raw file only includes the timestamp of the record start in seconds, so we manually convert it into the UNIX nanosecond in [`/src/utils/event.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/event.py), and attach it to the name of the raw data file, e.g.`event_1662023682456716448.raw`, where the 19-digit number is the timestamp of the record start.
 <br>
 
 For the xypt stream, the timestamp of each event is calculated by adding its time offset to the timestamp of recording start(initial timestamp). Note that the time offset in xypt is in microseconds, so it has to be converted to nanoseconds first before adding. 
