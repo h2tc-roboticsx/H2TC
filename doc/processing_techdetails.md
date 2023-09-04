@@ -68,29 +68,30 @@ T(1stframe) = T(start_record) + 1/FPS * 1e9
 where T(start_record) is the timestamp of  the record start, and T(1st_frame) is the compensated timestamp of the first frame.  This is equivalent to set the timestamp of the 1st frame to the timestamp of the record start, plus the theoretical frame time (1/FPS), and keep the offset between every two consecutive frames unchanged. `* 1e9` converts the time offset to nanoseconds. 
 
 [lipeng1]
-We also noticed that the last timestamp in the raw timestamp file doesn't correspond to any decoded image frame, in other words, the total amount of frames is one less than the total amount of timestamps. Therefore, the last timestamp is ignored and not saved in the processed timestamp file.  The calibrated timestamps are saved into a separate file `/data/{take_id}/processed/{stream_id}.csv`.  
+We also noticed that the last timestamp in the raw timestamp file does not correspond to any decoded image frame, in other words, the total amount of frames is one less than the total amount of timestamps. Therefore, the last timestamp is ignored and not saved in the processed timestamp file.  The calibrated timestamps are saved into a separate file `/data/{take_id}/processed/{stream_id}.csv`.  
 
 ### Event
 #### **Timestamps in recording.** 
-The raw event date can be decoded into two alternative formats, including **Contrast Detector (CD) event streams (xypt)** and **event frames (RGB images)**. Each has a slightly different timestamping result, but they are essentially based on the same timestamps. 
+The raw event date can be decoded into two formats, including **Contrast Detector (CD) event streams (xypt)** and **event frames (RGB images)**. Each has a slightly different timestamping result, but they are essentially based on the same raw timestamps. 
 
-
-The captured raw data times each [Contrast Detector (CD)](https://docs.prophesee.ai/stable/concepts.html#event-generation) event with a releative offset, in microseconds, to the timepoint of the record start. Unfortunately, the raw file only includes the timestamp of the record start in seconds, so we manually convert it into the UNIX nanosecond in [`/src/utils/event.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/event.py), and attach it to the name of the raw data file, e.g.`event_1662023682456716448.raw`, where the 19-digit number is the timestamp of the record start.
+The raw data times each [Contrast Detector (CD)](https://docs.prophesee.ai/stable/concepts.html#event-generation) event with a releative offset, in microseconds, to the timepoint of the record start. Unfortunately, the raw file  includes only the timestamp of the record start in seconds, so we manually convert it into the UNIX nanosecond by [`/src/utils/event.py`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/event.py), and attach it to the name of the raw data file, e.g.`event_1662023682456716448.raw`, where the 19-digit number is the converted timestamp of the record start.
 <br>
 
-For the xypt stream, the timestamp of each event is calculated by adding its time offset to the timestamp of recording start(initial timestamp). Note that the time offset in xypt is in microseconds, so it has to be converted to nanoseconds first before adding. 
+For the xypt stream, the timestamp of each event is calculated by adding its time offset to the timestamp of recording start (initial timestamp). Note that the time offset in xypt is in microseconds, so it has to be converted to nanoseconds first before adding. 
 
 #### **Timestamps in processing.** 
-The calculated timestamps are stored directly with the decoded event streams in the file `/data/{take_id}/processed/event_xypt.csv`.
+The calculated timestamps are stored directly with the decoded CD event streams in the file `/data/{take_id}/processed/event_xypt.csv`.
 
 ```python
-timestamp = initial timestamp + t * 1000
+timestamp = the initial timestamp + t * 1000
 ```
 
-For event frames, timestamps are inferred, instead of taken in real time, based on the aforementioned initial timestamp and the target decoding FPS (60 by default to align with the FPS of ZED RGBD streams). It is calculated as
+`t` is the recorded time offset to the initial timestamp.
+
+For the event frames, timestamps are inferred, instead of taken in real time, based on the aforementioned initial timestamp and the target decoding FPS (60 by default to align with the FPS of ZED RGBD streams). It is calculated as
 
 ```
-timestamp = initial timestamp + 1/FPS * 1e9 * frame number
+timestamp = the initial timestamp + 1/FPS * 1e9 * frame number
 ```
 
 `* 1e9` converts the time offset to nanoseconds. The processed timestamps are stored in the file `/data/{take_id}/processed/event_frames_ts.csv`.
@@ -99,7 +100,7 @@ timestamp = initial timestamp + 1/FPS * 1e9 * frame number
 ### OptiTrack
 
 #### **Timestamps in recording.** 
-The [OptiTrack](https://optitrack.com/) motion capture system has recorded helmet (equiped by primary subject), the right hand, the left hand and the headband (equiped by auxiliary subject) motions as shown in [used devices](#used-devices). The recorded timestamps, motion data streams and object ids are stored in `/data/{take_id}/raw/optitrack.csv`.  You can check the OptiTrack ids and their corresponding objects [here](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/data_file_explanation.md#reference). 
+The [OptiTrack](https://optitrack.com/) motion capture system has recorded motions of the helmet (equiped by primary subject), the right hand, the left hand and the headband (equiped by the auxiliary subject)  as shown in the [sensor setting](#hardware-and-sensors). The recorded timestamps, motion data streams and the object ids are all stored in `/data/{take_id}/raw/optitrack.csv`.  You can refer to the [reference](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/data_file_explanation.md#reference) for the OptiTrack ids and their corresponding objects.
 
 Note there exists the latency from the camera exposure to the data reception. We therefore use the timestamp of camera exposure as the timestamp of the frames by subtracting the latency from the original timestamps.
 ```

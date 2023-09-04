@@ -44,10 +44,10 @@ Note that the raw data files and their contents that are **not** used in the dat
       * the timestamp of the 2nd frame
       * ... 
       * the timestamp of the N-th frame 
-    *  **event_{timestamp}.raw**: The raw output of the event camera. It includes general metadata and event information encoded in [EVT3.0](https://docs.prophesee.ai/stable/data/encoding_formats/evt3.html?highlight=data%20format) format. Refer to [Prophesee documentation](https://docs.prophesee.ai/stable/index.html) for more details. The digits `{timestamp}` in the file name log the timestamp of the starting recording, which is used later in the processing pipeline to align the event stream with other streams. 
+    *  **event_{timestamp}.raw**: The raw output of the event camera. It includes general metadata and event information encoded in [EVT3.0](https://docs.prophesee.ai/stable/data/encoding_formats/evt3.html?highlight=data%20format) format. Refer to [Prophesee documentation](https://docs.prophesee.ai/stable/index.html) for more details. The digits `{timestamp}` in the file name log the timestamp of the record start, which is used later in the processing pipeline to align the event stream with other streams and to decode the timestamp streams. 
     * <u>**event.bias**</u>: The event sensor settings. Check [event bias](https://docs.prophesee.ai/stable/hw/manuals/biases.html) for more detailed information.
-    * **optitrack.csv**: The tracking information recorded by [OptiTrack](https://optitrack.com/). Specifically, the file contains by column
-      * object id: The id of the tracked object. Check [OptiTrack object ID](#reference) for the id of each object in OptiTrack. 
+    * **optitrack.csv**: The tracking data recorded by [OptiTrack](https://optitrack.com/). Specifically, the file contains by column
+      * object id: The id of the tracked object. Check the [reference](#reference) for the id and name of each tracked object by OptiTrack. 
       * <u>frame</u>: The frame index maintained by the OptiTrack server.
       * <u>mean error</u>: The mean error of localization.
       * timestamp: The frame timestamp that is calculated by subtracting the latency. 
@@ -68,13 +68,13 @@ Note that the raw data files and their contents that are **not** used in the dat
     * **rgbd0_ts.csv**: The timestamps of rgbd0 frames. This is the same as the timestamp file `/raw/17471.csv` but  is renamed to be more interpretable.
     * **rgbd1_ts.csv**: similar data as `rgbd0_ts.csv` but for rgbd1 frames.
     * **rgbd2_ts.csv**: similar data as `rgbd0_ts.csv` but for rgbd2 frames.
-    * **event_xypt.csv**: The decoded [Contrast Detector (CD) events](https://docs.prophesee.ai/stable/concepts.html#event-generation).
-      * x: The width in range [0, 1279], where 0 corresponds to the left of the image.
-      * y: The height in range [0, 719], where 0 corresponds to the top of the image.
-      * p: polarity
-        * 0: The corresponding CD event is off, i.e. detecting a negative contrast that light changes from lighter to darker
-        * 1: The corresponding CD event is on, i.e. detecting a positive contrast that light changes from darker to lighter
-      * t: The timestamp of the light change.
+    * **event_xypt.csv**: The decoded [Contrast Detector (CD)](https://docs.prophesee.ai/stable/concepts.html#event-generation) events.
+      * x: The width in range [0, 1279], where 0 corresponds to the leftmost of the image.
+      * y: The height in range [0, 719], where 0 corresponds to the topmost of the image.
+      * p: The polarity
+        * 0: The corresponding CD event is off, i.e. a negative contrast is detected that light changes from lighter to darker.
+        * 1: The corresponding CD event is on, i.e. a positive contrast is detected that light changes from darker to lighter.
+      * t: The timestamp of the light change in the UNIX nanosecond.
     * ***event/***: The frame-based visualization of events.
       * **{frame_ID}.jpg**: A frame visualization of events accumulated in a fixed period (1/60 second for 60 FPS). For each pixel, it is initialized with the background color (dark blue). If the polarity of the event located at the pixel occurs positive (negative) over the period, the pixel changes to white (light blue). Check [Event Generation](https://docs.prophesee.ai/stable/concepts.html#event-generation) for more details. The digits `{frame_ID}` represent the frame index. 
     * **event_frames_ts.csv**: The timestamps of event frames in the above directory *event/*.
