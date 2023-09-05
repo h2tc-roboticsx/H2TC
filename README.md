@@ -354,14 +354,14 @@ The current mechanism allows for maximally 10 failed attempts to decode (or grab
 To fix this issue, one can simply reprocess the problematic takes by the [reprocess the processed take](#1-reprocess-the-processed-take) as above. 
 <!-- </details> -->
 
-## Annotator
+##  Annotation
 <!-- <details> -->
 <!-- <summary>Details</summary> -->
 
 ### Segmentation and Annotation
-Our dataset is provided with a hierarchy of segmentation and annotations, both semantic and dense. 
+<!-- Our dataset is provided with a hierarchy of segmentation and annotations, both semantic and dense.  -->
 
-Specifically, each recorded  throw&catch activity is segmented into four phases, including *pre-throwing*, *object flying*, *catching* and *post-catching*, with three manually annotated timestamps including <u>throw</u>, <u>catch touch</u> and <u>catch stable</u>. 
+Each recorded  throw&catch activity in H<sup>2</sup>TC is segmented into four phases, including *pre-throwing*, *object flying*, *catching* and *post-catching*, with three manually annotated moments including throw，catch_touch  and  catch_stable. 
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/seg_00.png" width=800>
 
