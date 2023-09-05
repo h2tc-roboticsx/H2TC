@@ -363,7 +363,10 @@ To fix this issue, one can simply reprocess the problematic takes by the [reproc
 
 Each recorded  throw&catch activity in H<sup>2</sup>TC is segmented into four phases, including *pre-throwing*, *object flying*, *catching* and *post-catching*, with three manually annotated moments including *throw*, *catch_touch* and *catch_stable*. 
 
+<div align="center">
 <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/seg_00.png" width=800>
+</div>
+
 
 The subjects' behaviors are manually checked and annotated with symbolic labels in terms of *grasp mode* and *hand locations* (as shown schematically below). The subjects' exact *initial standing locations* and the average flying *speed* of the object are also automatically annotated as quantitative labels. 
 
