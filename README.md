@@ -361,15 +361,17 @@ To fix this issue, one can simply reprocess the problematic takes by the [reproc
 ### Segmentation and Annotation
 <!-- Our dataset is provided with a hierarchy of segmentation and annotations, both semantic and dense.  -->
 
-Each recorded  throw&catch activity in H<sup>2</sup>TC is segmented into four phases, including *pre-throwing*, *object flying*, *catching* and *post-catching*, with three manually annotated moments including throw，catch_touch  and  catch_stable. 
+Each recorded  throw&catch activity in H<sup>2</sup>TC is segmented into four phases, including *pre-throwing*, *object flying*, *catching* and *post-catching*, with three manually annotated moments including *throw*, *catch_touch* and *catch_stable*. 
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/seg_00.png" width=800>
 
-The subjects' behaviors are manually checked and annotated with symbolic labels in terms of <u>grasp mode</u> and <u>hand locations</u>. The subjects' <u>initial locations</u> and the <u>average flying speed of the object</u> are also automatically annotated as quantitative labels. 
+The subjects' behaviors are manually checked and annotated with symbolic labels in terms of *grasp mode* and *hand locations* (as shown schematically below). The subjects' exact *initial standing locations* and the average flying *speed* of the object are also automatically annotated as quantitative labels. 
 
+<center>
 <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/subject_anno.png" width=400>
+</center>
 
-The full segmentation and annotations is list in the table below:
+The full segmentation and annotations are listed in the table below:
 <table width=1000 style="text-align: left;">
     <tr>
         <td>Name</td>
