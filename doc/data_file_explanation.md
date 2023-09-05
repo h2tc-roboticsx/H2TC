@@ -99,51 +99,52 @@ Note that the raw data files and their contents that are **not** used in the dat
 
 ## Annotations
 <!-- <details><summary>Exlanation about annotation labels </summary> -->
-Before reading the file details below, please check the [annotation tutorial](https://github.com/lipengroboticsx/H2TC_code/tree/main/#annotator) and our [paper](todo) first to capture how we annotate the dataset.
+Before reading the file details below, please check our [annotation tutorial](https://github.com/lipengroboticsx/H2TC_code/tree/main/#annotator) and [paper](todo) first to capture how we annotate the dataset.
+
 * **{take ID}.json**: metadata and the annotation data of the take. 
-  * status: annotation status.
-    * 1: finished
-    * 0: not finished
-    * -1: problematic that needs further check
-  * take_id: The index of the take, e.g. 00000 for the first take
-  * object: The name of the object being thrown or caught in this take, e.g. 'basketball'
+  * status: Annotation status of the take.
+    * 1: The annotation is finished
+    * 0: Not finished
+    * -1: The annotation is problematic and needs further check
+  * take_id: The index of the take, e.g. 000000 for the first take
+  * object: The name of the object thrown/caught in this take, e.g. 'basketball'
   * catch_result: The result of catching.
-    * 1: success
-    * 0: failed
-  * sub1_cmd: The instruction given to the primary subject (subject 1) to instruct the behavior of throwing or catching. See our [paper](toadd) for more details. Please refer to [log.xlsx](#supporting-files) for the explanation of the attributes below.
+    * 1: Success
+    * 0: Fail
+  * sub1_cmd: The [instruction](https://github.com/lipengroboticsx/H2TC_code/tree/main/#annotator) given to the primary subject (subject 1) to instruct his/her behavior of throwing or catching. See our [paper](toadd) for more details. Please refer to [log.xlsx](#supporting-files) for the explanation of the attributes below. Note the actual human behaviors are also annotated below.
     * subject_id: The id of the primary subject
     * hand: The grasp mode, `single` or `both`
-    * position: The 2 -dimensional initial standing location (x, z)
+    * position: The 2-dimensional discrete initial standing location (x, z)
     * action: `throw` or `catch`
-  * sub2_cmd: The instruction given to the auxiliary subject (subject 2). See our [paper](toadd) for more details.
+  * sub2_cmd: The instruction given to the auxiliary subject (subject 2). See our [paper](toadd) for more details. Note the actual human behaviors are also annotated below.
     * subject_id: The  id of the auxiliary subject
     * hand: The grasp mode, `single` or `both`
-    * position:  The 2 -dimensional initial standing location (x, z)
+    * position:  The 2-dimensional discrete initial standing location (x, z)
     * action: `throw` or `catch`
-    * hand_vertical: The relative vertical position of the hand(s) for  catch
+    * hand_vertical: The relative vertical position of the hand(s) to  throw or catch an object
       * value: `overhead`, `overhand`, `chest` or `underhand`
-    * hand_horizontal: The relative horizontal position of the hand(s) for catch
+    * hand_horizontal: The relative horizontal position of the hand(s) to  catch an object
       * value: `right`, `middle` or `left` 
       * This attribute is only given when the auxiliary subject  is supposed to catch
     * throwing_speed: The relative speed of throwing away the object 
       * value: `fast`, `normal` or `slow`
-      * This is only given when the  auxiliary subject  is supposed to throw
+      * This attribute is only given when the  auxiliary subject  is supposed to throw
   * throw: The annotation data for the moment `throw`.
     * hand: The actual grasp mode for throwing the object
       * value: `left`, `right` or `both`
-      * This is different from "hand" in the subjects' instruction above in two ways: 1) It replaces the `single` with `left` and `right`; 2) It represents the thrower's actual grasp mode in the recorded activity, which may be different from the instruction. 
+      * This is different from "hand" in the subjects' instruction above in two ways: 1) It details the `single` with `left` and `right`; 2) It represents the thrower's actual grasp mode in the recorded activity, which may be different from the instruction. 
     * hand_vertical_thrower: The relative vertical position of the hand(s) of the thrower at the moment `throw`
       * value: `overhead`, `overhand`, `chest` or `underhand`
     * hand_vertical_catcher: Similar to the above "hand_vertical_thrower" but for the catcher
     * hand_horizontal_thrower: The relative horizontal position of the hand(s) of the thrower at the moment `throw`
       * value: `right`, `middle` or `left` 
     * hand_horizontal_catcher: Similar to the above "hand_horizontal_thrower" but for the catcher
-    * position_thrower: The actual location of the thrower at the moment `throw`
-      * x, z: 2 dimensional position
+    * position_thrower: The actual exact location of the thrower at the moment `throw`
+      * x, z: 2-dimensional position
       <!-- * this is different from the `position` in the previous subject command like "sub2_cmd" -->
-    * position_catcher: The actual location of the catcher at the moment `throw`.
-      * x, z: 2 dimensional position
-    * object_flying_speed: The average flying speed of the thrown-away object in a unit of m/s.
+    * position_catcher: The actual exact location of the catcher at the moment `throw`.
+      * x, z: 2-dimensional position
+    * object_flying_speed: The average flying speed of the thrown object (during free flying) in a unit of m/s.
     * time_point: The timestamps and frame indexes of all streams at the moment `throw`
       * stream id
         * frame: The frame index of the corresponding stream
@@ -151,15 +152,15 @@ Before reading the file details below, please check the [annotation tutorial](ht
   * catch: The annotation data for the moment `catch`
     * hand: The grasp mode for catching the object
       * value: `left`, `right` or `both`
-    * hand_vertical: The relative vertical position of the hand(s) of the catcher at the moment `catch_stable`, i.e. when the hand(s) and the object keep relatively stable
-    * hand_horizontal: The relative horizontal position of the hand(s) of the catcher at the moment `catch_stable`
-    * position: The exact location of the catcher at the moment `catch_touch`, i.e.  when the hand(s) of the catcher first touch(es) the object in the flight)
+    * hand_vertical: The relative vertical position(s) of the hand(s) of the catcher at the moment `catch_stable`, i.e. when the hand(s) and the object keep relatively stable
+    * hand_horizontal: The relative horizontal position(s) of the hand(s) of the catcher at the moment `catch_stable`
+    * position: The exact location of the catcher at the moment `catch_touch`, i.e.  when the hand(s) of the catcher first touch(es) the object in  flight
     * time_point_touch: The timestamps and frame indexes of all streams at the moment `catch_touch`
       * stream id
-        * frame: the frame index of the corresponding stream
-        * timestamp: the UNIX timestamp in nanoseconds of the corresponding stream 
-    * time_point_stable: the timestamps of streams  at the moment `catch_stable`
-      * same data format as the above "time_point_touch"
+        * frame: The frame index of the corresponding stream
+        * timestamp: The UNIX timestamp in nanoseconds of the corresponding stream 
+    * time_point_stable: The timestamps of streams  at the moment `catch_stable`
+      * Same data format as the above "time_point_touch"
 <!-- </details> -->
 <br>
 
@@ -167,36 +168,36 @@ Before reading the file details below, please check the [annotation tutorial](ht
 <!-- <details><summary>Exlanation about subjects/objects.csv and log.xlsx </summary> -->
 * **subjects.csv**: The list of the subjects participating in the dataset
   * subject id
-* **objects.csv**: The list of used objects
+* **objects.csv**: The list of used objects in the dataset
   * object name
   * characteristic: `rigid`, `soft` or `printed`
-  * attached with ptitrack markers: 
+  * attached with OptiTrack markers: 
     * 1: yes
     * 0: no
 * **log.xlsx**: The logbook with the recording parameters of all takes. 
   * **{subject ID} sheet**: Each sheet maintains all instructions received by a subject during recording and is named by the id of the subject. Each entry in the sheet describes one recording setting.
     * no: The index of the entry in the spreadsheet 
-    * object: The name of the object
+    * object: The name of the throw&catch object
     * equipped: The subject is the primary subject, i.e. the subject is equipped with the helmet and the motion capture gloves to record data
-      * 1: equipped
-      * 0: not equipped
+      * 1: Equipped
+      * 0: Not equipped
     * action: The action that the subject is supposed to perform during recording
       * `throw` or `catch`
-    * hand: The instruction for using either single or both hands to perform the action
+    * hand: The instruction to use either single or both hands to perform the action
       * `single`, `both` or `void` (no constraint)
     * position: The discrete initial standing location where the subject shall stand at the start of each recording
       * x: in range [0, 1, 2, 3]
       * y: in range [0, 1, 2, 3]
-    * height: The relative vertical location of the subject hand(s)
+    * height: The relative vertical location(s) of the subject hand(s)
       * `overhead`, `overhand`, `chest`, `underhand` or `void` (no constraint)
-    * horizon: The relative horizontal location of the subject hand(s)
+    * horizon: The relative horizontal location(s) of the subject hand(s)
       * `left`, `middle`, `right` or `void` (no constraint)
-    * speed: The relative velocity at which the object is supposed to be tossed out 
+    * speed: The relative speed at which the object is supposed to be tossed out 
       * `fast`, `normal`, `slow` or `void` (no constraint)
-    * take_id: the id of the take
+    * take_id: The id of the take
     * success: The catching result of the recorded activity. 
-      * 1: success
-      * 0: failed
+      * 1: Success
+      * 0: Fail
     * verified: The recording has been verified. 
       * 1: Verified and no problem detected
       * 0: Not verified yet
@@ -214,13 +215,15 @@ A quick reference to the terms used above.
 
 <!-- ## Terms We Created -->
 
-* subject 1 and 2
-  * subject 1: the primary subject who is equipped with a helmet and gloves. 
-  * subject 2: the auxiliary subject who is equipped with only the headband. 
+* Subject 1 and 2
+  * subject 1: The primary subject who is equipped with a helmet and gloves. 
+  * subject 2: The auxiliary subject who is equipped with only the headband. 
+
+
 * OptiTrack object id 
   * 115: helmet
   * 116: the marker set attached to the right hand
-  * 117: the marker set  attached to the Left hand
+  * 117: the marker set  attached to the left hand
   * 118: headband
   * 101: airplane
   * 102: round_plate
@@ -237,23 +240,22 @@ A quick reference to the terms used above.
   * 113: wrench
   * 114: leopard
   * 119: toothbrush
+
+
 * ZED device SN
-  * 17471: the fixed third-person (side)  ZED 
-  * 24483054: the dynamic egocentric  ZED 
-  * 28280967: the fixed third-person (back)  ZED  
+  * 17471: The fixed third-person (side)  ZED 
+  * 24483054: The dynamic egocentric  ZED 
+  * 28280967: The fixed third-person (back)  ZED  
+
+
 * Stream ID
-  * rgbd0: the fixed third-person (side)  ZED 
-  * rgbd1: the dynamic egocentric  ZED 
-  * rgbd2: the fixed third-person (back)  ZED event: The event camera
-  * left_hand_pose: the left hand pose recorded by Stretchsense gloves
-  * right_hand_pose: the right hand pose recorded by Stretchsense gloves
-  * sub1_head_motion: the motion of the primary subject's head (helmet) recorded by OptiTrack
-  * sub1_left_hand_motion: the motion of the primary  subject's left hand  recorded by OptiTrack
-  * sub1_right_hand_motion: the motion of the primary subject's right hand  recorded by OptiTrack
-  * sub2_head_motion: the motion of the auxiliary subject 2's head (headband) recorded by OptiTrack
+  * rgbd0: The fixed third-person (side)  ZED 
+  * rgbd1: The dynamic egocentric  ZED 
+  * rgbd2: The fixed third-person (back)  ZED event: The event camera
+  * left_hand_pose: The left hand pose recorded by Stretchsense gloves
+  * right_hand_pose: The right hand pose recorded by Stretchsense gloves
+  * sub1_head_motion: The motion of the primary subject's head (helmet) recorded by OptiTrack
+  * sub1_left_hand_motion: The motion of the primary  subject's left hand  recorded by OptiTrack
+  * sub1_right_hand_motion: The motion of the primary subject's right hand  recorded by OptiTrack
+  * sub2_head_motion: The motion of the auxiliary subject 2's head (headband) recorded by OptiTrack
 
-<!-- 5. pose coordinates: there are three coordinates involved for positioning 
-
-   * global OptiTrack coordinates: the coordinates specified and used by the OptiTrack system
-   * local coordinates: see figure xxx in The paper, and the origin is defined at the bottom right of the throw-catch zone
-   * local rough coordinates: the simplified local coordinates only used to instruct the initial positions of subjects in data collection. -->
