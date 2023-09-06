@@ -396,55 +396,55 @@ The full segmentation and annotations are listed in the table below:
     </tr>
     <tr>
         <td>- Grasp mode</td>
-        <td>The subject&#39;s grasp mode to throw at the "throw" moment</td>
+        <td>The subject&#39;s grasp mode to throw the object at the "throw" moment</td>
         <td>{<i>&#39;left&#39;</i>, <i>&#39;right&#39;</i>, <i>&#39;both&#39;</i> } </td>
         <td>manual</td>
     </tr>
     <tr>
-        <td>- Vertical location</td>
-        <td>The vertical location(s) of the subject&#39;s  hand(s) to throw at the "throw" moment</td>
+        <td>- Throw vertical location</td>
+        <td>The vertical location(s) of the subject&#39;s  hand(s) to throw the object at the "throw" moment</td>
         <td>{<i>&#39;overhead&#39;</i>, <i>&#39;overhand&#39;</i>, <i>&#39;chest&#39;</i>, <i>&#39;underhand&#39;</i> } </td>
         <td>manual</td>
     </tr>
     <tr>
-        <td>- Horizontal location</td>
-        <td>The horizontal location(s) of the subject&#39;s  hand(s) to throw at the "throw" moment</td>
+        <td>- Throw horizontal</td>
+        <td>The horizontal location(s) of the subject&#39;s  hand(s) to throw the object</td>
         <td>{<i>&#39;left&#39;</i>, <i>&#39;middle&#39;</i>, <i>&#39;right&#39;</i> } </td>
         <td>manual</td>
     </tr>
     <tr>
-        <td>- Catch vertical location</td>
+        <td>- Catch vertical</td>
         <td>The vertical location(s) of the subject&#39;s hand(s) to catch at the "throw" moment</td>
         <td>{<i>&#39;overhead&#39;</i>, <i>&#39;overhand&#39;</i>, <i>&#39;chest&#39;</i>, <i>&#39;underhand&#39;</i> } </td>
         <td>manual</td>
     </tr>
     <tr>
-        <td>- Catch horizontal location</td>
+        <td>- Catch horizontal</td>
         <td>The horizontal location(s) of the subject&#39;s hand(s) to catch at the "throw" moment</td>
         <td>{<i>&#39;left&#39;</i>, <i>&#39;middle&#39;</i>, <i>&#39;right&#39;</i> } </td>
         <td>manual</td>
     </tr>
     <tr>
         <td>- Throw location</td>
-        <td>The subject&#39;s  body location to throw at the "throw" moment</td>
+        <td>The subject&#39;s exact body location to throw at the "throw" moment</td>
         <td>(<i>x</i>, <i>z</i>)</td>
         <td>automatic</td>
     </tr>
     <tr>
         <td>- Catch location</td>
-        <td>The subject&#39;s  body location to catch at the "throw" moment</td>
+        <td>The subject&#39;s exact  body location to catch at the "throw" moment</td>
         <td>(<i>x</i>, <i>z</i>)</td>
         <td>automatic</td>
     </tr>
     <tr bgcolor="#eeeeee">
         <td><b>Catch_touch</b></td>
-        <td>The moment when the subject&#39;s hand(s) touches the flying  object during catching</td>
+        <td>The moment when the subject&#39;s hand(s) first touches the flying  object during catching</td>
         <td>UNIX timestamp</td>
         <td>manual</td>
     </tr>
     <tr bgcolor="#eeeeee">
         <td>- Catch location</td>
-        <td>The subject&#39;s exact location to catch at the <i>catch<i> (<i>touch<i>) moment</td>
+        <td>The subject&#39;s exact location to catch the object at the "catch_touch" moment</td>
         <td>(<i>x<i>, <i>z<i>)</td>
         <td>automatic</td>
     </tr>
@@ -462,19 +462,19 @@ The full segmentation and annotations are listed in the table below:
     </tr>
     <tr>
         <td>- Grasp mode</td>
-        <td>The subject&#39;s grasp mode to catch at the <i>catch (stable)<i> moment</td>
+        <td>The subject&#39;s grasp mode to catch the object at the "catch_stable" moment</td>
         <td>{<i>&#39;left&#39;<i>, <i>&#39;right&#39;<i>, <i>&#39;both&#39;<i> } </td>
         <td>manual</td>
     </tr>
     <tr>
-        <td>- Vertical location</td>
-        <td>The vertical location(s) of the subject&#39;s hand(s) to catch at the <i>catch (stable)<i> moment</td>
+        <td>- Catch vertical</td>
+        <td>The vertical location(s) of the subject&#39;s hand(s) to catch the object at the "catch_stable" moment</td>
         <td>{<i>&#39;overhead&#39;<i>, <i>&#39;overhand&#39;<i>, <i>&#39;chest&#39;<i>, <i>&#39;underhand&#39;<i> } </td>
         <td>manual</td>
     </tr>
     <tr>
-        <td>- Horizontal location</td>
-        <td>The horizontal location(s) of the subject&#39;s hand(s) to catch at the <i>catch (stable)<i> moment</td>
+        <td>- Catch horizontal</td>
+        <td>The horizontal location(s) of the subject&#39;s hand(s) to catch at the "catch_stable" moment</td>
         <td>{<i>&#39;left&#39;<i>, <i>&#39;middle&#39;<i>, <i>&#39;right&#39;<i> } </td>
         <td>manual</td>
     </tr>
