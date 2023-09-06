@@ -370,9 +370,11 @@ Each recorded  throw&catch activity in H<sup>2</sup>TC is segmented into four ph
 
 The subjects' behaviors are manually checked and annotated with symbolic labels in terms of *grasp mode* and *hand locations* (as shown schematically below). The subjects' exact *initial standing locations* and the average flying *speed* of the object are also automatically annotated as quantitative labels. 
 
+
 <div align="center">
-<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/instruction.png" width=400>
+<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/instruction.png" width=500>
 </div>
+
 
 The full segmentation and annotations are listed in the table below:
 <table width=1000 style="text-align: left;">
@@ -488,22 +490,24 @@ The full segmentation and annotations are listed in the table below:
 
 ### Annotator
 
-In case you want to annotate your custom-captured data, 
-we provide a [`annotator`](https://github.com/lipengroboticsx/H2TC_code/blob/dev-refine/src/annotate.py), with which one can easily annotate catch&throw activities via an interactive interface. 
+In case you want to annotate our dataset and your custom-captured data, 
+we provide an [`annotator`](https://github.com/lipengroboticsx/H2TC_code/blob/dev-refine/src/annotate.py), with which one can easily annotate catch&throw activities via an interactive interface. 
 
-To use tool, please:  
-- Step 1: Have all processed data under the directory `YOUR_PATH/data/take_id/processed`. The processed data can be obtained by processing the raw data as suggested in [Data Processing](#data-processing). 
+To use the annotator, please follow the steps below:  
+- Step 1: Process and store all raw  data in the directory `YOUR_PATH/data/take_id/processed`. The raw data processing can be achieved as suggested previously in [data processing](#data-processing). 
 - Step 2: Run the following command to launch the annotation tool.  
 
-```python
-python src/annotate.py --datapath YOUR_PATH/data
-```
+    ```python
+    python src/annotate.py --datapath YOUR_PATH/data
+    ```
+
 There are some other arguments allowed to configure the annotation optionally:
+
 |  Arguments   | Meanings  | Defaults |
 |  :----     | :----  | :----  |
-| takes     | ID of takes to be annotated. Set None to annotate all takes in the 'data' directory. This can be given with a single integer number for one take or a range linked by '-', e.g., '10-12' for takes [000010, 000011, 000012]. | None |
+| takes     | The take ids to be annotated. Set None to annotate all takes in the 'data' directory. This can be given with a single integer number for one take or with a range linked by '-' for consecutive takes, e.g. '10-12' for takes [000010, 000011, 000012]. | None |
 | review | Set true to review the takes have been already annotated before. By default (False), the annotated takes will not be displayed for annotation again. | False |
-| datapath | The processed data directory of recordings. Users need to specify it.  | None |
+| datapath | The directory of  processed data. Users need to specify it.  | None |
 
 <!-- By default, the takes that are "failed" or have been already annotated (either "finished" or "problematic") are ignored by the program so that they will not present in the annotator.  To review the annotated takes, you should run the program with the option `--review` like:
 
@@ -514,16 +518,22 @@ python src/annotate.py --review
 
 ### Interface
 
-After running the above command, you will see the following prompt interface excluding the orange bars (they are figure annotations). 
-The interface displays multi-view RGB (left column), depth (middle column), egocentric event (top right sub-window), and hand motion (middle right sub-window) streams, with an information panel (bottom right sub-window).
+Once running the above command, an interactive prompt interface will appear excluding the orange bars (they are figure annotations). 
 
-<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/annotation_tool.png" alt="interface">
+<div align="center">
+<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/annotation_tool.png" alt="interface"  width=600>
+</div>
+
+
+
+The interface displays multi-view RGB (left column), depth (middle column), egocentric event (top right sub-window), and hand motion (middle right sub-window) streams, with an information panel (bottom right sub-window).
 
 Inside the information panel, the annotation result is displayed in real-time. 
 
-<!-- ![](https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/info_panel_explanation.png) -->
-
+<div align="center">
 <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/info_panel_explanation.png" width = "400" alt="info_panel">
+</div>
+
 
 Each entry in the information pannel corresponds to an annotation (as described [above](#segmentation-and-annotation)):
 
