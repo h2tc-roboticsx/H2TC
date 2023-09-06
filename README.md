@@ -371,7 +371,7 @@ Each recorded  throw&catch activity in H<sup>2</sup>TC is segmented into four ph
 The subjects' behaviors are manually checked and annotated with symbolic labels in terms of *grasp mode* and *hand locations* (as shown schematically below). The subjects' exact *initial standing locations* and the average flying *speed* of the object are also automatically annotated as quantitative labels. 
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/subject_anno.png" width=400>
+<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/instruction.png" width=400>
 </div>
 
 The full segmentation and annotations are listed in the table below:
