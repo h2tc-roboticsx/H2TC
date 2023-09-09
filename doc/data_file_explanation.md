@@ -58,7 +58,7 @@ Note that the raw data files and their contents that are **not** used in the dat
 
   * ***processed/***: The formatted data derived from the raw data. 
     * ***rgbd0/***: The left-eye RGB images and normalized depth images from the fixed third-person (side)  ZED  camera (SN: 17471).
-      * **left_{frame_ID}.png**: The RGB images produced by the left-eye camera of the ZED. Left-eye RGB images align with the corresponding depth maps, which is set internally by [ZED SDK](https://www.stereolabs.com/docs/video/recording/). The digits `{frame_ID}` represent the frame index. 
+      * **left_{frame_ID}.png**: The RGB images produced by the left-eye camera of the ZED. Left-eye RGB images align with the corresponding depth maps, which are set internally by [ZED SDK](https://www.stereolabs.com/docs/video/recording/). The digits `{frame_ID}` represent the frame index. 
       * **depth_{frame_ID}.png**: The normalized depth images. They align with the corresponding left-view RGB images. The digits `{frame_ID}` represent the frame index. They should be only used for visualization since they do not contain real depth values. 
       * **depth.npy**: The 3-dimensional numpy array holding the unnormalized depth estimation of each frame. It aligns with the left-view RGB images by [ZED SDK](https://www.stereolabs.com/docs/video/recording/). The unit of depth is millimeter. 
         * dimension 0: The frame index

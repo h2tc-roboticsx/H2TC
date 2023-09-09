@@ -215,10 +215,6 @@ The raw `optitrack.csv` file contains `local` (from column 5 to 20) and `global`
 
 
 
-<!-- ### Integrate optitrack motion with hand engine pose
-
-For each frame (e.g., if 60 fps, then 300 frames in total for a 5s long motion sequence), the translation, i.e., `x,y,z` positions in the `object_tc_transformation_matrix` are used as the metacarpal joint of the hand. Starting from the metacarpal joint, the entire hand is then recovered using forward kinematics with captured hand joint angles (euler angles) and the defined bone length. The detail of how to recover the entire hand can refer to the functions `plot_left_hand` and `plot_right_hand` in `plot_motion.py`.
-Note that the left hand uses a right-handed coordinate system and the right hand uses a left-handed coordinate system. -->
 
 ## Hand Data Processing
 
@@ -245,7 +241,7 @@ The figure below shows the coordinate frame of each hand in OptiTrack. The origi
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hand_motion_frame.png" width = "700" alt="hand_in_catch_throw_frame" style="display: flex; justify-content: center;">
 
 ### Motion Reconstruction
-The reconstruced hand motion frames are stored in `data/{take_id}/processed/hand_motion/`. They are primarily generated for visualization.
+The reconstruced hand motion frames are stored in `data/{take_id}/processed/hand_motion/`. They are primarily generated for visualization and therefore ignored from the data fierarchy.
 
 #### 1. Align hand pose coordinate with the 3D global hand motion coordinate
 As introduced above, the coordinate frames of the hand joint motion data differ from those of the 6D global motion. Before reconstruction, we first apply rotations to align the hand pose data to the 6D global coordinate. 
