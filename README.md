@@ -163,7 +163,7 @@ Now you should be able to see a prompt indicating that two machines have success
 
 ## Data Processing
 
-Our data [processor](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py) synchronizes and converts the raw data into the processed data of commonly used formats, and organizes them in a hierarchical manner.
+The data [processor](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py) synchronizes and converts the raw captured data into the processed data of commonly used formats, and organizes them in a hierarchical manner.
 Using the tool, users can easily
 
 * Process the raw data into the formats as detailed in the table below, or
@@ -251,16 +251,15 @@ You can access all raw data from <a href="https://www.dropbox.com/sh/ahet936ypjs
 ```
 raw_data_path
 └──011998.zip           // 011998 is the take number
-```
-<br>
+``` 
 
 #### Step 2: Extract the raw data 
 
-We provide a scripted [extrator](https://github.com/lipengroboticsx/H2TC_code/blob/dev-refine/src/extract.py) to unzip packed raw data and also to organize all raw files in a suitable data hierarchy, as mentioned before. Run the following command below to extract  raw data to your target path `target_path`: 
+We provide a scripted [extrator](https://github.com/lipengroboticsx/H2TC_code/blob/dev-refine/src/extract.py) to unzip the packed raw data and also to organize all raw files in a suitable data hierarchy, as mentioned before. Run the following command below to extract  the raw data to your target path `target_path`: 
 ```
 python src/extract.py --srcpath raw_data_path --tarpath target_path
 ```
-<small>`--srcpath` is where you download and save the packed raw files. `--tarpath` is the target path where you expect to save the extracted raw files.</small>
+<small>`--srcpath` is where you download and save the packed raw files. `--tarpath` is the target path where you expect to save the extracted raw data files.</small>
 
 Each extracted zip file will be organized in a hierarchical structure under the folder `target_path/data`. For example, the raw data files of the recording "011998" will be organized as below
 
@@ -273,14 +272,14 @@ target_path
         │   ├──P1LMeta.json / P1RMeta.json
         │   ├──P1L.cal/P1R.cal
         │   └──P1L.fbx/P1R.fbx
-        ├──{zed-id}.svo
+        ├──{zed-id}.svo  
         ├──{zed-id}.csv 
         ├──event_{timestamp}.raw
         ├──event.bias
         └──optitrack.csv
 ```
 
-`{zed-id}` indicates three involved ZED devices, including `17471`, `24483054` and `28280967`, which are the fixed third-person (side), the dynamic egocentric and the fixed third-person (back)respectively. `{timestamp}` is the initial timestamp of the event camera in the UNIX format.  A detailed explanation of the data hierarchy and the content of each raw data file is provided in [data file explanation](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data). 
+`{zed-id}` indicates and includes three involved ZED devices, including `17471`, `24483054` and `28280967`, which are the fixed third-person (side), the dynamic egocentric and the fixed third-person (back) respectively. `{timestamp}` is the initial timestamp of the event camera in the UNIX format.  A detailed explanation of the data hierarchy and the content of each raw data file is provided in [data file explanation](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data). 
 
 #### Step 3: Process the extracted data
 Once the raw data is extracted and organized appropriately, run the following command
@@ -292,7 +291,7 @@ python src/process.py --datapath target_path/data
 
 |  Arguments   | Meanings  | Defaults |
 |  :----     | :----  | :----  |
-| takes     | The ID(s) of recording(s) to be processed. Set 'None' to process all recordings in the `data` directory. This can be given with a single integer for one take, or with a range linked by '-' for a  sequence of consecutive recordings,  e.g. '10-12' for the recordings {000010, 000011, 000012}. | None |
+| takes     | The id(s) of recording(s) to be processed. Set 'None' to process all recordings in the `data` directory. This can be given with a single integer for one take, or with a range linked by '-' for a  sequence of consecutive recordings,  e.g. '10-12' for the recordings {000010, 000011, 000012}. | None |
 | fps_event | FPS for decoding event stream into image frames. | 60 |
 | fps_zed   | FPS for decoding ZED RGB-D frames. This should be equal to the value used in recording. | 60 |
 | duration   | The duration of recording in seconds. | 5 |
@@ -303,7 +302,7 @@ python src/process.py --datapath target_path/data
 | depth_accuracy   | The float precision for the unnormalized depth maps. The  depth maps are not exported by default until the flag 'npy' is set to `True`. Either 'float32' or 'float64'. | float32 |
 | datapath   | The directory of raw data files that needs to specify.   | None |
 
-You can change the default settings by adding more arguments into your command. For example, we do not export the depth `depth.npy` and event `xypt.csv` by default (i.e. `xypt` and `npy` are set `False` by default), as they are time/space-consuming. If you need them, simply attach `--npy` and `--xypt` to the command: 
+You can change the default settings by adding more arguments into your command. For example, we do not export the depth `depth.npy` and the event `xypt.csv`files by default (i.e. `xypt` and `npy` are set `False` by default), as they are time/space-consuming. If you need them, simply attach `--npy` and `--xypt` to the command: 
 
 ```bash
 python src/process.py --datapath target_path/data --npy --xypt
@@ -316,14 +315,14 @@ target_path
 └──data
     └──011998
         ├──raw              // all raw data as above
-            └──......
+        │ └──......
         └──processed        // all processed data
             ├──rgbd1/rgb2/rgb3
-                ├──left_frame_id.png
-                ├──depth_frame_id.png
-                └──depth.npy
+            │    ├──left_frame_id.png
+            │    ├──depth_frame_id.png
+            │    └──depth.npy
             ├──event
-                └──frame_id.png
+            │    └──frame_id.png
             ├──rgb1_ts/rgb2_ts/rgb3_ts.csv
             ├──event_xypt.csv
             ├──event_frame_ts.csv
@@ -332,6 +331,7 @@ target_path
             ├──sub1_head_motion.csv
             ├──sub1_left_hand_motion.csv
             ├──sub2_head_motion.csv
+            ├──object.csv
             └──alignment.json
 ```
 The data hierarchy and the content of each processed data file are explained in detail in [data file explanation](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/data_file_explanation.md/#data) and our technical [paper](toadd).
