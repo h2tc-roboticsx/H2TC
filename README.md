@@ -403,7 +403,7 @@ The full segmentation and annotations are listed in the table below:
         <td>manual</td>
     </tr>
     <tr>
-        <td>- Throw vertical location</td>
+        <td>- Throw vertical</td>
         <td>The vertical location(s) of the subject&#39;s  hand(s) to throw the object at the "throw" moment</td>
         <td>{<i>&#39;overhead&#39;</i>, <i>&#39;overhand&#39;</i>, <i>&#39;chest&#39;</i>, <i>&#39;underhand&#39;</i> } </td>
         <td>manual</td>
@@ -469,13 +469,13 @@ The full segmentation and annotations are listed in the table below:
         <td>manual</td>
     </tr>
     <tr>
-        <td>- Catch vertical</td>
+        <td>- Vertical location</td>
         <td>The vertical location(s) of the subject&#39;s hand(s) to catch the object at the "catch_stable" moment</td>
         <td>{<i>&#39;overhead&#39;<i>, <i>&#39;overhand&#39;<i>, <i>&#39;chest&#39;<i>, <i>&#39;underhand&#39;<i> } </td>
         <td>manual</td>
     </tr>
     <tr>
-        <td>- Catch horizontal</td>
+        <td>- Horizontal location</td>
         <td>The horizontal location(s) of the subject&#39;s hand(s) to catch at the "catch_stable" moment</td>
         <td>{<i>&#39;left&#39;<i>, <i>&#39;middle&#39;<i>, <i>&#39;right&#39;<i> } </td>
         <td>manual</td>
@@ -525,53 +525,36 @@ Once running the above command, an interactive prompt interface will appear excl
 </div>
 
 
+The interface displays multi-view RGB (left column), depth (middle column), egocentric event (top right sub-window), and hand motion (middle right sub-window) streams. Annotators can check synchronized streams frame by frame via the keyboard (`left arrow` and `right arrow` respectively). 
 
-The interface displays multi-view RGB (left column), depth (middle column), egocentric event (top right sub-window), and hand motion (middle right sub-window) streams, with an information panel (bottom right sub-window).
-
-Inside the information panel, the annotation result is displayed in real-time. 
+The interface also provides `an information panel` (bottom right sub-window), which allows annotators to annotate the streams with keyboard and display  the annotation result in real-time. 
 
 <div align="center">
 <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/info_panel_explanation.png" width = "400" alt="info_panel">
 </div>
 
 
-Each entry in the information pannel corresponds to an annotation (as described [above](#segmentation-and-annotation)):
+Each entry in the information pannel corresponds to an annotation, as described [above](#segmentation-and-annotation):
 
 | Number |   Representation |  Annotation Name |
 |  :----:     | :----  | :----  |
 |   1    |    The status of the annotation: `finished`, `unfinished` or `problematic`   |    \   |
-|   2    |    The hand used to throw at the moment *throw*   |    Grasp mode  |
-|   3    |    The location of the thrower at the moment *throw*   |    Throw location  |
-|   4    |    The location of the catcher at the moment *throw*   | Catch location |
-|   5    |    The average flying speed of the the thrown object   | Object speed|
-|   6    |    The vertical hand location of the thrower at the moment *throw*   | Vertical location |
-|   7    |    The horizontal hand location of the thrower at the moment *throw*   | Horizontal location |
-|   8    |    The vertical hand location of the catcher at the moment *throw*   |Catch vertical location |
-|   9    |    The horizontal hand location of the catcher at the moment *throw*   | Catch horizontal location |
+|   2    |    The grasp mode used to throw at the *throw* moment  |    Grasp mode  |
+|   3    |    The exact body location of the thrower at the *throw* moment    |    Throw location  |
+|   4    |    The exact body location of the catcher at the *throw*  moment    | Catch location |
+|   5    |    The average flying speed of the thrown object   | Object speed|
+|   6    |    The vertical hand location of the thrower at the *throw*   moment  |Throw vertical  |
+|   7    |    The horizontal hand location of the thrower at the  *throw*  moment  |Throw horizontal  |
+|   8    |    The vertical hand location of the catcher at the *throw* moment    |Catch vertical  |
+|   9    |    The horizontal hand location of the catcher at the  *throw*   moment | Catch horizontal |
 |   10    |    The frame number and the timestamp of the moment *throw*   | \ |
-|   11    |    which hand used to catch at the moment *catch (stable)*   | Grasp mode |
-|   12    |    The location of the catcher at the moment *catch (touch)*   | Catch location |
-|   13    |    The vertical hand location of the catcher at the moment *catch (stable)*   | Vertical location |
-|   14    |    The horizontal hand location of the catcher at the moment *catch (stable)*   | Horizontal location |
+|   11    |    The grasp mode used to catch at the *catch (stable)* moment    | Grasp mode |
+|   12    |    The exact body location of the catcher at the *catch (touch)* moment    | Catch location |
+|   13    |    The vertical hand location of the catcher at the *catch (stable)* moment    | Vertical location |
+|   14    |    The horizontal hand location of the catcher at the *catch (stable)* moment  | Horizontal location |
 |   15    |    The frame number and the timestamp of the moment *catch (touch)*  | \ |
 |   16    |    The frame number and the timestamp of the moment *catch (stable)*  | \ |
 
-<!-- 1. the status of the annotation: `finished`, `unfinished` or `problematic`
-2. "grasp mode" to throw at the moment "throw"
-3. the "throw location" at the moment "throw"
-4. the " catch location" at the moment "throw"
-5. the average flying speed " object speed" of the thrown object
-6. the vertical hand location of the thrower at the moment "throw"
-7. the horizontal hand location of the thrower at the moment "throw"
-8. the vertical hand location of the catcher at the moment "throw"
-9. the horizontal hand location of the catcher at the moment "throw"
-10. the frame number and the timestamp of the moment "throw"
-11. which hand used to catch at the moment "catch (stable)"
-12. the location of the catcher at the moment "catch (touch)"
-13. the vertical hand location of the catcher at the moment "catch (stable)"
-14. the horizontal hand location of the catcher at the moment "catch (stable)"
-15. the frame number and the timestamp of the moment "catch (touch)"
-16. the frame number and the timestamp of the moment "catch (stable)" -->
 
 ### &#x2022; Interaction Operations
 
