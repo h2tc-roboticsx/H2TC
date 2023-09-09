@@ -66,9 +66,9 @@ Note that the raw data files and their contents that are **not** used in the dat
         * dimension 2: The width in range [0, 1279] where 0 corresponds to the leftmost of the image.
     * ***rgbd1/***: Similar data as *rgbd0/*  but from the dynamic egocentric ZED  camera (SN: 24483054).
     * ***rgbd2/***: Similar data as *rgbd0/*  but from the fixed third-person (back) ZED  camera (SN: 28280967). 
-    * **rgbd0_ts.csv**: The timestamps of rgbd0 frames. This is the same as the timestamp file `/raw/17471.csv` but is renamed to be more interpretable.
-    * **rgbd1_ts.csv**: Similar data as `rgbd0_ts.csv` but for rgbd1 frames.
-    * **rgbd2_ts.csv**: Similar data as `rgbd0_ts.csv` but for rgbd2 frames.
+    * **rgbd0_ts.csv**: The timestamps of `rgbd0` frames. This is the same as the timestamp file `/raw/17471.csv` but is renamed to be more interpretable.
+    * **rgbd1_ts.csv**: Similar data as `rgbd0_ts.csv` but for `rgbd1` frames.
+    * **rgbd2_ts.csv**: Similar data as `rgbd0_ts.csv` but for `rgbd2` frames.
     * **event_xypt.csv**: The decoded [Contrast Detector (CD)](https://docs.prophesee.ai/stable/concepts.html#event-generation) events.
       * x: The width in range [0, 1279], where 0 corresponds to the leftmost of the image.
       * y: The height in range [0, 719], where 0 corresponds to the topmost of the image.
@@ -78,14 +78,14 @@ Note that the raw data files and their contents that are **not** used in the dat
       * t: The timestamp of the light change in the UNIX nanosecond.
     * ***event/***: The frame-based visualization of events.
       * **{frame_ID}.jpg**: A frame visualization of events accumulated in a fixed period (1/60 second for 60 FPS). For each pixel, it is initialized with the background color (dark blue). If the polarity of the event located at the pixel occurs positive (negative) over the period, the pixel changes to white (light blue). Check [Event Generation](https://docs.prophesee.ai/stable/concepts.html#event-generation) for more details. The digits `{frame_ID}` represent the frame index. 
-    * **event_frames_ts.csv**: The timestamps of event frames in the above directory *event/*.
+    * **event_frames_ts.csv**: The timestamps of event frames in *event/*.
     * **left_hand_pose.csv**: The joint motion data of the left hand produced based on `/raw/hand/P1L.csv`.
-      * timestamp: The timestamp in the UNIX format derived from the timecode(device) in the raw data file `/raw/hand/P1L.csv`.
+      * timestamp: The timestamp in the UNIX format derived from the timecode (device) in the raw data file `/raw/hand/P1L.csv`.
       * hand, index 00-03, middle 00-03, pinky 00-03, ring 00-03 and thumb 01-03: The hand joint motions that are the same as what they are in raw data.
     * **right_hand_pose.csv**: Similar joint pose data as `left_hand_pose.csv` but for the right hand produced based on `/raw/hand/P1R.csv`.
     * **sub1_head_motion.csv**: The position and orientation of the helmet worn by the primary subject (subject1) corresponding to the OptiTrack object 115 in `/raw/optitrack.csv`.
       * timestamp: The same timestamp as in the raw data file `/raw/optitrack.csv`.
-      * x, y, z: The position of the object in the [throw&catch coordinate frame](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/processing_techdetails.md#the-coordinate-setting). Note that the coordinate frame is Y-up, and its origin  is at the bottom left. 
+      * x, y, z: The position of the object in the [throw&catch coordinate frame](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/processing_techdetails.md#the-coordinate-setting). Note that the coordinate frame is Y-up, and its origin is at the bottom left. 
       * qx, qy, qz, qw: The orientation of the object in quaternion. 
     * **sub1_left_hand_motion.csv**: The primary subject's left hand motion. The object id in OptiTrack is 117 in`/raw/optitrack.csv`. Similar data structure as in `sub1_head_motion.csv`. 
     * **sub1_right_hand_motion.csv**: The primary subject's right hand motion. The object id in OptiTrack is 116 in`/raw/optitrack.csv`. Similar data structure as in `sub1_head_motion.csv`. 
