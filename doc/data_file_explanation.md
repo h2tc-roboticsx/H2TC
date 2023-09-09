@@ -55,12 +55,12 @@ Note that the raw data files and their contents that are **not** used in the dat
       * <u>local transformation matrix</u>: The local pose transformation matrix w.r.t. the start pose frame. The matrix has a size of 4x4 and is unfolded by row.
       * global transformation matrix: The global pose w.r.t. the OptiTrack world frame. The matrix has a size of 4x4 and is unfolded by row. 
     <br>
-    
+
   * ***processed/***: The formatted data derived from the raw data. 
     * ***rgbd0/***: The left-eye RGB images and normalized depth images from the fixed third-person (side)  ZED  camera (SN: 17471).
       * **left_{frame_ID}.png**: The RGB images produced by the left-eye camera of the ZED. Left-eye RGB images align with the corresponding depth maps, which are set internally by [ZED SDK](https://www.stereolabs.com/docs/video/recording/). The digits `{frame_ID}` represent the frame index. 
       * **depth_{frame_ID}.png**: The normalized depth images. They align with the corresponding left-view RGB images. The digits `{frame_ID}` represent the frame index. They should be only used for visualization since they do not contain real depth values. 
-      * **depth.npy**: The 3-dimensional numpy array holding the unnormalized depth estimation of each frame. It aligns with the left-view RGB images by [ZED SDK](https://www.stereolabs.com/docs/video/recording/). The unit of depth is millimeter. 
+      * **depth.npy**: The 3-dimensional numpy array holding the unnormalized depth estimation of each frame. It aligns with the left-eye RGB images by [ZED SDK](https://www.stereolabs.com/docs/video/recording/). The unit of depth is millimeter. 
         * dimension 0: The frame index
         * dimension 1: The height in range [0, 719] where 0 corresponds to the topmost of the image.
         * dimension 2: The width in range [0, 1279] where 0 corresponds to the leftmost of the image.
