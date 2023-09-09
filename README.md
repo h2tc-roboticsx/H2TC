@@ -372,7 +372,7 @@ The subjects' behaviors are manually checked and annotated with symbolic labels 
 
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/instruction.png" width=500>
+<img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/instruction.png" width=400>
 </div>
 
 

@@ -18,13 +18,13 @@ We refer interested users to our technical [paper](add) for a more detailed intr
 ### Hardware and Sensors
 We employ multiple high-precision motion capture and visual streaming systems to capture the dataset. Briefly, we use three [ZED]((https://www.stereolabs.com/zed-2/)) stereo cameras to capture RGB and depth streams, a [Prophesee](https://www.prophesee.ai/) event camera to capture event streams, a pair of [StretchSense MoCap Pro](https://stretchsense.com/) (SMP) gloves to capture the hand joint motions, and the [OptiTrack](https://optitrack.com/) to capture the global object and human body motions.
 
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hardware.png" width = "1000" alt="hardware" />
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/dev-refine/doc/resources/hardware.png" width = "1000" alt="hardware" />
 
 
 | Device | Manufacturer | Recording Content |FPS |Resolution  |
 |:-----|:-----:|:-----:|:-----:|:-----:|
-| ① Gloves | [StretchSense MoCap Pro](https://stretchsense.com/) | Hand Pose | 120 | - |
-| ②⑤ Tracker | [OptiTrack](https://optitrack.com/) |  Human Motion | 240 | - |
+| ① Gloves | [StretchSense MoCap Pro](https://stretchsense.com/) | Hand Joint Pose | 120 | - |
+| ②⑤ Markers | [OptiTrack](https://optitrack.com/) |  Human Motion | 240 | - |
 | ③ Event Camera | [Prophesee](https://www.prophesee.ai/) | Event | - | 1280x720 |
 | ④ ZED Camera | [Stereolabs](https://www.stereolabs.com/zed-2/) |  RGB-D | 60 | 1280x720 |
 
@@ -33,7 +33,10 @@ We employ multiple high-precision motion capture and visual streaming systems to
 
 We set the throw&catch frame at the throw&catch workspace as the global coordinate frame.  As shown below, the **origin** of the throw-catch frame lies at the bottom-left corner of the workspace. The coordinate  axes are set up as follows: XZ plane is parallel to the ground plane with Z-axis along the longer side and X-axis along the shorter side. Y-axis is perpendicular up to the XZ plane. 
 
+<div align="center">
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/workspace_lx.png" width = "800" alt="workspace" />
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/dev-refine/doc/resources/schema.png" width = "800" alt="workspace" />
+</div>
 
 We have transformed all data streams captured with OptiTrack (i.e. the global motion streams of the headband, helmet, gloves, and all 3d-printed objects) to the common throw&catch frame via the `process` function in [src/process.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/process.py).  Please check [OptiTrack data processing](#optitrack-data-processing) for more details.  
 
