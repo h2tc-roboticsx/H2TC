@@ -528,13 +528,15 @@ Once running the above command, an interactive prompt interface will appear excl
 The interface displays multi-view RGB (left column), depth (middle column), egocentric event (top right sub-window), and hand motion (middle right sub-window) streams. Annotators can check synchronized streams frame by frame via the keyboard (`left arrow` and `right arrow` respectively). 
 
 The interface also provides `an information panel` (bottom right sub-window), which allows annotators to annotate the streams with keyboard and display  the annotation result in real-time. 
+<br>
 
 <div align="center">
 <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/main/assets/images/info_panel_explanation.png" width = "400" alt="info_panel">
 </div>
 
 
-Each entry in the information pannel corresponds to an annotation, as described [above](#segmentation-and-annotation):
+Each entry in the information pannel corresponds to an annotation, as described [above](#segmentation-and-annotation), 
+<br>
 
 | Number |   Representation |  Annotation Name |
 |  :----:     | :----  | :----  |
@@ -554,32 +556,32 @@ Each entry in the information pannel corresponds to an annotation, as described 
 |   14    |    The horizontal hand location of the catcher at the *catch (stable)* moment  | Horizontal location |
 |   15    |    The frame number and the timestamp of the moment *catch (touch)*  | \ |
 |   16    |    The frame number and the timestamp of the moment *catch (stable)*  | \ |
+<br>
 
+###  Interaction Operations
 
-### &#x2022; Interaction Operations
+Annotators can manually interact with the interface to select semantic labels with the keyboard as defined below, while the dense labels, e.g. the object speed and subject locations, will be automatically annotated by the interface. Any modification to the annotation result will be immediately saved in the corresponding annotation file `YOUR_PATH/annotations/take_id.json`.
 
-You can interact with the interface to select semantic labels with the keyboard as defined below:
 
 | Key value  |     Operation |
 |:----------|:-------------|
-|"right arrow"| Next frame|
-|"left arrow"| Last frame|
-|"down arrow"| Next recording|
-|"up arrow"| Last recording|
-|"return"| Take the current frame as a moment of throw, catch (touch), and catch (stable) in order|
+|"right arrow"| Next frame of the currently annotated recording|
+|"left arrow"| Last frame  of the currently annotated recording|
+|"down arrow"| Next recording to annotate|
+|"up arrow"| Last recording that has been annotated|
+|"return"| Take the current frame as a moment of *throw*, *catch_touch*, and *catch_stable* in order|
 |"del"| Remove the last annotated moment|
-|"Q"| Switch the values of panel 2 among left, right, and both |
-|"A"| switch the values of  panel 6 among overhead, overhand, chest, and underhand|
-|"S"| switch the values of  panel 7 among left, middle, and right|
-|"D"| switch the values of  panel 8 among overhead, overhand, chest, and underhand|
-|"F"| switch the values of  panel 9 among left, middle, and right|
-|"Z"| switch the values of  panel 11 among left, right, and both|
-|"C"| switch the values of  panel 2 among overhead, overhand, chest, and underhand|
-|"V"| switch the values of  panel 2 among left, middle, and right|
-|"space"| switch the values of  panel 1 between "finished" and "unfinished"|
-|"backspace"| switch the values of  panel 1 between "problematic" and "unfinished"|
+|"Q"| Switch and select the value of panel 2 (Grasp mode) among *left*, *right*, and *both* |
+|"A"| Switch and select the value of  panel 6 (Throw vertica) among *overhead*, *overhand*, *chest*, and *underhand*|
+|"S"| Switch and select the value of panel 7 (Throw horizontal) among *left*, *middle*, and *right*|
+|"D"| Switch and select the value of  panel 8 (Catch vertical) among *overhead*, *overhand*, *chest*, and *underhand*|
+|"F"| Switch and select the value of  panel 9 (Catch horizontal) among *left*, *middle*, and *right*|
+|"Z"| Switch and select the value of  panel 11 (Grasp mode) among *left*, *right*, and *both*|
+|"C"| Switch and select the value of  panel 13 (Vertical location) among *overhead*, *overhand*, *chest*, and *underhand*|
+|"V"| Switch and select the value of  panel 14 (Horizontal location) among *left*, *middle*, and *right*|
+|"space"| Switch and select the value of panel 1 (annotation status) between *finished* and *unfinished*|
+|"backspace"| Switch and select the value of  panel 1 (annotation status) between *problematic*" and *unfinished*|
 
-Any modification to the annotation result will be immediately saved in the corresponding annotation file under the directory `YOUR_PATH/annotations/take_id.json`.
 
 ### &#x2022; Note ❗
 <!-- [tbd: move to seg and anno] -->
@@ -601,9 +603,9 @@ For example, a catcher may stand before catching and squat to catch so that the 
 
 #### 1. Main annotation camera
 
-We suggest that users rely mainly on the third-person (side)  and egocentric views  to annotate, while the third-person back view is used as an auxiliary when significant occlusion is observed in the former two views. 
+We suggest that users rely mainly on the third-person (side)  and egocentric views  to annotate.The third-person (back) view can be used as an auxiliary, when significant occlusion happens in the former two views. 
 
-The viewing angle of cameras of egocentric are all higher than the normal height of human eyes,resulting in a top-down viewing angle. This may lead to a biased observation of the vertical hand position. You can use the third-person back view to provide additional information. 
+The viewing angle of the egocentric camera is higher than the normal height of human eyes,resulting in a top-down viewing angle. This may lead to a biased observation of the vertical hand location. You can use the third-person (back) view to provide additional information. 
 
 
 #### 2. Handling missing frames or data
@@ -611,12 +613,14 @@ The viewing angle of cameras of egocentric are all higher than the normal height
 It is possible that some data is missing in your labeled frame. 
 Then the annotation can not be switched to the status of "finished" due to the missing data. 
 
-For example, when you label the moment of "throw" but without OptiTrack data, the information panel appears like below. 
-To handle the issue, you should seek close frames that include complete data and indicate the same event of the moment. 
-If no frame is qualified, the entire take should be annotated as "problematic" and skipped to the next take.
+For example, when you label the *throw* moment  and if there is no OptiTrack data, the information panel appears like below. 
+To handle the issue, you should seek closer frames that include complete data and indicate the same event of the moment. 
+If no frame is qualified, the entire take should be annotated as "problematic" and skip to the next take.
+
 <div style="display: flex; justify-content: center;">
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/missing_data_anno.png" width = "400" alt="missing_data_anno">
 </div>
+
 <!-- #### 4. Wrong result of catching
 In some cases, the result of catching can be miss-typed during recording. 
 For example, a take was labeled as "success" (should be "failed") but the catcher actually failed to catch the object. This should be corrected alongside the annotation. One should leave the take unannotated in the annotator program and manually correct this by editing the value of the "success" column in the logbook `/log.xlsx`.  Note that the annotator program will automatically filter out the takes labeled as "failed", so only the case of false "success" is possible to appear during annotation. -->
