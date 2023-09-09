@@ -4,19 +4,19 @@ This introduce details on how we process [H<sup>2</sup>TC](https://lipengrobotic
 
 Here is an overview of this document:
 
-* [**Workspace**](#our-workspace): introduces the multi-modal [sensors](#used-devices) and the throw&catch [coordinate frame](#the-throw-catch-coordinate-frame) for building the dataset. 
+* [**Workspace and Hardwares**](#the-workspace-and-hardwares): introduces the multi-modal [sensors](#used-devices) and the throw&catch [workspace](#the-throw-catch-coordinate-frame) for building the dataset. 
 * [**Timing and Data Alignment**](#clock-synchronization): introduces how [rgb, depth](#zed-rgbd), [event](#event), [optitrack](#optitrack) and [hand joint motion](#gloves-hands-pose) streams are timestamped and [synchronized](#alignment) in recording and processing. 
 * [**OptiTrack Data Processing**](#optitrack-data-processing): explains how the object motions captured by OptiTrack are processd.
 * [**Hand Data Processing**](#hand-data-processing): explains the [hand model](#•-hand-pose-data-coordinate-frame) used in the dataset and how to [reconstruct](#•-motion-reconstruction) the hand motion, both joint and 6D global, from the data streams captured with OptiTrack and MoCap gloves.
 
-## The Workspace
+## The Workspace and Hardwares
 
-A throw\&catch  activity in our dataset refers to a dyadic collaborative process where two human subjects observe, move and coordinate to throw/catch an object from one to the other.
+A `throw\&catch`  activity in our dataset refers to a dyadic collaborative process where two human subjects observe, move and coordinate to throw/catch an object from one to the other.
 Each activity was recorded in a flat lab area, which resembles the real throw&catch scenes characterized by unstructured, cluttered and dynamic surroundings. 
 We refer interested users to our technical [paper](add) for a more detailed introduction of the throw&catch workspace.
 
 ### Hardware and Sensors
-We employ multiple high-precision motion capture and visual streaming systems to capture the dataset. We refer interested users to our technical [paper](add) for a detailed introduction of involved hardwares. Briefly, we use 3 [ZED]((https://www.stereolabs.com/zed-2/)) stereo cameras to capture RGB and depth streams, [Prophesee](https://www.prophesee.ai/) event camera to capture event streams, [StretchSense MoCap Pro](https://stretchsense.com/) (SMP) gloves to capture hand joint motions, and [OptiTrack](https://optitrack.com/) to capture the global object and human body motions.
+We employ multiple high-precision motion capture and visual streaming systems to capture the dataset. Briefly, we use three [ZED]((https://www.stereolabs.com/zed-2/)) stereo cameras to capture RGB and depth streams, a [Prophesee](https://www.prophesee.ai/) event camera to capture event streams, a pair of [StretchSense MoCap Pro](https://stretchsense.com/) (SMP) gloves to capture the hand joint motions, and the [OptiTrack](https://optitrack.com/) to capture the global object and human body motions.
 
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/hardware.png" width = "1000" alt="hardware" />
 
