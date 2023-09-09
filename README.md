@@ -376,7 +376,7 @@ The subjects' behaviors are manually checked and annotated with symbolic labels 
 </div>
 
 
-The full segmentation and annotations are listed in the table below:
+The complete annotation hierarchy is detailed below:
 <table width=1000 style="text-align: left;">
     <tr>
         <td>Name</td>
