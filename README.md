@@ -349,11 +349,11 @@ If you want to customize the processing process, please:
 
 If you want to reprocess the processed takes, you will have to manually remove their entir folders first. If you only want to reprocess part(s) of a take, e.g. RGB and depth streams, you just need to remove their corresponding files (folders).
 
-#### 2. ZED decoding frames failed
+#### 2. Fail in decoding ZED  frames 
 
 The current mechanism allows for maximally 10 failed attempts to decode (or grab in ZED term) a ZED RGB-D frame. Once the decoding process fails  for more 10 times, it will abort and the data processing will continue to the next part, e.g. the next ZED device or the next stream modality. Those frames that have already been decoded will be stored, while the rest frames will be ignored. This issue usually happens to decode the last frame.
 
-To fix this issue, one can simply reprocess the problematic takes by the [reprocess the processed take](#1-reprocess-the-processed-take) as above. 
+To fix this issue, one can simply reprocess the problematic takes via [reprocess the processed take](#1-reprocess-the-processed-take) as above. 
 <!-- </details> -->
 
 ##  Annotation
