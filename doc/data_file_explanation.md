@@ -90,6 +90,7 @@ Note that the raw data files and their contents that are **not** used in the dat
     * **sub1_left_hand_motion.csv**: The primary subject's left hand motion. The object id in OptiTrack is 117 in`/raw/optitrack.csv`. Similar data structure as in `sub1_head_motion.csv`. 
     * **sub1_right_hand_motion.csv**: The primary subject's right hand motion. The object id in OptiTrack is 116 in`/raw/optitrack.csv`. Similar data structure as in `sub1_head_motion.csv`. 
     * **sub2_head_motion.csv**: The auxiliary subject's head motion. The object id in OptiTrack is 118 in `/raw/optitrack.csv`. Similar data structure as in `sub1_head_motion.csv`. 
+    * **object.csv**: The object motion.  Similar data structure as in `sub1_head_motion.csv`. 
     * **alignment.json**:  A dictionary whose keys represent the frame indices of rgbd0. Inside each frame (key), there is another dictionary that includes the multi-modal data streams and their corresponding timestamps. These streams are aligned by finding the closest timestamp to the reference timestamp of `rgbd0` within a threshold.
       * frame index: Starting from 0
         * key: The stream id
