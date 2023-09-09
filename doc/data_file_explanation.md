@@ -1,8 +1,8 @@
 <!-- # Files Explanation  -->
 # Data Formats
-This document explains the data hierarchy and each data file stored in our dataset [H<sup>2</sup>TC](https://lipengroboticsx.github.io/). <br>
+This document explains the data hierarchy and the content of each data file stored in our dataset [H<sup>2</sup>TC](https://lipengroboticsx.github.io/). <br>
 
-Here is a quick overview of the files involved in the dataset.  To distinguish, hereafter, the **file** presents **bold**, and the ***folder*** presents **bold** and *italic*. For those specific digits, such as subject IDs or device IDs, the [reference](#reference) explains their meanings.  <br>
+Here is a quick overview of the files involved in the dataset.  To distinguish, hereafter, the **file** presents **bold**, and the ***folder*** presents **bold** and *italic*. For those specific digits, such as subject ids or device ids, the [reference](#reference) explains their meanings.  <br>
 <!-- ## Overview -->
 * [***data/***](#data)
   * ***{take ID}/***: The take folder named by the take id, e.g. 000000
@@ -12,34 +12,33 @@ Here is a quick overview of the files involved in the dataset.  To distinguish, 
     * **{take ID}.json**: The annotation result for the take id, e.g. 000000
 * [***objects/***](#objects): The scanned object models
     * **object_name.stl**: The scanned object model, e.g. `apple.stl`
-* [**log.xlsx**](#supporting-files): The logbook with the recording parameters of all takes
+* [**log.xlsx**](#supporting-files): The logbook with the recording and annotating parameters of all takes
 * [**subjects.csv**](#supporting-files): The list of the subjects participating in the dataset
-* [**objects.csv**](#supporting-files): The list of used objects
+* [**objects.csv**](#supporting-files): The list of used objects in the dataset
 
 
 ## Data
 <!-- <details><summary>Explanation about all files in data folder</summary> -->
-Before diving into the data details below, we suggest users check the [data processing tutorial](https://github.com/lipengroboticsx/H2TC_code/tree/main/#data-processing) first to capture how we process the dataset.
+Before diving into the data details below, we suggest users check the [data processing tutorial](https://github.com/lipengroboticsx/H2TC_code/tree/main/#data-processing) first to see how we process the dataset.
 Note that the raw data files and their contents that are **not** used in the data processing are <u>underlined</u>. 
-
 * ***{take ID}/***: The take folder named by the take id, e.g. 000000.
   * ***raw/***: The raw data directly exported from multiple recording sensors, e.g. ZED cameras and OptiTrack. 
     * ***hand/***: The hand joint pose data recorded by [Hand Engine](https://stretchsense.com/solution/hand-engine/) (i.e. the software driver of the Prophesee event camera). Note the details on the coordinate frames are introduced [here](https://github.com/lipengroboticsx/H2TC_code/tree/main/docProphesee/processing_techdetails.md#•-hand-pose-data-coordinate).
       * **P1L.csv** / **P1R.csv**: The sensor readings and hand joint pose of the left (L) and right (R) hand respectively.   Specifically, each file contains by column
         * <u>Capacitance 0-15</u>: The capacitance reading in picofarad (pF) of the wrist sensor and 15 splay sensors.
-        * <u>IMU 1-10</u>: N/A (the glove version we used doesn't contain IMU sensors).
+        * <u>IMU 1-10</u>: N/A (the glove version we used does not contain IMU sensors).
         * Timecode (device): The timecode from the clock inside the gloves ticks as data starts generating.
         * <u>Timer (device)</u>: The glove's internal timer that ticks every 1/120 s.
         * <u>Timecode (master)</u>: The timecode from the clock of the host machine where [Hand Engine](https://stretchsense.com/solution/hand-engine/) runs.
         * hand: The wrist joint pose in Euler-angle format (XYZ degrees). 
-        * index 00-03, middle 00-03, pinky 00-03, ring 00-03, thumb 01-03: The hand joint pose in Euler-angle format (XYZ degrees). Each joint rotates w.r.t. its parent in the kinematic chain. Please refer to our [paper](toadd) for details of our hand model.  
+        * index 00-03, middle 00-03, pinky 00-03, ring 00-03, thumb 01-03: The hand joint pose in Euler-angle format (XYZ degrees). Each joint rotates w.r.t. its parent link in the kinematic chain. Please refer to our [paper](toadd) and the [data processing tutorial](https://github.com/lipengroboticsx/H2TC_code/tree/main/#data-processing) for details of our hand model.  
       * **P1LMeta.json** / **P1RMeta.json**: The metadata about the gloves and recording setting. 
       * <u>**P1L.cal** / **P1R.cal**</u>: The calibration data. 
-      * <u>**P1L.fbx** / **P1R.fbx**</u>: The hand model saved in the .fbx format.  
+      * <u>**P1L.fbx** / **P1R.fbx**</u>: The hand model saved in the` .fbx` format.  
     * **17471.svo / 24483054.svo / 28280967.svo**: Each corresponds to the raw file of a ZED  camera which packs the left- and right-eye videos and the metadata. Check [ZED document](https://www.stereolabs.com/docs/video/recording/) for more information. The digits denote the serial number (SN) of the ZED cameras. Specifically, 17471 is the fixed third-person (side) camera, 24483054 is the dynamic egocentric camera, and 28280967 is another fixed third-person (back) camera.
-    * **17471.csv / 24483054.csv / 28280967.csv**: The timestamps of the captured RGB-D  frames. The digits, similarly as mentioned above, refer to the SN of the ZED cameras. Note that the timestamps start from the record beginning, so the second timestamp is the actual timestamp of the first frame. Therefore, the first timestamp in this file is always discarded during processing or aligning the streams. Specifically, each file contains by row [lipeng1]
-      * nanoseconds: the header of the unit
-      * the timestamp of the beginning of the recording
+    * **17471.csv / 24483054.csv / 28280967.csv**: The timestamps of the captured RGB-D  frames. The digits, similarly as mentioned above, refer to the SN of the ZED cameras. Note that the timestamps start from the record start, so the second timestamp is the actual timestamp of the first frame. Therefore, the first timestamp in this file is always discarded during processing or aligning the streams. Specifically, each file contains by row 
+      * nanoseconds: The header of the unit
+      * the timestamp of the record start
       * the timestamp of the 1st frame 
       * the timestamp of the 2nd frame
       * ... 
@@ -55,7 +54,8 @@ Note that the raw data files and their contents that are **not** used in the dat
       <!-- on the client.  -->
       * <u>local transformation matrix</u>: The local pose transformation matrix w.r.t. the start pose frame. The matrix has a size of 4x4 and is unfolded by row.
       * global transformation matrix: The global pose w.r.t. the OptiTrack world frame. The matrix has a size of 4x4 and is unfolded by row. 
-
+    <br>
+    
   * ***processed/***: The formatted data derived from the raw data. 
     * ***rgbd0/***: The left-eye RGB images and normalized depth images from the fixed third-person (side)  ZED  camera (SN: 17471).
       * **left_{frame_ID}.png**: The RGB images produced by the left-eye camera of the ZED. Left-eye RGB images align with the corresponding depth maps, which are set internally by [ZED SDK](https://www.stereolabs.com/docs/video/recording/). The digits `{frame_ID}` represent the frame index. 
