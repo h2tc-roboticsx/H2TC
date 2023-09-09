@@ -228,7 +228,7 @@ As shown below,  we employ the StretchSense MoCap Pro (SMP) gloves to collect th
 
 ### Hand Modelling
 
-#### Coordinate Frames in Hand Modeling
+#### Coordinate Frames in Hand Joint Motion
 The coordinate frames for the left (L) and right (R) hands in our hand model are shown below.  Please note that the left hand and the right hand use different coordinate frames. 
 <!-- Each joint in the hands has its own frame.  -->
 * For the left hand, the X-axis is along the bone link, the Y-axis is perpendicular to the palm, and the Z-axis is perpendicular to the XY plane. 
