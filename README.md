@@ -584,22 +584,6 @@ Annotators can manually interact with the interface to select semantic labels wi
 
 
 ### &#x2022; Note ❗
-<!-- [tbd: move to seg and anno] -->
-<!-- #### 1. Criteria for horizontal and vertical hand positions
-The vertical and horizontal hand positions are determined according to the below illustration.
-<div style="display: flex; justify-content: center;">
-<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/workspace_00.png" width = "400" alt="missing_data_anno">
-</div> -->
-<!-- <div style="display: flex; justify-content: center;">Hand Locations</div> -->
-
-<!-- #### 2. Hand position is referenced to the present human body
-
-The horizontal and vertical hand position is referenced to the human body at the annotated moment. <br>
-For example, a catcher may stand before catching and squat to catch so that the body center (chest) lowers. In this case, when annotating the vertical hand position of catcher (13 in information panel) at the moment *catch (stable)*, one should refer the hand vertical position to the chest position (lowered) when squat instead of stand. The same situation can happen, while annotating horizontal hand position, if the subject turned sideways at the annotation moment. Note that, the body pose at the moment of catching can be significantly different from the standard standing pose regarding both position and orientation. This will also affect the position and orientation of the coordinates used to determine the horizontal and vertical hand positions. For example, in the case below, the subject squatted and leaned the chest down, so that the region that is classified as "chest" is simultaneously lowered and turned down. 
-
-![ref_catch_stand](https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/ref_catch_stand.png)
-
-![ref_catch_squat](https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/ref_catch_squat.png) -->
 
 #### 1. Main annotation camera
 
@@ -621,7 +605,3 @@ If no frame is qualified, the entire take should be annotated as "problematic" a
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/missing_data_anno.png" width = "400" alt="missing_data_anno">
 </div>
 
-<!-- #### 4. Wrong result of catching
-In some cases, the result of catching can be miss-typed during recording. 
-For example, a take was labeled as "success" (should be "failed") but the catcher actually failed to catch the object. This should be corrected alongside the annotation. One should leave the take unannotated in the annotator program and manually correct this by editing the value of the "success" column in the logbook `/log.xlsx`.  Note that the annotator program will automatically filter out the takes labeled as "failed", so only the case of false "success" is possible to appear during annotation. -->
-<!-- </details> -->
