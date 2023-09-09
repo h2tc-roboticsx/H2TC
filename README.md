@@ -359,9 +359,7 @@ To fix this issue, one can simply reprocess the problematic takes by the [reproc
 <!-- <summary>Details</summary> -->
 
 ### Segmentation and Annotation
-<!-- Our dataset is provided with a hierarchy of segmentation and annotations, both semantic and dense.  -->
-
-Each recorded  throw&catch activity in H<sup>2</sup>TC is segmented into four phases, including *pre-throwing*, *object flying*, *catching* and *post-catching*, with three manually annotated moments including *throw*, *catch_touch* and *catch_stable*. 
+The dataset is provided with a hierarchy of segmentation and annotations, both semantic and dense. Briefly, each recorded  throw&catch activity in H<sup>2</sup>TC is segmented into four phases, including *pre-throwing*, *object flying*, *catching* and *post-catching*, with three manually annotated moments including *throw*, *catch_touch* and *catch_stable*. 
 
 <div align="center">
 <img src="https://raw.githubusercontent.com/lipengroboticsx/lipengroboticsx.github.io/lx_test/assets/images/seg_00.png" width=800>
