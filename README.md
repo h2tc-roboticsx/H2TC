@@ -9,7 +9,6 @@
 
 
 
-
 This repository provides tools, tutorials,  source codes and supporting documents for the dataset **H<sup>2</sup>TC**. 
 For a quick glance at the dataset, we also refer users to the [project website](https://lipengroboticsx.github.io/) and our technical [paper](toadd).
 Briefly, it has introduced tools to [record](#recorder), [process](#data-processing), and [annotate](#annotation) the dataset. 
