@@ -594,6 +594,7 @@ For example, when you label the *throw* moment  and if there is no OptiTrack dat
 To handle the issue, you should seek closer frames that include complete data and indicate the same event of the moment. 
 If no frame is qualified, the entire take should be annotated as "problematic" and skip to the next take.
 
+
 <div style="display: flex; justify-content: center;">
 <img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/main/doc/resources/annotation/missing_data_anno.png" width = "400" alt="missing_data_anno">
 </div>
