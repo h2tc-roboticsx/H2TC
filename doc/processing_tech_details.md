@@ -1,5 +1,11 @@
 # Data Processing Technical Details
 
+<style>
+table {
+margin: auto;
+}
+</style>
+
 This introduce details on how we process [H<sup>2</sup>TC](https://lipengroboticsx.github.io/). For a detailed explanation of the data hierarchy and contents in the dataset, please see  [data file explanation](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/data_file_explanation.md). 
 
 Here is an overview of this document:
@@ -197,6 +203,7 @@ object_tc_transformation_matrix = np.matmul(origin_transformation_matrix_inverse
 ### Extra Rotation
 There are some recording issues that should be fixed. Particularly, since takes 1700 onwards, the orientations of gloves, helmet, and headband were checked everytime before the record start. Therefore, no extra rotation is needed for takes from 1700 onwards.<br>
 However, for takes 520-1559, the motion of the right hand needs to rotate 90 degrees along the Y axis. For takes 1560-1699, the right hand needs to rotate 180 degrees along the Y axis. For takes 1040-1559, the left hand needs to rotate 45 degrees along the Y axis. For takes from 0-1699, the orientation of the helmet needs to rotate along the Y axis with extra 45 degrees and -180 degrees for the headband. Please see the function `get_t_matrix` in [optitrack.py](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/utils/optitrack.py) for more details.
+
 
 |  Take   | Devices | Rotation | 
 |  :----:  | :----:  |:----:  |
