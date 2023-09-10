@@ -12,7 +12,7 @@
 
 First, you have to ensure that the logbook `log.xlsx`, annotation data files and the raw data files are put in the default path. This should be guaranteed if you haven't manually changed it. To calculate the statistics, you need to run the command:
 
-```python
+```bash
 python src/tools/statistics.py
 ```
 
@@ -31,9 +31,9 @@ They should be inspected for further processing.
 
 ## Merge Logbooks
 
-First, put the old (existing) logbook and the new (to be merged with) logbook both under the project root directory (the same level as `src/`). By default, the old logbook should be named as `old.xlsx`, the new one should be named as `log.xlsx` and the output, merged, the logbook will be named as `log.xlsx` (same as the new, so **the new logbook will be replaced**). Alternatively, you could specify other names by the arguments `--old` and `--new`. To merge two logbooks, run the command
+First, put the old (existing) logbook and the new (to be merged with) logbook both under the project root directory (the same level as `src/`). By default, the old logbook should be named as `old.xlsx`, the new one should be named as `log.xlsx` and the output, merged, the logbook will be named as `log.xlsx` (same as the new one, so **the new logbook will be replaced**). Alternatively, you could specify other names by the arguments `--old` and `--new`. To merge two logbooks, run the command
 
-```python
+```bash
 python src/tools/merge_log.py
 ```
 
@@ -43,13 +43,14 @@ python src/tools/merge_log.py
 
 By default, you should put the downloaded zips of raw data under the project root directory (the same level as `src/`) and then run the command:
 
-```python
+
+```bash
 	python src/tools/unzip.py
 ```
 
 Alternatively, you could specify another directory to find the raw data zips by the command below. Note that the directory must be specified in an absolute format.
 
-```python
+```bash
 python src/tools/unzip.py --zip_dir /path/to/raw/data/zips
 ```
 
@@ -57,6 +58,6 @@ python src/tools/unzip.py --zip_dir /path/to/raw/data/zips
 
 To remove the raw data of the annotated takes, run the command with the number of takes (`--num`) to remove:
 
-```python
+```bash
 python src/tools/clean.py --num int
 ```
