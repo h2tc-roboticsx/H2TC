@@ -43,9 +43,8 @@ python src/tools/merge_log.py
 
 By default, you should put the downloaded zips of raw data under the project root directory (the same level as `src/`) and then run the command:
 
-
 ```bash
-	python src/tools/unzip.py
+python src/tools/unzip.py
 ```
 
 Alternatively, you could specify another directory to find the raw data zips by the command below. Note that the directory must be specified in an absolute format.
