@@ -343,7 +343,7 @@ If you want to customize the processing process, please:
   * First follow the Steps 1 and 2 in [How to Process](#how-to-process) to fetch the organized raw data. 
   * Then in Step 3, customize your own processing process by diving into the full technical details in the [data processing](https://github.com/lipengroboticsx/H2TC_code/blob/main/doc/processing_techdetails.md). This document explains how we process the multi-modal, cross-device data streams.
 
-### Trouble Shooting ❗
+### ❗Trouble Shooting 
 
 #### 1. Reprocess the processed takes
 
