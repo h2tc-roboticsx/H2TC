@@ -7,7 +7,7 @@ This repository provides tools, tutorials,  source codes and supporting document
 For a quick glance at the dataset, we also refer users to the [project website](https://lipengroboticsx.github.io/) and our technical [paper](toadd).
 Briefly, it has introduced tools to [record](#recorder), [process](#data-processing), and [annotate](#annotation) the dataset. 
 
-All source codes are available in [`./src`](https://github.com/lipengroboticsx/H2TC_code/tree/main/src). It also includes full documents and tutotials [`./doc`](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc) that explain in detail the data processing,  data hierarchy, and the content of each data file in the dataset.
+All [source codes](https://github.com/lipengroboticsx/H2TC_code/tree/main/src) are available in `./src`. It also includes [documents and tutotials](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc) in in `./doc`that explain in detail the data processing,  data hierarchy, annotation, and the content of each data file in the dataset.
 
 
 
