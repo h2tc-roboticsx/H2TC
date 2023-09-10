@@ -1,11 +1,5 @@
 # Data Processing Technical Details
 
-<style>
-table {
-margin: auto;
-}
-</style>
-
 This introduce details on how we process [H<sup>2</sup>TC](https://lipengroboticsx.github.io/). For a detailed explanation of the data hierarchy and contents in the dataset, please see  [data file explanation](https://github.com/lipengroboticsx/H2TC_code/tree/main/doc/data_file_explanation.md). 
 
 Here is an overview of this document:

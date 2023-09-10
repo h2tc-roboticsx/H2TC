@@ -14,11 +14,11 @@ All source codes are available in [`./src`](https://github.com/lipengroboticsx/H
 <!-- ## Bibtex -->
 
 ## Run from scratch
-Simply follow the following steps to run the provided tools from scratch:
+Simply follow the steps below to run the provided tools from scratch:
 1. Install the [dependencies](#dependencies). 
 2. Fetch the raw data. You have two options to fetch the raw data:
     - Download our captured dataset from [Dropbox](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0). 
-    - Capture your data with our provided [recorder](#recorder) and suggested [sensors](https://lipengroboticsx.github.io/recorder/). It helps build your data recording system and then collect more in-distribution data.
+    - Capture your own data with our provided [recorder](#recorder) and suggested [sensors](https://lipengroboticsx.github.io/recorder/). It helps build your data recording system and then collect more in-distribution data.
 3. [Process](#data-processing) the raw data. 
 4. (Optional) Annotate the processed data with our provided [annotator](#annotator).
 
@@ -37,11 +37,11 @@ First, the default and well-tested system environment is
 * CUDA: 11.6
 * Nvidia driver: 510
 
-We have not tested our codes on other environments yet, so it is recommended to configure the same, or at least a similar environment for the best experience.
+We have not tested our codes on other systems yet, so it is recommended to configure the same, or at least a similar environment for the best experience.
 
 ### Softwares
 
-To run the data [processor](#data-processing), you need to install two more applications
+To run the data [processor](#data-processing), install two more applications
 * spd-say: text-to-voice converter.
 * ffmpeg: video decoder
 
@@ -57,29 +57,15 @@ sudo apt install ffmpeg
 
 ### Python Dependencies
 
-The Python dependencies include
-
-* addict
-* mttkinter
-* openpyxl
-* scipy
-* pandas
-* numpy
-* opencv-python
-
-and can be  installed automatically via `pip`:
+The Python dependencies  can be  installed automatically via `pip`:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-<!-- ### Docker
-
-Alternatively, we also provide a ready-to-use [Docker](https://www.docker.com/) with all dependencies installed in our git repository ***<u>TODO link</u>***. To use it, Docker should have been already successfully installed. -->
-
 ### Sensors
 
-Our recording framework employs three [ZED](https://www.stereolabs.com/zed-2/) stereo cameras, one [Prophesee](https://www.prophesee.ai/) event camera, [StretchSense](https://stretchsense.com/) MoCap Pro (SMP) Gloves, Optitrack(https://optitrack.com/) and other streaming sensors. Therefore, their SDK tools need to be installed to record and process the dataset.
+Our recording framework employs three [ZED](https://www.stereolabs.com/zed-2/) stereo cameras, one [Prophesee](https://www.prophesee.ai/) event camera, a pair of [StretchSense](https://stretchsense.com/) MoCap Pro (SMP) Gloves, [Optitrack](https://optitrack.com/) and other streaming sensors. Therefore, their SDK tools need to be installed to record and process the dataset.
 
 #### ZED and Metavision SDK
 
@@ -114,18 +100,18 @@ If you do not have a camera or do not intend to record your own dataset, you can
 <!-- Our recording system consists of 3 [Stereolabs ZED RGBD cameras](https://www.stereolabs.com/zed-2/), 1 [Prophesee event camera](https://www.prophesee.ai/), 1 [StretchSense MoCap Pro gloves](https://stretchsense.com/), and 1 [OptiTrack motion capture system](https://optitrack.com/).  -->
 
 Our recorder integrates the functionality of recording with multiple devices and organizing the recorded contents in a hierarchical manner. 
-To collect data with our provided recorder, simply run the following steps: 
+To collect data with our provided recorder, simply follow the steps below: 
 
 **Step 1**: Enable all recording devices.
 * The ZED and Prophesee event cameras should be wired to a host Ubuntu (20.04) machine, where the recorder program is supposed to run. 
 * StretchSense MoCap Pro gloves should be connected to a separate Windows machine with its official client software [Hand Engine (HE)](https://stretchsense.com/solution/hand-engine/) running on the same machine. 
-* The OptiTrack server can be  launched  either on a separate host, or on any  of the two aforementioned ones. You may need to configure the firewall on each machine to enable the User Datagram Protocol (UDP) communication.
+* The OptiTrack server can be  launched  either on a separate host, or on any  of the two aforementioned clients. You may need to configure the firewall on each machine to enable the User Datagram Protocol (UDP) communication.
 
 **Step 2**: Update the configuration of OptiTrack NatNet client in [`./src/natnet_client/src/example_main.cpp`](https://github.com/lipengroboticsx/H2TC_code/blob/main/src/natnet_client/src/example_main.cpp), 
 and then rebuild it by following  our [tutorial](https://github.com/lipengroboticsx/H2TC_code/tree/main/src/natnet_client). Briefly, you need to configure the OptiTrack server IP address (`char* ip_address`), the recorder IP address (`servaddr.sin_addr`), and the recorder port (`PORT`) according to your own network setting. 
 
 ```bash
-cd src/natnet_client
+cd ./src/natnet_client
 mkdir build
 cd build
 cmake ..
@@ -145,7 +131,7 @@ There are also some other arguments to configure the recorder optionally:
 | addr  | IP address and port of the current machine for UDP | 10.41.206.138:3003 |
 | he_addr  | IP address and port of the Hand Engine machine for UDP | 10.41.206.141:30039 |
 | length  | Time duration (s) of each recording | 5 |
-| nposition  | Number of standing locations for subjects | 16 |
+| nposition  | Number of the initial standing locations/cells for subjects | 16 |
 | clients  | Clients allowed to communicate | ['optitrack'] |
 | zed_num  | Number of ZED cameras for recording | 3 |
 | fps  | FPS of ZED recording | 60 |
@@ -158,7 +144,7 @@ And then run the NatNet client in another terminal:
 ```
 Now you should be able to see a prompt indicating that two machines have successfully communicated with each other, if everything goes well.
 
-**Step 5**: : Follow the interactive instructions prompted in the terminal  by the main recorder to perform a recording. The main recorder  will automatically communicate with and command Hand Engine and NatNet client to record multiple data modalities in a synchronous manner. Nevertheless, we do recommend you to regularly check Hand Engine and the NatNet client to see if they break.
+**Step 5**:  Follow the interactive instructions prompted in the terminal  by the main recorder to perform a recording. The main recorder  will automatically communicate with and command Hand Engine and NatNet client to record multiple data modalities in a synchronous manner. Nevertheless, we do recommend you to regularly check Hand Engine and the NatNet client to see if they break.
 <!-- </details> -->
 
 ## Data Processing
