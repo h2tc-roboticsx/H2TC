@@ -3,6 +3,12 @@
 [[Project Page]](https://lipengroboticsx.github.io/) [[Technical Paper]]() [[Dataset]](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0) [[Sample Cases]](https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0) 
 ***
 
+<div style="display: flex; justify-content: center;">
+<img src="https://raw.githubusercontent.com/lipengroboticsx/H2TC_code/dev-refine/doc/resources/annotation/intro1.png" width = "400" alt="missing_data_anno">
+</div>
+
+
+
 This repository provides tools, tutorials,  source codes and supporting documents for the dataset **H<sup>2</sup>TC**. 
 For a quick glance at the dataset, we also refer users to the [project website](https://lipengroboticsx.github.io/) and our technical [paper](toadd).
 Briefly, it has introduced tools to [record](#recorder), [process](#data-processing), and [annotate](#annotation) the dataset. 
