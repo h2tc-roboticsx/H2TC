@@ -1,18 +1,15 @@
 # **H<sup>2</sup>TC**: A Large-Scale Multi-View and Multi-Modal Dataset of Human-Human Throw&Catch of Arbitrary Objects
 
-[[Project Page]](https://h2tc-roboticsx.github.io/) [[Technical Paper]]() [[Dataset]](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0) [[Sample Cases]](https://www.dropbox.com/sh/dghb9k4w4w938q0/AAAMIjWBbzy290QI_Nljocqda?dl=0) 
+[[Project Page]](https://h2tc-roboticsx.github.io/) [[Technical Paper]](https://h2tc-roboticsx.github.io/underreview/) [[Dataset]](https://h2tc-roboticsx.github.io/notpubyet/) [[Sample Cases]](https://www.dropbox.com/scl/fo/exb0vj76ei789w58bzhqv/h?rlkey=bpc5qr22gr3qgdd3ierf32fpd&dl=0) 
 ***
 <div style="display: flex; justify-content: center;">
 <img src="https://raw.githubusercontent.com/h2tc-roboticsx/H2TC/main/doc/resources/intro1.png" width = "1000" >
 </div>
 
 
-This repository provides tools, tutorials,  source codes and supporting documents for the dataset **H<sup>2</sup>TC**. 
-For a quick glance at the dataset, we also refer users to the [project website](https://h2tc-roboticsx.github.io/) and our technical [paper](toadd).
-Briefly, it has introduced tools to [record](#recorder), [process](#data-processing), and [annotate](#annotation) the dataset. 
+This repository provides tools, tutorials, source codes, and supporting documents for the dataset **H<sup>2</sup>TC**. For a quick overview of the dataset, we also direct users to the [project website](https://h2tc-roboticsx.github.io/) and our [technical paper](https://h2tc-roboticsx.github.io/underreview/). Briefly, it introduces tools to [record](#recorder), [process](#data-processing), and [annotate](#annotation) the dataset.
 
-All [source codes](https://github.com/h2tc-roboticsx/H2TC/tree/main/src) are available in `./src`. It also includes [documents and tutotials](https://github.com/h2tc-roboticsx/H2TC/tree/main/doc) in in `./doc`that explain in detail the data processing,  data hierarchy, annotation, and the content of each data file in the dataset.
-
+All [source codes](https://github.com/h2tc-roboticsx/H2TC/tree/main/src) can be found in `./src`. The repository also includes [documents and tutorials](https://github.com/h2tc-roboticsx/H2TC/tree/main/doc) in `./doc` that explain in detail the data processing, data hierarchy, annotation, and the content of each data file in the dataset.
 
 <!-- ## Bibtex -->
 
@@ -20,7 +17,7 @@ All [source codes](https://github.com/h2tc-roboticsx/H2TC/tree/main/src) are ava
 Simply follow the steps below to run the provided tools from scratch:
 1. Install the [dependencies](#dependencies). 
 2. Fetch the raw data. You have two options to fetch the raw data:
-    - Download our captured dataset from [Dropbox](https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0). 
+    - Download our captured dataset from [Dropbox](https://h2tc-roboticsx.github.io/notpubyet/). 
     - Capture your own data with our provided [recorder](#recorder) and suggested [sensors](https://h2tc-roboticsx.github.io/recorder/). It helps build your data recording system and then collect more in-distribution data.
 3. [Process](#data-processing) the raw data. 
 4. (Optional) Annotate the processed data with our provided [annotator](#annotator).
@@ -76,7 +73,7 @@ You need to install [ZED SDK](https://www.stereolabs.com/docs/installation/) (3.
 
 For user's convenience of installing the specific version (3.7.6) of ZED SDK, we fetch the installer from the official repository and save it in [`./dev/ZED_SDK_Installer`](https://github.com/h2tc-roboticsx/H2TC). All you need is to download the SDK installer, run it and select the modules you prefer following the official [guides](https://www.stereolabs.com/docs/installation/).
 
-Metavision SDK is not packaged in an installer way, so you will have to follow the official [guides](https://docs.prophesee.ai/2.3.0/installation/linux.html) to install it. Particularly, Metavision SDK provides multiple optional  modules. Our tool uses only the functionality from the `metavision-essentials`, but you are free to install other  modules or not.
+Metavision SDK is not packaged in an installer way, so you will have to follow the official [guides](https://docs.prophesee.ai/2.3.0/installation/linux.html) to install it. Particularly, Metavision SDK provides multiple optional modules. Our tool uses only the functionality from the `metavision-essentials`, but you are free to install other  modules or not.
 
 
 #### Test Event and ZED Cameras
@@ -89,7 +86,7 @@ metavision_viewer
 
 You should also be able to test the connection of  ZED  cameras by running the official [samples](https://github.com/stereolabs/zed-examples/tree/master/svo%20recording/recording/python). 
 
-If you do not have a camera or do not intend to record your own dataset, you can simply check if the modules `pyzed` and `metavision_core` can be successfully imported by your python program.  They will be used only for post [processing](#data-processing) of the raw data by our dataset.
+If you do not have a camera or do not intend to record your own dataset, you can simply check if the modules `pyzed` and `metavision_core` can be successfully imported by your python program.  They will be used only for [post-processing](#data-processing) of the raw data by our dataset.
 
 <!-- </details> -->
 
@@ -102,13 +99,13 @@ If you do not have a camera or do not intend to record your own dataset, you can
 
 <!-- Our recording system consists of 3 [Stereolabs ZED RGBD cameras](https://www.stereolabs.com/zed-2/), 1 [Prophesee event camera](https://www.prophesee.ai/), 1 [StretchSense MoCap Pro gloves](https://stretchsense.com/), and 1 [OptiTrack motion capture system](https://optitrack.com/).  -->
 
-Our recorder integrates the functionality of recording with multiple devices and organizing the recorded contents in a hierarchical manner. 
+Our recorder integrates the functionality of recording with multiple devices and organizes the recorded contents in a hierarchical manner. 
 To collect data with our provided recorder, simply follow the steps below: 
 
 **Step 1**: Enable all recording devices.
 * The ZED and Prophesee event cameras should be wired to a host Ubuntu (20.04) machine, where the recorder program is supposed to run. 
 * StretchSense MoCap Pro gloves should be connected to a separate Windows machine with its official client software [Hand Engine (HE)](https://stretchsense.com/solution/hand-engine/) running on the same machine. 
-* The OptiTrack server can be  launched  either on a separate host, or on any  of the two aforementioned clients. You may need to configure the firewall on each machine to enable the User Datagram Protocol (UDP) communication.
+* The OptiTrack server can be launched  either on a separate host or on any of the two aforementioned clients. You may need to configure the firewall on each machine to enable the User Datagram Protocol (UDP) communication.
 
 **Step 2**: Update the configuration of OptiTrack NatNet client in [`./src/natnet_client/src/example_main.cpp`](https://github.com/h2tc-roboticsx/H2TC/blob/main/src/natnet_client/src/example_main.cpp), 
 and then rebuild it by following  our [tutorial](https://github.com/h2tc-roboticsx/H2TC/tree/main/src/natnet_client). Briefly, you need to configure the OptiTrack server IP address (`char* ip_address`), the recorder IP address (`servaddr.sin_addr`), and the recorder port (`PORT`) according to your own network setting. 
@@ -229,14 +226,14 @@ Using the tool, users can easily
 </table>
 <br>
 
-We refer users to the [data processing](https://github.com/h2tc-roboticsx/H2TC/blob/main/doc/processing_techdetails.md) for full technical details on how we process the multi-modal and cross-device raw data, and to the [data file explanation](https://github.com/h2tc-roboticsx/H2TC/blob/main/doc/data_file_explanation.md) and our technical [paper]() for a detailed introduction of the data hierarchy and the content of each involved data file.
+We refer users to the [data processing](https://github.com/h2tc-roboticsx/H2TC/blob/main/doc/processing_techdetails.md) for full technical details on how we process the multi-modal and cross-device raw data, and to the [data file explanation](https://github.com/h2tc-roboticsx/H2TC/blob/main/doc/data_file_explanation.md) and our [technical paper](https://h2tc-roboticsx.github.io/underreview/) for a detailed introduction of the data hierarchy and the content of each involved data file.
 <br>
 
 ### How to Process
 
 #### Step 1: Fetch the raw data
 
-You can access all raw data from <a href="https://www.dropbox.com/sh/ahet936ypjs1582/AACNYG0sjf1XdVxuZVLVL4fFa?dl=0">Dropbox</a> . The raw data of each recorded throw&catch activity is packed in a `.zip` file. First download the raw data to your own folder `raw_data_path`
+You can access all raw data from <a href="https://h2tc-roboticsx.github.io/notpubyet/">Dropbox</a> . The raw data of each recorded throw&catch activity is packed in a `.zip` file. First, download the raw data to your own folder `raw_data_path`
 ```
 raw_data_path
 └──011998.zip           // 011998 is the take number
@@ -297,7 +294,7 @@ You can change the default settings by adding more arguments into your command. 
 python src/process.py --datapath target_path/data --npy --xypt
 ```
 
-Once the data processing is done, as shown below, the raw data files will be moved into a new directory `target_path/data/raw/`,  and the processed data files will be stored in the  directory `target_path/data/processed/`. 
+Once the data processing is done, as shown below, the raw data files will be moved into a new directory `target_path/data/raw/`,  and the processed data files will be stored in the directory `target_path/data/processed/`. 
 
 ```bash
 target_path
@@ -471,7 +468,7 @@ The complete annotation hierarchy is detailed below:
     </tr>
     <tr>
         <td>- Catch result</td>
-        <td>The result on whether the object is stably catched by the subject</td>
+        <td>The result on whether the object is stably caught by the subject</td>
         <td>{&#39;<i>success<i>&#39;, &#39;<i>fail<i>&#39;} </td>
         <td>manual</td>
     </tr>
@@ -480,10 +477,10 @@ The complete annotation hierarchy is detailed below:
 ### Annotator
 
 In case you want to annotate our dataset and your custom-captured data, 
-we provide an [`annotator`](https://github.com/h2tc-roboticsx/H2TC/blob/main/src/annotate.py), with which one can easily annotate catch&throw activities via an interactive interface. 
+we provide an [annotator](https://github.com/h2tc-roboticsx/H2TC/blob/main/src/annotate.py), with which one can easily annotate catch&throw activities via an interactive interface. 
 
 To use the annotator, please follow the steps below:  
-- Step 1: Process and store all raw  data in the directory `YOUR_PATH/data/take_id/processed`. The raw data processing can be achieved as suggested previously in [data processing](#data-processing). 
+- Step 1: Process and store all raw data in the directory `YOUR_PATH/data/take_id/processed`. The raw data processing can be achieved as suggested previously in [data processing](#data-processing). 
 - Step 2: Run the following command to launch the annotation tool.  
 
     ```python
