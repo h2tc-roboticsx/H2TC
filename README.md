@@ -7,7 +7,7 @@
 </div>
 
 
-This repository provides tools, tutorials, source codes, and supporting documents for the dataset **H<sup>2</sup>TC**. For a quick overview of the dataset, we direct users to the [project website](https://h2tc-roboticsx.github.io/) and our [technical paper](https://h2tc-roboticsx.github.io/underreview/). Briefly, it introduces tools to [record](#recorder), [process](#data-processing), [annotate](#annotation) the dataset, and [retarget](#src/utils/pose_reconstruction_and_retargeting) human throw\&catch to robots.
+This repository provides tools, tutorials, source codes, and supporting documents for the dataset **H<sup>2</sup>TC**. For a quick overview of the dataset, we direct users to the [project website](https://h2tc-roboticsx.github.io/) and our [technical paper](https://h2tc-roboticsx.github.io/underreview/). Briefly, it introduces tools to [record](#recorder), [process](#data-processing), [annotate](#annotation) the dataset, and [retarget](https://github.com/h2tc-roboticsx/H2TC/tree/main/src/utils/pose_reconstruction_and_retargeting) human throw\&catch to robots.
 
 All [source codes](https://github.com/h2tc-roboticsx/H2TC/tree/main/src) can be found in `./src`. The repository also includes [documents and tutorials](https://github.com/h2tc-roboticsx/H2TC/tree/main/doc) in `./doc` that explain in detail the data processing, data hierarchy, annotation, and the content of each data file in the dataset.
 
