@@ -1,0 +1,3 @@
+ [data_file_explanation.md](https://github.com/h2tc-roboticsx/H2TC/blob/main/doc/data_file_explanation.md): A detailed explanation of the file organization, content and data structure. It includes raw data, processed data and annotation files.
+ 
+ [processing_tech_details.md](https://github.com/h2tc-roboticsx/H2TC/blob/main/doc/processing_tech_details.md): The technical detail of how the raw data is processed and how the dataset is constructed. 

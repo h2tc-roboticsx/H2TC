@@ -1,0 +1,13 @@
+data
+__pycache__/
+*.py[cod]
+*$py.class
+dev/ZED_SDK_installer/ZED_SDK_Ubuntu18_cuda10.2_v3.7.7.run
+dev/ZED_SDK_installer/ZED_SDK_Ubuntu18_cuda11.7_v3.7.7.run
+dev/ZED_SDK_installer/ZED_SDK_Ubuntu20_cuda11.7_v3.7.7.run
+._recorder.py
+._process.py
+._.DS**
+.DS**
+*.json
+*.xlsx

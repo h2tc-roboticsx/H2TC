@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/natnet_client.dir/src/example_main.cpp.o CMakeFiles/natnet_client.dir/src/optitrack_collect.cpp.o  -o natnet_client  -Wl,-rpath,/media/lin/data/Projects/CT/Human_Catch_Throw/recording/Optitrack_NatNet_client/lib ../lib/libNatNetLibShared.so -lpthread 
